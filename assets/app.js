@@ -569,6 +569,7 @@ function createPickList(player, games) {
 
         const gameName = document.createElement("div");
         gameName.className = "game-name";
+
         const kickoff = formatKickoffTime(game.scheduled_time);
 
         gameName.textContent =
@@ -587,8 +588,15 @@ function createPickList(player, games) {
         pick.className =
             `pick-value ${status.className}`;
 
-        pick.textContent =
-            `${status.icon} ${pickValue ?? "N/P"}`;
+        const statusIcon = document.createElement("span");
+        statusIcon.className = "pick-status";
+        statusIcon.textContent = status.icon;
+
+        const teamPick = document.createElement("span");
+        teamPick.className = "pick-team";
+        teamPick.textContent = pickValue ?? "N/P";
+
+        pick.append(statusIcon, teamPick);
 
         row.append(gameName, pick);
         list.append(row);
@@ -596,7 +604,6 @@ function createPickList(player, games) {
 
     return list;
 }
-
 
 function getPickStatus(pick, game) {
     if (!pick) {

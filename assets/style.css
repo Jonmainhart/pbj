@@ -607,9 +607,19 @@ h1 {
 }
 
 .pick-value {
-  text-align: right;
+    display: grid;
+    grid-template-columns: 1.5em 3ch;
+    align-items: center;
+    column-gap: 0.4rem;
+    text-align: right;
+}
 
-  font-weight: 750;
+.pick-status {
+    text-align: center;
+}
+
+.pick-team {
+    text-align: right;
 }
 
 .pick-correct {
