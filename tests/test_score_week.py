@@ -18,7 +18,9 @@ def _week_data() -> dict[str, Any]:
         "games": [
             {
                 "id": "game-1",
-                "scheduled_time": ("2026-09-13T17:00:00+00:00"),
+                "scheduled_time": (
+                    "2026-09-13T17:00:00+00:00"
+                ),
                 "away": {
                     "id": "NE-id",
                     "abbreviation": "NE",
@@ -35,7 +37,9 @@ def _week_data() -> dict[str, Any]:
             },
             {
                 "id": "game-2",
-                "scheduled_time": ("2026-09-15T00:15:00+00:00"),
+                "scheduled_time": (
+                    "2026-09-15T00:15:00+00:00"
+                ),
                 "away": {
                     "id": "DEN-id",
                     "abbreviation": "DEN",
@@ -91,7 +95,11 @@ def _read_week(
     path: Path,
 ) -> dict[str, Any]:
     """Read test weekly JSON."""
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(
+        path.read_text(
+            encoding="utf-8",
+        )
+    )
 
     assert isinstance(data, dict)
 
@@ -122,6 +130,81 @@ def test_score_week_writes_results(
     assert results["player_count"] == 2
     assert results["monday_total"] == 47
     assert results["weekly_winners"] == ["abigail"]
+
+
+@pytest.mark.unit
+def test_score_week_writes_player_results(
+    tmp_path: Path,
+):
+    """Scoring writes normalized per-player result fields."""
+    path = tmp_path / "week01.json"
+
+    _write_week(
+        path,
+        _week_data(),
+    )
+
+    score_week_file(
+        path=path,
+        season=2026,
+        week=1,
+    )
+
+    data = _read_week(path)
+
+    players = {
+        player["player_id"]: player
+        for player in data["results"]["players"]
+    }
+
+    abigail = players["abigail"]
+
+    assert abigail["wins"] == 2
+    assert abigail["losses"] == 0
+    assert abigail["ties"] == 0
+    assert abigail["missed_picks"] == 0
+    assert abigail["accuracy"] == 1.0
+    assert abigail["tiebreaker_distance"] == 1.0
+    assert abigail["weekly_rank"] == 1
+    assert abigail["weekly_winner"] is True
+
+
+@pytest.mark.unit
+def test_score_week_writes_missed_pick_as_loss(
+    tmp_path: Path,
+):
+    """A final-game non-pick is written as a loss and missed pick."""
+    path = tmp_path / "week01.json"
+    week = _week_data()
+
+    bob = week["players"][1]
+    del bob["picks"]["game-1"]
+
+    _write_week(
+        path,
+        week,
+    )
+
+    score_week_file(
+        path=path,
+        season=2026,
+        week=1,
+    )
+
+    data = _read_week(path)
+
+    players = {
+        player["player_id"]: player
+        for player in data["results"]["players"]
+    }
+
+    bob_result = players["bob"]
+
+    assert bob_result["wins"] == 1
+    assert bob_result["losses"] == 1
+    assert bob_result["ties"] == 0
+    assert bob_result["missed_picks"] == 1
+    assert bob_result["accuracy"] == 0.5
 
 
 @pytest.mark.unit
@@ -194,7 +277,10 @@ def test_score_week_preserves_lock_time(
 
     data = _read_week(path)
 
-    assert data["lock_time"] == "2026-09-09T23:20:00+00:00"
+    assert (
+        data["lock_time"]
+        == "2026-09-09T23:20:00+00:00"
+    )
 
 
 @pytest.mark.unit

@@ -63,7 +63,9 @@ def aggregate_season_files(
 
 def _parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
-    parser = argparse.ArgumentParser(description="Rebuild PBJ season aggregates.")
+    parser = argparse.ArgumentParser(
+        description="Rebuild PBJ season aggregates."
+    )
 
     parser.add_argument(
         "season",
@@ -95,12 +97,16 @@ def _load_week_results(
         existing_season = data.get("season")
 
         if existing_season != season:
-            raise ValueError(f"{path} contains season {existing_season}, expected {season}")
+            raise ValueError(
+                f"{path} contains season {existing_season}, expected {season}"
+            )
 
         existing_week = data.get("week")
 
         if existing_week != week_number:
-            raise ValueError(f"{path} contains week {existing_week}, expected {week_number}")
+            raise ValueError(
+                f"{path} contains week {existing_week}, expected {week_number}"
+            )
 
         raw_results = data.get("results")
 
@@ -112,7 +118,9 @@ def _load_week_results(
             continue
 
         if not isinstance(raw_results, dict):
-            raise ValueError(f"{path} results field must be a JSON object")
+            raise ValueError(
+                f"{path} results field must be a JSON object"
+            )
 
         weeks.append(
             (
@@ -144,10 +152,14 @@ def _load_json_object(
         with path.open(encoding="utf-8") as file:
             data: Any = json.load(file)
     except json.JSONDecodeError as exc:
-        raise ValueError(f"{path} does not contain valid JSON") from exc
+        raise ValueError(
+            f"{path} does not contain valid JSON"
+        ) from exc
 
     if not isinstance(data, dict):
-        raise ValueError(f"{path} must contain a JSON object")
+        raise ValueError(
+            f"{path} must contain a JSON object"
+        )
 
     return data
 
@@ -159,25 +171,36 @@ def _week_result_from_dict(
     raw_players = data.get("players")
 
     if not isinstance(raw_players, list):
-        raise ValueError("weekly results players field must be a list")
+        raise ValueError(
+            "weekly results players field must be a list"
+        )
 
     raw_winners = data.get("weekly_winners")
 
     if not isinstance(raw_winners, list):
-        raise ValueError("weekly results weekly_winners field must be a list")
+        raise ValueError(
+            "weekly results weekly_winners field must be a list"
+        )
 
     weekly_winners: list[str] = []
 
     for winner in raw_winners:
         if not isinstance(winner, str):
-            raise ValueError("weekly results contain invalid winner ID")
+            raise ValueError(
+                "weekly results contain invalid winner ID"
+            )
 
         weekly_winners.append(winner)
 
-    players = tuple(_player_result_from_dict(player) for player in raw_players)
+    players = tuple(
+        _player_result_from_dict(player)
+        for player in raw_players
+    )
 
     return WeekResult(
-        monday_total=_optional_int(data.get("monday_total")),
+        monday_total=_optional_int(
+            data.get("monday_total")
+        ),
         player_count=_required_int(
             data.get("player_count"),
             "weekly results contain invalid player_count",
@@ -192,12 +215,16 @@ def _player_result_from_dict(
 ) -> PlayerResult:
     """Build one PlayerResult from weekly JSON results."""
     if not isinstance(data, dict):
-        raise ValueError("weekly results contain invalid player data")
+        raise ValueError(
+            "weekly results contain invalid player data"
+        )
 
     player_id = data.get("player_id")
 
     if not isinstance(player_id, str):
-        raise ValueError("weekly results contain invalid player ID")
+        raise ValueError(
+            "weekly results contain invalid player ID"
+        )
 
     return PlayerResult(
         player_id=player_id,
@@ -213,9 +240,19 @@ def _player_result_from_dict(
             data.get("ties"),
             "weekly results contain invalid ties",
         ),
-        accuracy=_optional_number(data.get("accuracy")),
-        tiebreaker_distance=_optional_number(data.get("tiebreaker_distance")),
-        weekly_rank=_optional_int(data.get("weekly_rank")),
+        missed_picks=_required_int(
+            data.get("missed_picks"),
+            "weekly results contain invalid missed_picks",
+        ),
+        accuracy=_optional_number(
+            data.get("accuracy")
+        ),
+        tiebreaker_distance=_optional_number(
+            data.get("tiebreaker_distance")
+        ),
+        weekly_rank=_optional_int(
+            data.get("weekly_rank")
+        ),
         weekly_winner=_required_bool(
             data.get("weekly_winner"),
             "weekly results contain invalid weekly_winner",
@@ -248,7 +285,9 @@ def _optional_int(
         value,
         int,
     ):
-        raise ValueError(f"invalid optional integer: {value!r}")
+        raise ValueError(
+            f"invalid optional integer: {value!r}"
+        )
 
     return int(value)
 
@@ -264,7 +303,9 @@ def _optional_number(
         value,
         int | float,
     ):
-        raise ValueError(f"invalid optional number: {value!r}")
+        raise ValueError(
+            f"invalid optional number: {value!r}"
+        )
 
     return float(value)
 
@@ -287,7 +328,10 @@ def _season_result_to_dict(
     return {
         "season": result.season,
         "weeks_scored": list(result.weeks_scored),
-        "players": [_season_player_to_dict(player) for player in result.players],
+        "players": [
+            _season_player_to_dict(player)
+            for player in result.players
+        ],
     }
 
 
@@ -301,6 +345,7 @@ def _season_player_to_dict(
         "wins": result.wins,
         "losses": result.losses,
         "ties": result.ties,
+        "missed_picks": result.missed_picks,
         "accuracy": result.accuracy,
         "weekly_wins": result.weekly_wins,
     }
@@ -316,7 +361,9 @@ def _write_json_atomic(
         exist_ok=True,
     )
 
-    temp_path = path.with_suffix(".json.tmp")
+    temp_path = path.with_suffix(
+        ".json.tmp"
+    )
 
     with temp_path.open(
         "w",

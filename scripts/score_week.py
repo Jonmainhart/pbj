@@ -44,10 +44,14 @@ def score_week_file(
     players = _players_from_week_data(week_data)
 
     if not games:
-        raise ValueError("weekly JSON does not contain game data")
+        raise ValueError(
+            "weekly JSON does not contain game data"
+        )
 
     if not players:
-        raise ValueError("weekly JSON does not contain player data")
+        raise ValueError(
+            "weekly JSON does not contain player data"
+        )
 
     result = calculate_week(
         games=games,
@@ -75,14 +79,21 @@ def score_week_file(
             ", ".join(result.weekly_winners),
         )
     else:
-        logger.info("Weekly winner not yet determined")
+        logger.info(
+            "Weekly winner not yet determined"
+        )
 
-    logger.info("Updated %s", path)
+    logger.info(
+        "Updated %s",
+        path,
+    )
 
 
 def _parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
-    parser = argparse.ArgumentParser(description="Score one PBJ football week.")
+    parser = argparse.ArgumentParser(
+        description="Score one PBJ football week."
+    )
 
     parser.add_argument(
         "season",
@@ -106,25 +117,37 @@ def _load_week(
 ) -> dict[str, Any]:
     """Load and validate an existing weekly JSON document."""
     if not path.exists():
-        raise FileNotFoundError(f"{path} does not exist")
+        raise FileNotFoundError(
+            f"{path} does not exist"
+        )
 
     try:
-        with path.open(encoding="utf-8") as file:
+        with path.open(
+            encoding="utf-8",
+        ) as file:
             data = json.load(file)
     except json.JSONDecodeError as exc:
-        raise ValueError(f"{path} does not contain valid JSON") from exc
+        raise ValueError(
+            f"{path} does not contain valid JSON"
+        ) from exc
 
     if not isinstance(data, dict):
-        raise ValueError(f"{path} must contain a JSON object")
+        raise ValueError(
+            f"{path} must contain a JSON object"
+        )
 
     existing_season = data.get("season")
     existing_week = data.get("week")
 
     if existing_season != season:
-        raise ValueError(f"{path} contains season {existing_season}, expected {season}")
+        raise ValueError(
+            f"{path} contains season {existing_season}, expected {season}"
+        )
 
     if existing_week != week:
-        raise ValueError(f"{path} contains week {existing_week}, expected {week}")
+        raise ValueError(
+            f"{path} contains week {existing_week}, expected {week}"
+        )
 
     return data
 
@@ -139,40 +162,60 @@ def _games_from_week_data(
         return []
 
     if not isinstance(raw_games, list):
-        raise ValueError("weekly JSON games field must be a list")
+        raise ValueError(
+            "weekly JSON games field must be a list"
+        )
 
     games: list[Game] = []
 
     for raw_game in raw_games:
         if not isinstance(raw_game, dict):
-            raise ValueError("weekly JSON contains invalid game data")
+            raise ValueError(
+                "weekly JSON contains invalid game data"
+            )
 
         away = raw_game.get("away")
         home = raw_game.get("home")
 
         if not isinstance(away, dict):
-            raise ValueError("weekly JSON contains invalid away team data")
+            raise ValueError(
+                "weekly JSON contains invalid away team data"
+            )
 
         if not isinstance(home, dict):
-            raise ValueError("weekly JSON contains invalid home team data")
+            raise ValueError(
+                "weekly JSON contains invalid home team data"
+            )
 
         games.append(
             Game(
                 id=str(raw_game["id"]),
-                scheduled_time=datetime.fromisoformat(str(raw_game["scheduled_time"])),
+                scheduled_time=datetime.fromisoformat(
+                    str(raw_game["scheduled_time"])
+                ),
                 away=Team(
                     id=str(away["id"]),
-                    abbreviation=str(away["abbreviation"]),
+                    abbreviation=str(
+                        away["abbreviation"]
+                    ),
                     name=str(away["name"]),
                 ),
                 home=Team(
                     id=str(home["id"]),
-                    abbreviation=str(home["abbreviation"]),
+                    abbreviation=str(
+                        home["abbreviation"]
+                    ),
                     name=str(home["name"]),
                 ),
-                status=GameStatus(str(raw_game["status"])),
-                away_score=_optional_int(raw_game.get("away_score")),
-                home_score=_optional_int(raw_game.get("home_score")),
+                status=GameStatus(
+                    str(raw_game["status"])
+                ),
+                away_score=_optional_int(
+                    raw_game.get("away_score")
+                ),
+                home_score=_optional_int(
+                    raw_game.get("home_score")
+                ),
             )
         )
 
@@ -189,18 +232,24 @@ def _players_from_week_data(
         return []
 
     if not isinstance(raw_players, list):
-        raise ValueError("weekly JSON players field must be a list")
+        raise ValueError(
+            "weekly JSON players field must be a list"
+        )
 
     players: list[Player] = []
 
     for raw_player in raw_players:
         if not isinstance(raw_player, dict):
-            raise ValueError("weekly JSON contains invalid player data")
+            raise ValueError(
+                "weekly JSON contains invalid player data"
+            )
 
         raw_picks = raw_player.get("picks")
 
         if not isinstance(raw_picks, dict):
-            raise ValueError("weekly JSON contains invalid player picks")
+            raise ValueError(
+                "weekly JSON contains invalid player picks"
+            )
 
         picks: dict[str, str] = {}
 
@@ -212,7 +261,9 @@ def _players_from_week_data(
                 pick,
                 str,
             ):
-                raise ValueError("weekly JSON contains invalid player pick")
+                raise ValueError(
+                    "weekly JSON contains invalid player pick"
+                )
 
             picks[game_id] = pick
 
@@ -220,9 +271,13 @@ def _players_from_week_data(
             Player(
                 id=str(raw_player["id"]),
                 name=str(raw_player["name"]),
-                nickname=_optional_string(raw_player.get("nickname")),
+                nickname=_optional_string(
+                    raw_player.get("nickname")
+                ),
                 picks=picks,
-                tiebreaker=_number(raw_player.get("tiebreaker")),
+                tiebreaker=_number(
+                    raw_player.get("tiebreaker")
+                ),
             )
         )
 
@@ -236,8 +291,16 @@ def _optional_int(
     if value is None:
         return None
 
-    if isinstance(value, bool) or not isinstance(value, int):
-        raise ValueError(f"invalid game score: {value!r}")
+    if isinstance(
+        value,
+        bool,
+    ) or not isinstance(
+        value,
+        int,
+    ):
+        raise ValueError(
+            f"invalid game score: {value!r}"
+        )
 
     return int(value)
 
@@ -250,7 +313,9 @@ def _optional_string(
         return None
 
     if not isinstance(value, str):
-        raise ValueError(f"invalid optional string: {value!r}")
+        raise ValueError(
+            f"invalid optional string: {value!r}"
+        )
 
     return value
 
@@ -259,11 +324,16 @@ def _number(
     value: Any,
 ) -> float:
     """Parse a numeric value from weekly JSON."""
-    if isinstance(value, bool) or not isinstance(
+    if isinstance(
+        value,
+        bool,
+    ) or not isinstance(
         value,
         int | float,
     ):
-        raise ValueError(f"invalid numeric value: {value!r}")
+        raise ValueError(
+            f"invalid numeric value: {value!r}"
+        )
 
     return float(value)
 
@@ -275,8 +345,13 @@ def _week_result_to_dict(
     return {
         "monday_total": result.monday_total,
         "player_count": result.player_count,
-        "weekly_winners": list(result.weekly_winners),
-        "players": [_player_result_to_dict(player) for player in result.players],
+        "weekly_winners": list(
+            result.weekly_winners
+        ),
+        "players": [
+            _player_result_to_dict(player)
+            for player in result.players
+        ],
     }
 
 
@@ -289,8 +364,11 @@ def _player_result_to_dict(
         "wins": result.wins,
         "losses": result.losses,
         "ties": result.ties,
+        "missed_picks": result.missed_picks,
         "accuracy": result.accuracy,
-        "tiebreaker_distance": (result.tiebreaker_distance),
+        "tiebreaker_distance": (
+            result.tiebreaker_distance
+        ),
         "weekly_rank": result.weekly_rank,
         "weekly_winner": result.weekly_winner,
     }
@@ -306,7 +384,9 @@ def _write_json_atomic(
         exist_ok=True,
     )
 
-    temp_path = path.with_suffix(".json.tmp")
+    temp_path = path.with_suffix(
+        ".json.tmp"
+    )
 
     with temp_path.open(
         "w",

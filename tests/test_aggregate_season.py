@@ -33,20 +33,34 @@ def _week_data(
                     "wins": 12,
                     "losses": 4,
                     "ties": 0,
+                    "missed_picks": 1,
                     "accuracy": 0.75,
-                    "tiebreaker_distance": (2.0 if complete else None),
+                    "tiebreaker_distance": (
+                        2.0 if complete else None
+                    ),
                     "weekly_rank": weekly_rank,
-                    "weekly_winner": (complete and winner == "abigail"),
+                    "weekly_winner": (
+                        complete
+                        and winner == "abigail"
+                    ),
                 },
                 {
                     "player_id": "bob",
                     "wins": 10,
                     "losses": 6,
                     "ties": 0,
+                    "missed_picks": 2,
                     "accuracy": 0.625,
-                    "tiebreaker_distance": (5.0 if complete else None),
-                    "weekly_rank": (2 if complete else None),
-                    "weekly_winner": (complete and winner == "bob"),
+                    "tiebreaker_distance": (
+                        5.0 if complete else None
+                    ),
+                    "weekly_rank": (
+                        2 if complete else None
+                    ),
+                    "weekly_winner": (
+                        complete
+                        and winner == "bob"
+                    ),
                 },
             ],
         },
@@ -68,10 +82,16 @@ def _read_json(
     path: Path,
 ) -> dict[str, Any]:
     """Read JSON test data."""
-    data: Any = json.loads(path.read_text(encoding="utf-8"))
+    data: Any = json.loads(
+        path.read_text(
+            encoding="utf-8",
+        )
+    )
 
     if not isinstance(data, dict):
-        raise ValueError("test JSON must contain an object")
+        raise ValueError(
+            "test JSON must contain an object"
+        )
 
     return data
 
@@ -94,11 +114,21 @@ def test_aggregate_season_writes_season_json(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data["season"] == 2026
     assert data["weeks_scored"] == [1]
     assert len(data["players"]) == 2
+
+    players = {
+        player["player_id"]: player
+        for player in data["players"]
+    }
+
+    assert players["abigail"]["missed_picks"] == 1
+    assert players["bob"]["missed_picks"] == 2
 
 
 @pytest.mark.unit
@@ -122,7 +152,9 @@ def test_incomplete_week_is_ignored(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data["weeks_scored"] == []
     assert data["players"] == []
@@ -151,7 +183,9 @@ def test_week_without_results_is_ignored(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data["weeks_scored"] == []
     assert data["players"] == []
@@ -186,24 +220,75 @@ def test_multiple_completed_weeks_are_aggregated(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data["weeks_scored"] == [
         1,
         2,
     ]
 
-    players = {player["player_id"]: player for player in data["players"]}
+    players = {
+        player["player_id"]: player
+        for player in data["players"]
+    }
 
     assert players["abigail"]["weeks_played"] == 2
     assert players["abigail"]["wins"] == 24
     assert players["abigail"]["losses"] == 8
+    assert players["abigail"]["missed_picks"] == 2
     assert players["abigail"]["weekly_wins"] == 1
 
     assert players["bob"]["weeks_played"] == 2
     assert players["bob"]["wins"] == 20
     assert players["bob"]["losses"] == 12
+    assert players["bob"]["missed_picks"] == 4
     assert players["bob"]["weekly_wins"] == 1
+
+
+@pytest.mark.unit
+def test_missed_picks_remain_part_of_losses(
+    tmp_path: Path,
+):
+    """Missed picks are tracked separately but remain included in losses."""
+    season_dir = tmp_path / "2026"
+    season_dir.mkdir()
+
+    week = _week_data(1)
+
+    week["results"]["players"][0]["wins"] = 10
+    week["results"]["players"][0]["losses"] = 6
+    week["results"]["players"][0]["missed_picks"] = 2
+    week["results"]["players"][0]["accuracy"] = 0.625
+
+    _write_json(
+        season_dir / "week01.json",
+        week,
+    )
+
+    aggregate_season_files(
+        season=2026,
+        season_dir=season_dir,
+    )
+
+    data = _read_json(
+        season_dir / "season.json"
+    )
+
+    players = {
+        player["player_id"]: player
+        for player in data["players"]
+    }
+
+    abigail = players["abigail"]
+
+    assert abigail["wins"] == 10
+    assert abigail["losses"] == 6
+    assert abigail["missed_picks"] == 2
+    assert abigail["accuracy"] == pytest.approx(
+        10 / 16
+    )
 
 
 @pytest.mark.unit
@@ -239,11 +324,16 @@ def test_existing_season_json_is_rebuilt(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data["weeks_scored"] == [1]
 
-    player_ids = {player["player_id"] for player in data["players"]}
+    player_ids = {
+        player["player_id"]
+        for player in data["players"]
+    }
 
     assert "stale" not in player_ids
 
@@ -266,14 +356,18 @@ def test_aggregation_is_safe_to_rerun(
         season_dir=season_dir,
     )
 
-    first = _read_json(season_dir / "season.json")
+    first = _read_json(
+        season_dir / "season.json"
+    )
 
     aggregate_season_files(
         season=2026,
         season_dir=season_dir,
     )
 
-    second = _read_json(season_dir / "season.json")
+    second = _read_json(
+        season_dir / "season.json"
+    )
 
     assert second == first
 
@@ -341,7 +435,9 @@ def test_missing_season_directory_creates_empty_season(
         season_dir=season_dir,
     )
 
-    data = _read_json(season_dir / "season.json")
+    data = _read_json(
+        season_dir / "season.json"
+    )
 
     assert data == {
         "season": 2026,

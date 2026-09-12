@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadWeek(requestedWeek);
 });
 
+
 async function loadAnnouncements() {
     await Promise.all([
         loadAnnouncement(
@@ -36,6 +37,7 @@ async function loadAnnouncements() {
         ),
     ]);
 }
+
 
 async function loadAnnouncement(path, selector) {
     const element = document.querySelector(selector);
@@ -64,6 +66,7 @@ async function loadAnnouncement(path, selector) {
     }
 }
 
+
 function initializeWeekSelector() {
     const select = document.querySelector("#week-select");
 
@@ -86,6 +89,7 @@ function initializeWeekSelector() {
     });
 }
 
+
 function initializeTabs() {
     const weeklyTab = document.querySelector("#weekly-tab");
     const seasonTab = document.querySelector("#season-tab");
@@ -105,6 +109,7 @@ function initializeTabs() {
     });
 }
 
+
 function initializePlayerCardInteractions() {
     document.addEventListener("keydown", (event) => {
         if (
@@ -115,6 +120,7 @@ function initializePlayerCardInteractions() {
         }
     });
 }
+
 
 function showView(view) {
     const weeklyTab = document.querySelector("#weekly-tab");
@@ -141,6 +147,7 @@ function showView(view) {
         String(!showingWeekly),
     );
 }
+
 
 async function loadWeek(week) {
     closeActivePlayerCard();
@@ -184,6 +191,7 @@ async function loadWeek(week) {
     }
 }
 
+
 function renderWeeklyView(data) {
     const results = data.results ?? null;
     const players = data.players ?? [];
@@ -202,6 +210,7 @@ function renderWeeklyView(data) {
     renderPlayers(players, games, results);
 }
 
+
 function renderWeeklySummary(data) {
     const container = document.querySelector("#weekly-summary");
     const results = data.results;
@@ -209,14 +218,15 @@ function renderWeeklySummary(data) {
     container.replaceChildren();
 
     const playerCount =
-        results?.player_count ??
-        data.players?.length ??
-        0;
+        results?.player_count
+        ?? data.players?.length
+        ?? 0;
 
     const finalGames =
         data.games?.filter(
             (game) => game.status === "final",
-        ).length ?? 0;
+        ).length
+        ?? 0;
 
     const totalGames = data.games?.length ?? 0;
 
@@ -228,7 +238,8 @@ function renderWeeklySummary(data) {
             : "TBD";
 
     const mondayTotal =
-        results?.monday_total ?? "TBD";
+        results?.monday_total
+        ?? "TBD";
 
     container.append(
         createSummaryCard(
@@ -250,6 +261,7 @@ function renderWeeklySummary(data) {
     );
 }
 
+
 function createSummaryCard(value, label) {
     const card = document.createElement("div");
     card.className = "summary-card";
@@ -267,6 +279,7 @@ function createSummaryCard(value, label) {
     return card;
 }
 
+
 function renderPlayers(players, games, results) {
     closeActivePlayerCard();
 
@@ -281,12 +294,13 @@ function renderPlayers(players, games, results) {
     );
 
     const resultPlayers =
-        results?.players ??
-        players.map((player) => ({
+        results?.players
+        ?? players.map((player) => ({
             player_id: player.id,
             wins: 0,
             losses: 0,
             ties: 0,
+            missed_picks: 0,
             accuracy: null,
             tiebreaker_distance: null,
             weekly_rank: null,
@@ -309,6 +323,7 @@ function renderPlayers(players, games, results) {
         );
     }
 }
+
 
 function createPlayerCard(player, result, games) {
     const card = document.createElement("article");
@@ -375,6 +390,7 @@ function createPlayerCard(player, result, games) {
 
     return card;
 }
+
 
 function openPlayerCard(sourceCard) {
     closeActivePlayerCard();
@@ -445,6 +461,7 @@ function openPlayerCard(sourceCard) {
     }
 }
 
+
 function closeActivePlayerCard(restoreFocus = false) {
     const sourceCard = activePlayerCard;
 
@@ -476,6 +493,7 @@ function closeActivePlayerCard(restoreFocus = false) {
     document.body.classList.remove("card-open");
 }
 
+
 function createPlayerDetailGrid(player, result) {
     const grid = document.createElement("div");
     grid.className = "detail-grid";
@@ -497,10 +515,15 @@ function createPlayerDetailGrid(player, result) {
             formatAccuracy(result.accuracy),
             "Accuracy",
         ),
+        createDetailBox(
+            result.missed_picks ?? 0,
+            "Missed Picks",
+        ),
     );
 
     return grid;
 }
+
 
 function createDetailBox(value, label) {
     const box = document.createElement("div");
@@ -518,6 +541,7 @@ function createDetailBox(value, label) {
 
     return box;
 }
+
 
 function createPickList(player, games) {
     const list = document.createElement("div");
@@ -554,11 +578,19 @@ function createPickList(player, games) {
     return list;
 }
 
+
 function getPickStatus(pick, game) {
     if (!pick) {
+        if (game.status === "final") {
+            return {
+                icon: "❌",
+                className: "pick-wrong",
+            };
+        }
+
         return {
-            icon: "—",
-            className: "pick-missing",
+            icon: "⏳",
+            className: "pick-pending",
         };
     }
 
@@ -604,6 +636,7 @@ function getPickStatus(pick, game) {
     };
 }
 
+
 async function loadSeason() {
     setText(
         "#season-message",
@@ -638,6 +671,7 @@ async function loadSeason() {
     }
 }
 
+
 async function loadSeasonPlayerNames(weeks) {
     const requests = weeks.map(async (week) => {
         try {
@@ -659,6 +693,7 @@ async function loadSeasonPlayerNames(weeks) {
 
     await Promise.all(requests);
 }
+
 
 function renderSeason(data) {
     const container = document.querySelector("#season-list");
@@ -692,6 +727,7 @@ function renderSeason(data) {
     });
 }
 
+
 function createSeasonCard(player, position) {
     const card = document.createElement("div");
     card.className = "season-card";
@@ -712,9 +748,12 @@ function createSeasonCard(player, position) {
     const meta = document.createElement("div");
     meta.className = "season-meta";
 
+    const missedPicks = player.missed_picks ?? 0;
+
     meta.textContent =
         `${player.wins}-${player.losses}-${player.ties}`
-        + ` • ${player.weeks_played} week(s)`;
+        + ` • ${player.weeks_played} week(s)`
+        + ` • ${missedPicks} missed`;
 
     left.append(name, meta);
 
@@ -741,6 +780,7 @@ function createSeasonCard(player, position) {
     return card;
 }
 
+
 function compareSeasonPlayers(left, right) {
     if (left.weekly_wins !== right.weekly_wins) {
         return right.weekly_wins - left.weekly_wins;
@@ -759,6 +799,7 @@ function compareSeasonPlayers(left, right) {
     return right.wins - left.wins;
 }
 
+
 function rememberPlayerNames(players) {
     for (const player of players) {
         playerNameMap.set(
@@ -768,9 +809,11 @@ function rememberPlayerNames(players) {
     }
 }
 
+
 function displayName(player) {
     return player.nickname || player.name;
 }
+
 
 function getPlayerName(playerId) {
     return (
@@ -778,6 +821,7 @@ function getPlayerName(playerId) {
         ?? humanizePlayerId(playerId)
     );
 }
+
 
 function humanizePlayerId(playerId) {
     return playerId
@@ -790,6 +834,7 @@ function humanizePlayerId(playerId) {
         .join(" ");
 }
 
+
 function isWeekComplete(data) {
     const games = data.games ?? [];
 
@@ -800,6 +845,7 @@ function isWeekComplete(data) {
         )
     );
 }
+
 
 function formatAccuracy(value) {
     if (
@@ -812,9 +858,11 @@ function formatAccuracy(value) {
     return `${Math.round(value * 1000) / 10}%`;
 }
 
+
 function formatWeek(week) {
     return String(week).padStart(2, "0");
 }
+
 
 function getRequestedWeek() {
     const params = new URLSearchParams(
@@ -836,6 +884,7 @@ function getRequestedWeek() {
     return DEFAULT_WEEK;
 }
 
+
 function updateWeekQueryString(week) {
     const url = new URL(window.location.href);
 
@@ -850,6 +899,7 @@ function updateWeekQueryString(week) {
         url,
     );
 }
+
 
 function setText(selector, text) {
     const element = document.querySelector(selector);

@@ -11,6 +11,7 @@ def _player_result(
     wins: int = 0,
     losses: int = 0,
     ties: int = 0,
+    missed_picks: int = 0,
     weekly_rank: int | None = 1,
     weekly_winner: bool = False,
 ) -> PlayerResult:
@@ -24,6 +25,7 @@ def _player_result(
         wins=wins,
         losses=losses,
         ties=ties,
+        missed_picks=missed_picks,
         accuracy=accuracy,
         tiebreaker_distance=0.0,
         weekly_rank=weekly_rank,
@@ -53,6 +55,7 @@ def test_completed_week_is_aggregated():
                 "abigail",
                 wins=12,
                 losses=4,
+                missed_picks=1,
                 weekly_winner=True,
             ),
         ),
@@ -76,6 +79,7 @@ def test_completed_week_is_aggregated():
     assert player.wins == 12
     assert player.losses == 4
     assert player.ties == 0
+    assert player.missed_picks == 1
     assert player.accuracy == 0.75
     assert player.weekly_wins == 1
 
@@ -89,6 +93,7 @@ def test_incomplete_week_is_ignored():
                 "abigail",
                 wins=1,
                 losses=1,
+                missed_picks=1,
                 weekly_rank=None,
             ),
         ),
@@ -115,6 +120,7 @@ def test_multiple_weeks_are_accumulated():
                 "abigail",
                 wins=12,
                 losses=4,
+                missed_picks=1,
                 weekly_winner=True,
             ),
         ),
@@ -127,6 +133,7 @@ def test_multiple_weeks_are_accumulated():
                 "abigail",
                 wins=10,
                 losses=6,
+                missed_picks=2,
             ),
         ),
         weekly_winners=("bob",),
@@ -150,7 +157,50 @@ def test_multiple_weeks_are_accumulated():
     assert player.weeks_played == 2
     assert player.wins == 22
     assert player.losses == 10
+    assert player.missed_picks == 3
     assert player.weekly_wins == 1
+
+
+@pytest.mark.unit
+def test_missed_picks_are_accumulated():
+    """Missed picks accumulate across completed weeks."""
+    week_one = _week_result(
+        players=(
+            _player_result(
+                "abigail",
+                wins=10,
+                losses=6,
+                missed_picks=1,
+                weekly_winner=True,
+            ),
+        ),
+        weekly_winners=("abigail",),
+    )
+
+    week_two = _week_result(
+        players=(
+            _player_result(
+                "abigail",
+                wins=8,
+                losses=8,
+                missed_picks=3,
+            ),
+        ),
+        weekly_winners=("bob",),
+    )
+
+    result = aggregate_season(
+        season=2026,
+        weeks=[
+            (1, week_one),
+            (2, week_two),
+        ],
+    )
+
+    player = result.players[0]
+
+    assert player.losses == 14
+    assert player.missed_picks == 4
 
 
 @pytest.mark.unit
@@ -174,6 +224,7 @@ def test_accuracy_uses_cumulative_totals():
                 "abigail",
                 wins=1,
                 losses=3,
+                missed_picks=1,
             ),
         ),
         weekly_winners=("bob",),
@@ -191,7 +242,39 @@ def test_accuracy_uses_cumulative_totals():
 
     assert player.wins == 2
     assert player.losses == 3
+    assert player.missed_picks == 1
     assert player.accuracy == pytest.approx(0.4)
+
+
+@pytest.mark.unit
+def test_missed_pick_losses_reduce_season_accuracy():
+    """Losses caused by missed picks enter the season accuracy denominator."""
+    week = _week_result(
+        players=(
+            _player_result(
+                "abigail",
+                wins=1,
+                losses=1,
+                missed_picks=1,
+                weekly_winner=True,
+            ),
+        ),
+        weekly_winners=("abigail",),
+    )
+
+    result = aggregate_season(
+        season=2026,
+        weeks=[
+            (1, week),
+        ],
+    )
+
+    player = result.players[0]
+
+    assert player.wins == 1
+    assert player.losses == 1
+    assert player.missed_picks == 1
+    assert player.accuracy == 0.5
 
 
 @pytest.mark.unit
@@ -235,6 +318,7 @@ def test_ties_are_accumulated():
     assert player.wins == 18
     assert player.losses == 12
     assert player.ties == 2
+    assert player.missed_picks == 0
     assert player.accuracy == pytest.approx(0.6)
 
 
@@ -271,7 +355,10 @@ def test_split_winners_each_receive_weekly_win():
         ],
     )
 
-    players = {player.player_id: player for player in result.players}
+    players = {
+        player.player_id: player
+        for player in result.players
+    }
 
     assert players["abigail"].weekly_wins == 1
     assert players["bob"].weekly_wins == 1
@@ -286,12 +373,14 @@ def test_player_only_counts_weeks_they_played():
                 "abigail",
                 wins=12,
                 losses=4,
+                missed_picks=1,
                 weekly_winner=True,
             ),
             _player_result(
                 "bob",
                 wins=10,
                 losses=6,
+                missed_picks=2,
             ),
         ),
         weekly_winners=("abigail",),
@@ -303,6 +392,7 @@ def test_player_only_counts_weeks_they_played():
                 "abigail",
                 wins=11,
                 losses=5,
+                missed_picks=1,
                 weekly_winner=True,
             ),
         ),
@@ -317,10 +407,16 @@ def test_player_only_counts_weeks_they_played():
         ],
     )
 
-    players = {player.player_id: player for player in result.players}
+    players = {
+        player.player_id: player
+        for player in result.players
+    }
 
     assert players["abigail"].weeks_played == 2
+    assert players["abigail"].missed_picks == 2
+
     assert players["bob"].weeks_played == 1
+    assert players["bob"].missed_picks == 2
 
 
 @pytest.mark.unit
@@ -332,6 +428,7 @@ def test_incomplete_week_does_not_affect_existing_totals():
                 "abigail",
                 wins=12,
                 losses=4,
+                missed_picks=1,
                 weekly_winner=True,
             ),
         ),
@@ -344,6 +441,7 @@ def test_incomplete_week_does_not_affect_existing_totals():
                 "abigail",
                 wins=2,
                 losses=1,
+                missed_picks=1,
                 weekly_rank=None,
             ),
         ),
@@ -364,6 +462,7 @@ def test_incomplete_week_does_not_affect_existing_totals():
     assert player.weeks_played == 1
     assert player.wins == 12
     assert player.losses == 4
+    assert player.missed_picks == 1
 
 
 @pytest.mark.unit
@@ -392,6 +491,7 @@ def test_zero_decisions_produces_null_accuracy():
     assert player.wins == 0
     assert player.losses == 0
     assert player.ties == 1
+    assert player.missed_picks == 0
     assert player.accuracy is None
 
 
@@ -427,7 +527,10 @@ def test_players_are_sorted_by_player_id():
         ],
     )
 
-    assert tuple(player.player_id for player in result.players) == (
+    assert tuple(
+        player.player_id
+        for player in result.players
+    ) == (
         "abigail",
         "bob",
         "charlie",

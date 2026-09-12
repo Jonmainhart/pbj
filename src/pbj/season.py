@@ -15,6 +15,7 @@ class SeasonPlayerResult:
     wins: int
     losses: int
     ties: int
+    missed_picks: int
     accuracy: float | None
     weekly_wins: int
 
@@ -36,6 +37,7 @@ class _SeasonTotals:
     wins: int = 0
     losses: int = 0
     ties: int = 0
+    missed_picks: int = 0
     weekly_wins: int = 0
 
 
@@ -72,6 +74,7 @@ def aggregate_season(
             player_totals.wins += player.wins
             player_totals.losses += player.losses
             player_totals.ties += player.ties
+            player_totals.missed_picks += player.missed_picks
 
             if player.weekly_winner:
                 player_totals.weekly_wins += 1
@@ -98,7 +101,10 @@ def _week_is_complete(
     return (
         bool(result.players)
         and bool(result.weekly_winners)
-        and all(player.weekly_rank is not None for player in result.players)
+        and all(
+            player.weekly_rank is not None
+            for player in result.players
+        )
     )
 
 
@@ -109,7 +115,11 @@ def _build_player_result(
     """Build immutable season statistics from accumulated totals."""
     denominator = totals.wins + totals.losses
 
-    accuracy = totals.wins / denominator if denominator else None
+    accuracy = (
+        totals.wins / denominator
+        if denominator
+        else None
+    )
 
     return SeasonPlayerResult(
         player_id=player_id,
@@ -117,6 +127,7 @@ def _build_player_result(
         wins=totals.wins,
         losses=totals.losses,
         ties=totals.ties,
+        missed_picks=totals.missed_picks,
         accuracy=accuracy,
         weekly_wins=totals.weekly_wins,
     )

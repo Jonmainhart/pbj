@@ -88,6 +88,7 @@ def test_correct_pick_counts_as_win():
     assert player.wins == 1
     assert player.losses == 0
     assert player.ties == 0
+    assert player.missed_picks == 0
     assert player.accuracy == 1.0
 
 
@@ -118,6 +119,7 @@ def test_incorrect_pick_counts_as_loss():
     assert player.wins == 0
     assert player.losses == 1
     assert player.ties == 0
+    assert player.missed_picks == 0
     assert player.accuracy == 0.0
 
 
@@ -148,12 +150,13 @@ def test_final_nfl_tie_counts_as_tie():
     assert player.wins == 0
     assert player.losses == 0
     assert player.ties == 1
+    assert player.missed_picks == 0
     assert player.accuracy is None
 
 
 @pytest.mark.unit
-def test_missing_pick_does_not_count():
-    """An omitted pick does not count as a win, loss, or tie."""
+def test_missing_pick_counts_as_loss():
+    """A missing pick on a final game counts as a loss."""
     games = [
         _game(
             "game-1",
@@ -174,9 +177,77 @@ def test_missing_pick_does_not_count():
     player = result.players[0]
 
     assert player.wins == 0
-    assert player.losses == 0
+    assert player.losses == 1
     assert player.ties == 0
-    assert player.accuracy is None
+    assert player.missed_picks == 1
+    assert player.accuracy == 0.0
+
+
+@pytest.mark.unit
+def test_missing_pick_on_nfl_tie_counts_as_loss():
+    """A missing pick is a loss even when the NFL game ends in a tie."""
+    games = [
+        _game(
+            "game-1",
+            "NE",
+            "SEA",
+            20,
+            20,
+        ),
+    ]
+
+    players = [
+        _player(
+            picks={},
+        ),
+    ]
+
+    result = score_week(games, players)
+    player = result.players[0]
+
+    assert player.wins == 0
+    assert player.losses == 1
+    assert player.ties == 0
+    assert player.missed_picks == 1
+    assert player.accuracy == 0.0
+
+
+@pytest.mark.unit
+def test_missing_pick_is_included_in_accuracy():
+    """Missing picks are losses and therefore reduce accuracy."""
+    games = [
+        _game(
+            "game-1",
+            "NE",
+            "SEA",
+            10,
+            13,
+        ),
+        _game(
+            "game-2",
+            "SF",
+            "LAR",
+            27,
+            7,
+        ),
+    ]
+
+    players = [
+        _player(
+            picks={
+                "game-1": "SEA",
+            }
+        ),
+    ]
+
+    result = score_week(games, players)
+    player = result.players[0]
+
+    assert player.wins == 1
+    assert player.losses == 1
+    assert player.ties == 0
+    assert player.missed_picks == 1
+    assert player.accuracy == 0.5
 
 
 @pytest.mark.unit
@@ -207,6 +278,37 @@ def test_scheduled_game_is_ignored():
     assert player.wins == 0
     assert player.losses == 0
     assert player.ties == 0
+    assert player.missed_picks == 0
+    assert player.accuracy is None
+
+
+@pytest.mark.unit
+def test_missing_pick_on_scheduled_game_is_ignored():
+    """A missing pick is not scored until the game is final."""
+    games = [
+        _game(
+            "game-1",
+            "NE",
+            "SEA",
+            0,
+            0,
+            status=GameStatus.SCHEDULED,
+        ),
+    ]
+
+    players = [
+        _player(
+            picks={},
+        ),
+    ]
+
+    result = score_week(games, players)
+    player = result.players[0]
+
+    assert player.wins == 0
+    assert player.losses == 0
+    assert player.ties == 0
+    assert player.missed_picks == 0
     assert player.accuracy is None
 
 
@@ -238,6 +340,37 @@ def test_live_game_is_ignored():
     assert player.wins == 0
     assert player.losses == 0
     assert player.ties == 0
+    assert player.missed_picks == 0
+    assert player.accuracy is None
+
+
+@pytest.mark.unit
+def test_missing_pick_on_live_game_is_ignored():
+    """A missing pick on a live game is not scored until the game is final."""
+    games = [
+        _game(
+            "game-1",
+            "NE",
+            "SEA",
+            10,
+            7,
+            status=GameStatus.LIVE,
+        ),
+    ]
+
+    players = [
+        _player(
+            picks={},
+        ),
+    ]
+
+    result = score_week(games, players)
+    player = result.players[0]
+
+    assert player.wins == 0
+    assert player.losses == 0
+    assert player.ties == 0
+    assert player.missed_picks == 0
     assert player.accuracy is None
 
 
@@ -277,6 +410,7 @@ def test_partial_week_counts_only_final_games():
     assert player.wins == 1
     assert player.losses == 0
     assert player.ties == 0
+    assert player.missed_picks == 0
     assert player.accuracy == 1.0
 
 
