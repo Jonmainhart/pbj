@@ -77,7 +77,11 @@ jobs:
         if: steps.week.outputs.create == 'true'
         shell: bash
         run: |
-          if git diff --quiet; then
+          week_file="data/${{ steps.week.outputs.season }}/week$(printf '%02d' '${{ steps.week.outputs.week }}').json"
+
+          git add "$week_file"
+
+          if git diff --cached --quiet; then
             echo "No schedule changes to commit."
             exit 0
           fi
@@ -85,9 +89,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add \
-            "data/${{ steps.week.outputs.season }}/week$(printf '%02d' '${{ steps.week.outputs.week }}').json"
 
           git commit \
             -m "Create week ${{ steps.week.outputs.week }} schedule"
