@@ -542,6 +542,22 @@ function createDetailBox(value, label) {
     return box;
 }
 
+function formatKickoffTime(scheduledTime) {
+    const kickoff = new Date(scheduledTime);
+
+    if (Number.isNaN(kickoff.getTime())) {
+        return "";
+    }
+
+    return new Intl.DateTimeFormat(
+        undefined,
+        {
+            weekday: "short",
+            hour: "numeric",
+            minute: "2-digit",
+        },
+    ).format(kickoff);
+}
 
 function createPickList(player, games) {
     const list = document.createElement("div");
@@ -553,8 +569,11 @@ function createPickList(player, games) {
 
         const gameName = document.createElement("div");
         gameName.className = "game-name";
+        const kickoff = formatKickoffTime(game.scheduled_time);
+
         gameName.textContent =
-            `${game.away.abbreviation} @ ${game.home.abbreviation}`;
+            `${game.away.abbreviation} @ ${game.home.abbreviation}`
+            + (kickoff ? ` — ${kickoff}` : "");
 
         const pick = document.createElement("div");
 
