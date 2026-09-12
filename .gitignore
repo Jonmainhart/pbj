@@ -1,0 +1,89 @@
+# SECRETS & ENVIRONMENT VARIABLES (CRITICAL)
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+*.pem
+*.key
+*.secret
+
+# COMMON DEPENDENCY DIRECTORIES
+node_modules/
+bower_components/
+vendor/
+packages/
+.pnp/
+.pnp.js
+
+# COMPILATION, BUILDS, & OUTPUTS
+dist/
+build/
+out/
+bin/
+obj/
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# PYTHON SPECIFIC
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env/
+*.egg-info/
+.pytest_cache/
+.tox/
+.coverage
+.ruff_cache
+.mypy_cache
+
+# IDEs / EDITORS
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*~
+
+# OS GENERATED FILES
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# LOGS, DIAGNOSTICS, & DATABASES
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.sql
+*.sqlite
+*.db
+
+# ARCHIVES & PACKAGES
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# PROJECT FILES
+*.numbers
+data/raw

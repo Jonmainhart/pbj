@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pbj-dashboard"
+version = "0.1.0"
+description = "Weekly and season tracking dashboard for the PBJ NFL pick'em pool."
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.17,<2",
+    "pytest>=8,<9",
+    "pytest-cov>=6,<7",
+    "pytest-mock>=3,<4",
+    "ruff>=0.12,<1",
+    "types-requests>=2.32,<3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+]
+markers = [
+    "smoke: Quick regression tests",
+    "slow: Tests that take a long time to run",
+    "integration: Integration tests that require web access",
+    "unit: Individual self-contained unit tests",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E", 
+    "F", 
+    "I", 
+    "B", 
+    "UP"
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+disallow_incomplete_defs = false
+disallow_any_generics = false

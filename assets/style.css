@@ -1,0 +1,485 @@
+:root {
+  --background: #f4f6f3;
+  --surface: #ffffff;
+  --surface-muted: #edf1ec;
+  --text: #18201b;
+  --text-muted: #667069;
+  --border: #d8ded9;
+  --accent: #1f5c3c;
+  --accent-dark: #17472f;
+  --success: #1f6b3c;
+  --danger: #9c2f2f;
+  --warning: #8a6517;
+
+  --radius: 14px;
+  --shadow: 0 3px 12px rgb(0 0 0 / 7%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--text);
+  background: var(--background);
+  line-height: 1.45;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button,
+summary,
+select {
+  touch-action: manipulation;
+}
+
+.announcement {
+  padding: 0.8rem 1rem;
+
+  text-align: center;
+  font-weight: 650;
+
+  background: #f7d974;
+  color: #352c10;
+}
+
+.site-header {
+  background: var(--accent);
+  color: white;
+}
+
+.header-content {
+  width: min(100% - 2rem, 960px);
+  margin: 0 auto;
+  padding: 1.5rem 0;
+}
+
+.eyebrow,
+.section-label {
+  margin: 0 0 0.25rem;
+
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  opacity: 0.75;
+}
+
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3rem);
+  line-height: 1;
+}
+
+.subtitle {
+  margin: 0.6rem 0 0;
+  opacity: 0.86;
+}
+
+.week-status {
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.page-shell {
+  width: min(100% - 1rem, 960px);
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+}
+
+.view-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  min-height: 48px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.dashboard-view {
+  min-width: 0;
+}
+
+.view-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.view-heading h2 {
+  margin: 0;
+}
+
+.section-label {
+  color: var(--text-muted);
+}
+
+.week-picker {
+  display: grid;
+  gap: 0.2rem;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.week-picker select {
+  min-width: 80px;
+  min-height: 44px;
+
+  padding: 0 0.75rem;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  background: var(--surface);
+  color: var(--text);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.summary-card {
+  min-width: 0;
+
+  padding: 0.85rem;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--surface);
+}
+
+.summary-value {
+  display: block;
+
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.summary-label {
+  display: block;
+
+  margin-top: 0.15rem;
+
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.message {
+  margin: 0.75rem 0 1rem;
+
+  color: var(--text-muted);
+}
+
+.message:empty {
+  display: none;
+}
+
+.section-heading {
+  margin: 0 0 0.75rem;
+}
+
+.player-list,
+.season-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.player-card {
+  min-width: 0;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.player-card[open] {
+  border-color: #b7c3ba;
+}
+
+.player-summary {
+  min-height: 64px;
+
+  padding: 0.85rem;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+
+  gap: 0.75rem;
+
+  list-style: none;
+  cursor: pointer;
+}
+
+.player-summary::-webkit-details-marker {
+  display: none;
+}
+
+.player-summary::after {
+  content: "⌄";
+
+  color: var(--text-muted);
+  font-size: 1.25rem;
+}
+
+.player-card[open] .player-summary::after {
+  content: "⌃";
+}
+
+.player-name {
+  font-weight: 800;
+}
+
+.player-record {
+  margin-top: 0.15rem;
+
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.player-summary-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.player-accuracy {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.winner-badge {
+  font-size: 1.25rem;
+}
+
+.player-details {
+  padding: 0 0.85rem 1rem;
+
+  border-top: 1px solid var(--border);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 0.6rem;
+  padding: 0.85rem 0;
+}
+
+.detail-box {
+  padding: 0.65rem;
+
+  border-radius: 9px;
+  background: var(--surface-muted);
+}
+
+.detail-value {
+  display: block;
+  font-weight: 800;
+}
+
+.detail-label {
+  display: block;
+
+  margin-top: 0.1rem;
+
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.pick-list {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.pick-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.55rem 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.pick-row:last-child {
+  border-bottom: 0;
+}
+
+.game-name {
+  font-size: 0.88rem;
+}
+
+.pick-value {
+  text-align: right;
+  font-weight: 750;
+}
+
+.pick-correct {
+  color: var(--success);
+}
+
+.pick-wrong {
+  color: var(--danger);
+}
+
+.pick-tie,
+.pick-pending {
+  color: var(--warning);
+}
+
+.pick-missing {
+  color: var(--text-muted);
+}
+
+.season-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+
+  gap: 0.75rem;
+  align-items: center;
+
+  padding: 0.85rem;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--surface);
+}
+
+.season-name {
+  font-weight: 800;
+}
+
+.season-meta {
+  margin-top: 0.2rem;
+
+  color: var(--text-muted);
+  font-size: 0.83rem;
+}
+
+.season-right {
+  text-align: right;
+}
+
+.season-accuracy {
+  font-weight: 800;
+}
+
+.weekly-wins {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.announcement-bottom {
+  margin-top: 1rem;
+}
+
+.site-footer {
+  padding: 1.25rem 1rem;
+
+  text-align: center;
+
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+@media (min-width: 600px) {
+  .header-content {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+
+    gap: 2rem;
+  }
+
+  .week-status {
+    margin-top: 0;
+    text-align: right;
+  }
+
+  .page-shell {
+    width: min(100% - 2rem, 960px);
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .player-list,
+  .season-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

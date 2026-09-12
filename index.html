@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>PBJ Pick'Em</title>
+
+  <link
+    rel="stylesheet"
+    href="./assets/style.css"
+  >
+
+  <script
+    src="./assets/app.js"
+    defer
+  ></script>
+</head>
+
+<body>
+<div
+  class="announcement announcement-top"
+  id="announcement-top"
+  hidden
+></div>
+
+  <header class="site-header">
+    <div class="header-content">
+      <div>
+        <p class="eyebrow">2026 NFL Season</p>
+        <h1>PBJ Football</h1>
+        <p class="subtitle">
+          Football, beer, and bragging rights.
+        </p>
+      </div>
+
+      <div
+        class="week-status"
+        id="week-status"
+        aria-live="polite"
+      >
+        Loading…
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav
+      class="view-tabs"
+      aria-label="Dashboard views"
+    >
+      <button
+        class="tab-button active"
+        id="weekly-tab"
+        type="button"
+        aria-selected="true"
+      >
+        🏈 Weekly
+      </button>
+
+      <button
+        class="tab-button"
+        id="season-tab"
+        type="button"
+        aria-selected="false"
+      >
+        🏆 Season
+      </button>
+    </nav>
+
+    <section
+      id="weekly-view"
+      class="dashboard-view"
+    >
+      <div class="view-heading">
+        <div>
+          <p class="section-label">
+            Weekly results
+          </p>
+
+          <h2 id="week-heading">
+            Week 1
+          </h2>
+        </div>
+
+        <label class="week-picker">
+          <span>Week</span>
+
+          <select id="week-select"></select>
+        </label>
+      </div>
+
+      <div
+        id="weekly-summary"
+        class="summary-grid"
+      ></div>
+
+      <div
+        id="weekly-message"
+        class="message"
+        aria-live="polite"
+      ></div>
+
+      <section>
+        <h3 class="section-heading">
+          Players
+        </h3>
+
+        <div
+          id="player-list"
+          class="player-list"
+        ></div>
+      </section>
+    </section>
+
+    <section
+      id="season-view"
+      class="dashboard-view"
+      hidden
+    >
+      <div class="view-heading">
+        <div>
+          <p class="section-label">
+            Season standings
+          </p>
+
+          <h2>2026 Leaderboard</h2>
+        </div>
+      </div>
+
+      <div
+        id="season-message"
+        class="message"
+        aria-live="polite"
+      ></div>
+
+      <div
+        id="season-list"
+        class="season-list"
+      ></div>
+    </section>
+  </main>
+
+<div
+  class="announcement announcement-bottom"
+  id="announcement-bottom"
+  hidden
+></div>
+
+  <footer class="site-footer">
+    <p>
+      PBJ Football Dashboard
+      <span aria-hidden="true">•</span>
+      GitHub Pages
+    </p>
+  </footer>
+</body>
+</html>
