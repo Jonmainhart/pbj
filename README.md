@@ -1,149 +1,255 @@
 # PBJ Dashboard
 
-PBJ Dashboard is a lightweight, static dashboard for tracking a weekly NFL pick'em pool.
+A lightweight, mobile-friendly dashboard for the PBJ Football pool.
 
-It takes the commissioner's existing Numbers spreadsheet, combines the weekly picks with NFL game results, calculates weekly and season standings, and publishes the results through GitHub Pages.
+The dashboard keeps the existing weekly workflow intact while adding automatic game updates, scoring, season statistics, and a simple public website.
 
-The goal is simple:
+## What It Does
 
-> **Keep the commissioner's existing workflow intact while making the pool results easier to track and share.**
+Each week, players pick the winner of every NFL game and provide a tiebreaker prediction for the combined score of the Monday night game or games.
 
-## How It Works
+PBJ Dashboard automatically:
 
-The commissioner continues to maintain the pool in Apple Numbers just as she always has.
+- Creates the weekly NFL schedule.
+- Imports picks exported from Apple Numbers.
+- Updates NFL game scores and statuses.
+- Calculates weekly records and accuracy.
+- Determines weekly winners.
+- Applies the Monday night tiebreaker when necessary.
+- Tracks season-long statistics.
+- Publishes the results through a mobile-friendly GitHub Pages dashboard.
 
-Each week:
-
-```text
-Apple Numbers
-     │
-     │ CSV export
-     ▼
-Local Python Import
-     │
-     │ validate + normalize
-     ▼
-Weekly JSON
-     │
-     ├──────────────► GitHub
-     │
-     ▼
-Scoring Engine
-     │
-     ▼
-Weekly Results
-     │
-     ▼
-GitHub Pages Dashboard
-```
-
-NFL game schedules and results are initially provided by the ESPN public scoreboard API. ESPN-specific code is isolated so another provider can be substituted later if necessary.
+The commissioner can continue managing picks in Apple Numbers. The dashboard does not require player accounts, online pick submission, or a database.
 
 ## Weekly Workflow
 
-### Before the Week
+Most routine processing is handled by GitHub Actions.
 
-1. The commissioner prepares the weekly picks in Numbers.
-2. The Numbers spreadsheet is exported to CSV.
-3. The local Python import process:
+### 1. Weekly Schedule
 
-   * Reads the CSV.
-   * Identifies players and picks.
-   * Imports Monday-game tiebreaker predictions.
-   * Matches the spreadsheet's games to the NFL schedule.
-   * Validates the imported data.
-4. The normalized weekly data is written to:
+Every Tuesday morning, GitHub Actions creates the next week's JSON file using the NFL schedule provided by ESPN.
+
+The resulting file is stored at:
 
 ```text
 data/<season>/weekNN.json
 ```
 
-5. The validated weekly data is committed and pushed to GitHub.
+For example:
 
-Picks lock one hour before the kickoff of the first game of the football week.
+```text
+data/2026/week02.json
+```
 
-The application does not replace Numbers and does not require the commissioner to enter picks through a website.
+### 2. Import Picks
 
-### During the Week
+The commissioner exports the weekly Numbers sheet as CSV and adds it to the corresponding season directory:
 
-GitHub Actions periodically retrieves updated NFL game information.
+```text
+data/2026/week02.csv
+```
 
-Polling becomes more frequent around game time and while games are being played. Final games no longer need to be repeatedly updated.
+When the CSV is pushed to GitHub, the import workflow automatically:
 
-The game provider data is normalized before it reaches the rest of the application.
+1. Validates the CSV against the week's NFL schedule.
+2. Imports the players, picks, and tiebreakers.
+3. Updates the `players` section of the weekly JSON.
+4. Deletes the successfully imported CSV.
+5. Commits the updated weekly data.
 
-### After Games Finish
+Invalid imports fail without replacing the weekly JSON or deleting the CSV.
 
-The scoring engine calculates player results from the picks and final game scores.
+### 3. Game Updates
 
-Only games with a `final` status affect scoring.
+During NFL game windows, GitHub Actions periodically checks whether the current week needs an update.
 
-* A correct pick is a win.
-* An incorrect pick is a loss.
-* A tied NFL game is neither a win nor a loss.
-* Scheduled and live games do not affect the current accuracy calculation.
-* Tied games are excluded from the accuracy denominator.
+Polling is schedule-aware, so ESPN is queried only when:
 
-Accuracy is calculated as:
+- A scheduled game is within the polling window around kickoff, or
+- A game is currently live.
+
+When game data changes, the workflow:
+
+1. Updates the game's status and score.
+2. Commits the game-state update.
+3. Recalculates weekly scoring.
+4. Commits any scoring changes.
+5. Rebuilds season statistics.
+6. Commits any season changes.
+
+Each meaningful transformation receives its own Git commit.
+
+## Pool Rules
+
+A correct pick counts as one win.
+
+An incorrect pick counts as one loss.
+
+If an NFL game ends in a tie, the game counts as neither a win nor a loss for the player. It is tracked separately as a tie and excluded from the accuracy denominator.
+
+A missing or explicit non-pick does not count as a win, loss, or tie.
+
+Weekly accuracy is:
 
 ```text
 wins / (wins + losses)
 ```
 
-The weekly winner is determined by the highest number of wins.
+NFL ties are excluded from the denominator.
 
-If players are tied, the Monday-game tiebreaker is used. When there are multiple Monday games, their final scores are combined into a single total.
+### Weekly Winner
 
-If the tiebreaker is also tied, the weekly result is split.
+The weekly winner is determined by:
 
-A weekly winner is not declared until every scheduled game for the week has reached a final result. Until then, the dashboard may display provisional standings.
+1. Most wins.
+2. If tied, closest Monday night tiebreaker prediction.
+3. If still tied, the weekly win is split.
 
-### Season Tracking
+If multiple Monday games are played, their final scores are combined into a single Monday total.
 
-Completed weekly results are used to calculate season-long statistics, including:
+A split weekly win counts as one weekly win for each winning player in the season statistics.
 
-* Weeks played
-* Total wins
-* Total losses
-* Total ties
-* Overall accuracy
-* Weekly wins
-* Weekly winner count
+Weekly winners are not declared until every NFL game for the week is final.
 
-There is no playoff pool.
+## Season Statistics
 
-## Privacy
+The dashboard tracks:
 
-The public dashboard does **not** publish individual winnings, pot amounts, or other private financial information.
+- Weeks played
+- Wins
+- Losses
+- Ties
+- Overall accuracy
+- Weekly wins
 
-The public data only needs to identify weekly winner(s) and the number of players participating that week.
+Season accuracy is calculated from cumulative results:
 
-Any separate winnings calculation remains private.
+```text
+total wins / (total wins + total losses)
+```
 
-## Technology
+Season statistics are rebuilt from completed weekly files rather than incrementally modified. This allows a corrected or rescored week to propagate cleanly into the season standings.
 
-PBJ Dashboard is intentionally simple:
+## Dashboard
 
-* Python for local data processing and scoring
-* JSON for normalized application data
-* ESPN for initial NFL game data
-* GitHub for source and data storage
-* GitHub Actions for scheduled game updates
-* GitHub Pages for public hosting
-* HTML, CSS, and JavaScript for the dashboard
+The public site is a static HTML/CSS/JavaScript application designed primarily for phones.
 
-There is no database server, user account system, authentication system, or online pick submission system.
+Features include:
 
-## Development
+- Weekly and season views
+- Week selector
+- Current game progress
+- Weekly winner display
+- Monday tiebreaker results
+- Expandable player cards
+- Individual picks and results
+- Season statistics
+- Optional announcements
+- No login or account required
 
-The detailed application design, data model, development milestones, testing requirements, and implementation decisions are documented in [`README.dev`](README.dev).
+Individual picks display their current state using simple indicators:
 
-`README.dev` is the primary development reference for contributors.
+- `✅` Correct
+- `❌` Incorrect
+- `➖` NFL tie
+- `⏳` Pending
+- `— N/P` No pick
 
-The project follows a **Document Driven Design** and **Test Driven Development** approach. Changes to the scoring rules and data model should be documented and tested before expanding the application.
+Weekly winners are marked with `🏆`.
+
+## Announcements
+
+Optional announcement text can be placed in:
+
+```text
+assets/announcement-top.txt
+assets/announcement-bottom.txt
+```
+
+An announcement is displayed only when the corresponding file contains text.
+
+## Project Structure
+
+```text
+.
+├── index.html
+├── assets
+│   ├── app.js
+│   ├── style.css
+│   ├── announcement-top.txt
+│   └── announcement-bottom.txt
+├── data
+│   └── 2026
+│       ├── week01.json
+│       ├── week02.json
+│       └── season.json
+├── scripts
+│   ├── aggregate_season.py
+│   ├── import_picks.py
+│   ├── score_week.py
+│   ├── should_poll.py
+│   └── update_games.py
+├── src
+│   └── pbj
+├── tests
+├── .github
+│   └── workflows
+│       ├── create-week.yml
+│       ├── import-picks.yml
+│       └── poll-games.yml
+├── DEVELOPMENT.md
+├── LICENSE
+└── README.md
+```
+
+## Local Development
+
+Create and activate a virtual environment, then install the project:
+
+```bash
+python -m pip install ".[dev]"
+```
+
+Run the tests:
+
+```bash
+pytest
+```
+
+Run static type checking:
+
+```bash
+mypy src tests
+```
+
+Run linting:
+
+```bash
+ruff check .
+```
+
+The dashboard can be served locally with:
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+The command-line scripts can also be run manually for development, testing, or recovery. Normal production processing is handled by GitHub Actions.
+
+See [DEVELOPMENT.md](DEVELOPMENT.md) for architecture, data ownership, scoring rules, and automation details.
+
+## Data Source
+
+NFL schedules, game statuses, and scores are obtained from ESPN's public scoreboard endpoint through a provider abstraction.
+
+ESPN is treated as an external provider rather than part of the PBJ domain model. Only the data required by PBJ Dashboard is retained in the normalized weekly files.
 
 ## License
 
-PBJ Dashboard is licensed under the [Apache License, Version 2.0](LICENSE).
-
-Copyright © 2026 PBJ Dashboard contributors.
+Licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
