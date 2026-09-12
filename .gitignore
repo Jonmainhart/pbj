@@ -87,3 +87,7 @@ yarn-error.log*
 # PROJECT FILES
 *.numbers
 data/raw
+assets/img/logo-full.png
+assets/img/logo-transparent-full.png
+assets/img/logo-512x512.png
+assets/img/logo-192x192.png
