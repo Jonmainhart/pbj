@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - feature/github-actions
-      
+
   schedule:
     # Tuesday at 8:00 AM Eastern during EDT (12:00 UTC).
     - cron: "0 12 * * 2"
@@ -21,10 +21,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.14"
 
