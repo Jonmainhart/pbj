@@ -1,6 +1,10 @@
 name: Create Weekly Schedule
 
 on:
+  push:
+    branches:
+      - feature/github-actions
+      
   schedule:
     # Tuesday at 8:00 AM Eastern during EDT (12:00 UTC).
     - cron: "0 12 * * 2"
