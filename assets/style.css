@@ -98,6 +98,8 @@ select:focus-visible {
   color: var(--announcement-text);
 
   border-bottom: 2px solid var(--danger);
+
+  white-space: pre-wrap;
 }
 
 .announcement-bottom {
