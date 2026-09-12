@@ -8,9 +8,13 @@ let currentWeekData = null;
 let seasonData = null;
 let playerNameMap = new Map();
 
+let activePlayerCard = null;
+let activeCardOverlay = null;
+
 document.addEventListener("DOMContentLoaded", () => {
     initializeWeekSelector();
     initializeTabs();
+    initializePlayerCardInteractions();
     loadAnnouncements();
 
     const requestedWeek = getRequestedWeek();
@@ -75,6 +79,8 @@ function initializeWeekSelector() {
     select.addEventListener("change", () => {
         const week = Number(select.value);
 
+        closeActivePlayerCard();
+
         updateWeekQueryString(week);
         loadWeek(week);
     });
@@ -85,14 +91,27 @@ function initializeTabs() {
     const seasonTab = document.querySelector("#season-tab");
 
     weeklyTab.addEventListener("click", () => {
+        closeActivePlayerCard();
         showView("weekly");
     });
 
     seasonTab.addEventListener("click", async () => {
+        closeActivePlayerCard();
         showView("season");
 
         if (seasonData === null) {
             await loadSeason();
+        }
+    });
+}
+
+function initializePlayerCardInteractions() {
+    document.addEventListener("keydown", (event) => {
+        if (
+            event.key === "Escape"
+            && activeCardOverlay !== null
+        ) {
+            closeActivePlayerCard(true);
         }
     });
 }
@@ -124,6 +143,8 @@ function showView(view) {
 }
 
 async function loadWeek(week) {
+    closeActivePlayerCard();
+
     setText("#week-heading", `Week ${week}`);
     setText("#week-status", "Loading…");
     setText("#weekly-message", "");
@@ -247,6 +268,8 @@ function createSummaryCard(value, label) {
 }
 
 function renderPlayers(players, games, results) {
+    closeActivePlayerCard();
+
     const container = document.querySelector("#player-list");
     container.replaceChildren();
 
@@ -288,11 +311,14 @@ function renderPlayers(players, games, results) {
 }
 
 function createPlayerCard(player, result, games) {
-    const details = document.createElement("details");
-    details.className = "player-card";
+    const card = document.createElement("article");
+    card.className = "player-card";
 
-    const summary = document.createElement("summary");
+    const summary = document.createElement("button");
     summary.className = "player-summary";
+    summary.type = "button";
+
+    summary.setAttribute("aria-expanded", "false");
 
     const nameBlock = document.createElement("div");
 
@@ -325,7 +351,10 @@ function createPlayerCard(player, result, games) {
     const body = document.createElement("div");
     body.className = "player-details";
 
-    body.append(
+    const bodyInner = document.createElement("div");
+    bodyInner.className = "player-details-inner";
+
+    bodyInner.append(
         createPlayerDetailGrid(
             player,
             result,
@@ -336,9 +365,115 @@ function createPlayerCard(player, result, games) {
         ),
     );
 
-    details.append(summary, body);
+    body.append(bodyInner);
 
-    return details;
+    summary.addEventListener("click", () => {
+        openPlayerCard(card);
+    });
+
+    card.append(summary, body);
+
+    return card;
+}
+
+function openPlayerCard(sourceCard) {
+    closeActivePlayerCard();
+
+    const overlay = document.createElement("div");
+    overlay.className = "player-card-overlay";
+
+    const raisedCard = sourceCard.cloneNode(true);
+
+    raisedCard.classList.remove("is-selected");
+
+    const raisedSummary =
+        raisedCard.querySelector(".player-summary");
+
+    if (raisedSummary !== null) {
+        raisedSummary.setAttribute(
+            "aria-expanded",
+            "true",
+        );
+
+        raisedSummary.addEventListener(
+            "click",
+            (event) => {
+                event.stopPropagation();
+                closeActivePlayerCard(true);
+            },
+        );
+    }
+
+    raisedCard.addEventListener(
+        "click",
+        (event) => {
+            event.stopPropagation();
+        },
+    );
+
+    overlay.addEventListener(
+        "click",
+        () => {
+            closeActivePlayerCard();
+        },
+    );
+
+    overlay.append(raisedCard);
+    document.body.append(overlay);
+
+    activePlayerCard = sourceCard;
+    activeCardOverlay = overlay;
+
+    sourceCard.classList.add("is-selected");
+
+    const sourceSummary =
+        sourceCard.querySelector(".player-summary");
+
+    if (sourceSummary !== null) {
+        sourceSummary.setAttribute(
+            "aria-expanded",
+            "true",
+        );
+    }
+
+    document.body.classList.add("card-open");
+
+    raisedCard.scrollTop = 0;
+
+    if (raisedSummary !== null) {
+        raisedSummary.focus();
+    }
+}
+
+function closeActivePlayerCard(restoreFocus = false) {
+    const sourceCard = activePlayerCard;
+
+    if (activeCardOverlay !== null) {
+        activeCardOverlay.remove();
+    }
+
+    if (sourceCard !== null) {
+        sourceCard.classList.remove("is-selected");
+
+        const sourceSummary =
+            sourceCard.querySelector(".player-summary");
+
+        if (sourceSummary !== null) {
+            sourceSummary.setAttribute(
+                "aria-expanded",
+                "false",
+            );
+
+            if (restoreFocus) {
+                sourceSummary.focus();
+            }
+        }
+    }
+
+    activePlayerCard = null;
+    activeCardOverlay = null;
+
+    document.body.classList.remove("card-open");
 }
 
 function createPlayerDetailGrid(player, result) {
@@ -435,8 +570,8 @@ function getPickStatus(pick, game) {
     }
 
     if (
-        game.away_score === null ||
-        game.home_score === null
+        game.away_score === null
+        || game.home_score === null
     ) {
         return {
             icon: "⏳",
@@ -639,8 +774,8 @@ function displayName(player) {
 
 function getPlayerName(playerId) {
     return (
-        playerNameMap.get(playerId) ??
-        humanizePlayerId(playerId)
+        playerNameMap.get(playerId)
+        ?? humanizePlayerId(playerId)
     );
 }
 
@@ -667,7 +802,10 @@ function isWeekComplete(data) {
 }
 
 function formatAccuracy(value) {
-    if (value === null || value === undefined) {
+    if (
+        value === null
+        || value === undefined
+    ) {
         return "—";
     }
 

@@ -1,18 +1,37 @@
 :root {
-  --background: #f4f6f3;
-  --surface: #ffffff;
-  --surface-muted: #edf1ec;
-  --text: #18201b;
-  --text-muted: #667069;
-  --border: #d8ded9;
-  --accent: #1f5c3c;
-  --accent-dark: #17472f;
-  --success: #1f6b3c;
-  --danger: #9c2f2f;
-  --warning: #8a6517;
+  /* Driftwood Coast — sun-bleached Central Florida coastal */
+
+  --background: #e7e1d8;
+  --surface: #f6f1e8;
+  --surface-muted: #ddd4c7;
+
+  --text: #2f3a36;
+  --text-muted: #6f7772;
+  --border: #c9beb0;
+
+  --accent: #d9a441;
+  --accent-dark: #b98225;
+  --accent-text: #2f332f;
+
+  --header: #526f69;
+  --header-muted: #d9e1dc;
+
+  --success: #4f8f88;
+  --danger: #c96f5b;
+  --danger-light: #dd8d79;
+  --warning: #d9a441;
+
+  --announcement-bg: #f0d8cc;
+  --announcement-text: #70483e;
 
   --radius: 14px;
-  --shadow: 0 3px 12px rgb(0 0 0 / 7%);
+
+  --shadow:
+    0 4px 14px rgb(70 58 45 / 10%);
+
+  --shadow-raised:
+    0 24px 60px rgb(47 43 38 / 28%),
+    0 8px 24px rgb(47 43 38 / 16%);
 }
 
 * {
@@ -35,7 +54,12 @@ body {
 
   color: var(--text);
   background: var(--background);
+
   line-height: 1.45;
+}
+
+body.card-open {
+  overflow: hidden;
 }
 
 button,
@@ -44,24 +68,54 @@ select {
 }
 
 button,
-summary,
 select {
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
+
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+/*
+ * Announcements
+ */
 
 .announcement {
   padding: 0.8rem 1rem;
 
   text-align: center;
-  font-weight: 650;
+  font-weight: 700;
 
-  background: #f7d974;
-  color: #352c10;
+  background: var(--announcement-bg);
+  color: var(--announcement-text);
+
+  border-bottom: 2px solid var(--danger);
 }
 
+.announcement-bottom {
+  margin-top: 1rem;
+
+  border-top: 2px solid var(--danger);
+  border-bottom: 0;
+}
+
+/*
+ * Header
+ */
+
 .site-header {
-  background: var(--accent);
-  color: white;
+  background: var(--header);
+  color: #f8f4ec;
+
+  border-bottom: 4px solid var(--accent);
 }
 
 .header-content {
@@ -81,7 +135,7 @@ select {
 }
 
 .eyebrow {
-  opacity: 0.75;
+  color: #f2d694;
 }
 
 h1,
@@ -93,24 +147,38 @@ p {
 
 h1 {
   margin: 0;
+
+  color: #fffaf2;
+
   font-size: clamp(2rem, 7vw, 3rem);
   line-height: 1;
 }
 
 .subtitle {
   margin: 0.6rem 0 0;
-  opacity: 0.86;
+
+  color: var(--header-muted);
 }
 
 .week-status {
   margin-top: 1rem;
+
+  color: #f2d694;
   font-weight: 700;
 }
+
+/*
+ * Main page
+ */
 
 .page-shell {
   width: min(100% - 1rem, 960px);
   margin: 0 auto;
   padding: 1rem 0 2rem;
+}
+
+.dashboard-view {
+  min-width: 0;
 }
 
 .view-tabs {
@@ -132,16 +200,19 @@ h1 {
 
   font-weight: 700;
   cursor: pointer;
+
+  box-shadow: 0 2px 6px rgb(70 58 45 / 6%);
+}
+
+.tab-button:hover {
+  border-color: var(--accent-dark);
 }
 
 .tab-button.active {
   border-color: var(--accent);
-  background: var(--accent);
-  color: white;
-}
 
-.dashboard-view {
-  min-width: 0;
+  background: var(--accent);
+  color: var(--accent-text);
 }
 
 .view-heading {
@@ -163,9 +234,11 @@ h1 {
 
 .week-picker {
   display: grid;
+
   gap: 0.2rem;
 
   color: var(--text-muted);
+
   font-size: 0.8rem;
   font-weight: 700;
 }
@@ -182,6 +255,14 @@ h1 {
   background: var(--surface);
   color: var(--text);
 }
+
+.week-picker select:hover {
+  border-color: var(--accent-dark);
+}
+
+/*
+ * Weekly summary
+ */
 
 .summary-grid {
   display: grid;
@@ -200,10 +281,14 @@ h1 {
   border-radius: var(--radius);
 
   background: var(--surface);
+
+  box-shadow: var(--shadow);
 }
 
 .summary-value {
   display: block;
+
+  color: var(--header);
 
   font-size: 1.25rem;
   font-weight: 800;
@@ -215,6 +300,7 @@ h1 {
   margin-top: 0.15rem;
 
   color: var(--text-muted);
+
   font-size: 0.78rem;
 }
 
@@ -232,11 +318,20 @@ h1 {
   margin: 0 0 0.75rem;
 }
 
+/*
+ * Lists
+ */
+
 .player-list,
 .season-list {
   display: grid;
+
   gap: 0.6rem;
 }
+
+/*
+ * Resting player card
+ */
 
 .player-card {
   min-width: 0;
@@ -245,46 +340,81 @@ h1 {
   border-radius: var(--radius);
 
   background: var(--surface);
+
   box-shadow: var(--shadow);
 
   overflow: hidden;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
-.player-card[open] {
-  border-color: #b7c3ba;
+.player-card:hover {
+  border-color: #b8ab9c;
+
+  transform: translateY(-2px);
 }
+
+.player-card.is-selected {
+  border-color: var(--accent-dark);
+
+  box-shadow:
+    0 5px 18px rgb(70 58 45 / 15%);
+}
+
+/*
+ * Player card header
+ */
 
 .player-summary {
+  width: 100%;
   min-height: 64px;
 
   padding: 0.85rem;
 
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
 
   gap: 0.75rem;
 
-  list-style: none;
+  border: 0;
+
+  background: transparent;
+  color: var(--text);
+
+  text-align: left;
+
   cursor: pointer;
 }
 
-.player-summary::-webkit-details-marker {
-  display: none;
-}
-
 .player-summary::after {
-  content: "⌄";
+  content: "+";
 
-  color: var(--text-muted);
-  font-size: 1.25rem;
+  width: 1.8rem;
+  height: 1.8rem;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 999px;
+
+  color: var(--accent-dark);
+
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
-.player-card[open] .player-summary::after {
-  content: "⌃";
+.player-summary:hover::after {
+  background: var(--surface-muted);
 }
 
 .player-name {
+  color: var(--text);
+
   font-weight: 800;
 }
 
@@ -292,17 +422,22 @@ h1 {
   margin-top: 0.15rem;
 
   color: var(--text-muted);
+
   font-size: 0.86rem;
 }
 
 .player-summary-right {
   display: flex;
   align-items: center;
+
   gap: 0.5rem;
 }
 
 .player-accuracy {
+  color: var(--header);
+
   font-weight: 800;
+
   white-space: nowrap;
 }
 
@@ -310,29 +445,119 @@ h1 {
   font-size: 1.25rem;
 }
 
-.player-details {
-  padding: 0 0.85rem 1rem;
+/*
+ * Details are hidden on the resting card.
+ */
 
-  border-top: 1px solid var(--border);
+.player-details {
+  display: none;
+
+  background: #efe8dd;
 }
+
+.player-details-inner {
+  padding: 0 0.85rem 1rem;
+}
+
+/*
+ * Foreground card overlay
+ */
+
+.player-card-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  display: grid;
+  place-items: center;
+
+  padding: 1rem;
+
+  background: rgb(47 58 54 / 22%);
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  animation: overlay-fade 160ms ease-out;
+}
+
+.player-card-overlay .player-card {
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 2rem);
+
+  border-color: var(--accent-dark);
+
+  background: var(--surface);
+
+  box-shadow: var(--shadow-raised);
+
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  transform: translateY(-4px);
+
+  animation: card-rise 180ms ease-out;
+}
+
+.player-card-overlay .player-card:hover {
+  border-color: var(--accent-dark);
+
+  transform: translateY(-4px);
+}
+
+.player-card-overlay .player-summary {
+  position: sticky;
+  top: 0;
+
+  z-index: 2;
+
+  background: rgb(246 241 232 / 96%);
+
+  border-bottom: 1px solid var(--border);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.player-card-overlay .player-summary::after {
+  content: "×";
+
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.player-card-overlay .player-details {
+  display: block;
+}
+
+/*
+ * Player detail stats
+ */
 
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 
   gap: 0.6rem;
+
   padding: 0.85rem 0;
 }
 
 .detail-box {
   padding: 0.65rem;
 
+  border: 1px solid var(--border);
   border-radius: 9px;
+
   background: var(--surface-muted);
 }
 
 .detail-value {
   display: block;
+
+  color: var(--text);
+
   font-weight: 800;
 }
 
@@ -342,11 +567,17 @@ h1 {
   margin-top: 0.1rem;
 
   color: var(--text-muted);
+
   font-size: 0.75rem;
 }
 
+/*
+ * Picks
+ */
+
 .pick-list {
   display: grid;
+
   gap: 0.4rem;
 }
 
@@ -355,6 +586,7 @@ h1 {
   grid-template-columns: minmax(0, 1fr) auto;
 
   align-items: center;
+
   gap: 0.75rem;
 
   padding: 0.55rem 0;
@@ -367,11 +599,14 @@ h1 {
 }
 
 .game-name {
+  color: var(--text-muted);
+
   font-size: 0.88rem;
 }
 
 .pick-value {
   text-align: right;
+
   font-weight: 750;
 }
 
@@ -392,6 +627,10 @@ h1 {
   color: var(--text-muted);
 }
 
+/*
+ * Season cards
+ */
+
 .season-card {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -405,9 +644,13 @@ h1 {
   border-radius: var(--radius);
 
   background: var(--surface);
+
+  box-shadow: var(--shadow);
 }
 
 .season-name {
+  color: var(--text);
+
   font-weight: 800;
 }
 
@@ -415,6 +658,7 @@ h1 {
   margin-top: 0.2rem;
 
   color: var(--text-muted);
+
   font-size: 0.83rem;
 }
 
@@ -423,17 +667,20 @@ h1 {
 }
 
 .season-accuracy {
+  color: var(--header);
+
   font-weight: 800;
 }
 
 .weekly-wins {
   color: var(--text-muted);
+
   font-size: 0.8rem;
 }
 
-.announcement-bottom {
-  margin-top: 1rem;
-}
+/*
+ * Footer
+ */
 
 .site-footer {
   padding: 1.25rem 1rem;
@@ -441,12 +688,51 @@ h1 {
   text-align: center;
 
   color: var(--text-muted);
+
   font-size: 0.8rem;
+
+  border-top: 1px solid var(--border);
 }
 
 .site-footer p {
   margin: 0;
 }
+
+/*
+ * Motion
+ */
+
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(-4px)
+      scale(1);
+  }
+}
+
+/*
+ * Desktop / tablet
+ */
 
 @media (min-width: 600px) {
   .header-content {
@@ -459,6 +745,7 @@ h1 {
 
   .week-status {
     margin-top: 0;
+
     text-align: right;
   }
 
@@ -474,12 +761,44 @@ h1 {
   .season-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .player-card-overlay .detail-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
+
+/*
+ * Phone
+ */
+
+@media (max-width: 599px) {
+  .player-card-overlay {
+    padding: 0.5rem;
+  }
+
+  .player-card-overlay .player-card {
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+
+    border-radius: 18px;
+  }
+
+  .player-summary {
+    gap: 0.55rem;
+  }
+}
+
+/*
+ * Accessibility
+ */
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
