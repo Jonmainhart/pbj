@@ -37,23 +37,6 @@
       "home_score": 7
     },
     {
-      "id": "401872925",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "27",
-        "abbreviation": "TB",
-        "name": "Tampa Bay Buccaneers"
-      },
-      "home": {
-        "id": "4",
-        "abbreviation": "CIN",
-        "name": "Cincinnati Bengals"
-      },
-      "status": "live",
-      "away_score": 10,
-      "home_score": 24
-    },
-    {
       "id": "401872923",
       "scheduled_time": "2026-09-13T17:00:00+00:00",
       "away": {
@@ -67,59 +50,8 @@
         "name": "Detroit Lions"
       },
       "status": "live",
-      "away_score": 0,
-      "home_score": 7
-    },
-    {
-      "id": "401872924",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "20",
-        "abbreviation": "NYJ",
-        "name": "New York Jets"
-      },
-      "home": {
-        "id": "10",
-        "abbreviation": "TEN",
-        "name": "Tennessee Titans"
-      },
-      "status": "live",
-      "away_score": 10,
-      "home_score": 3
-    },
-    {
-      "id": "401872659",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "33",
-        "abbreviation": "BAL",
-        "name": "Baltimore Ravens"
-      },
-      "home": {
-        "id": "11",
-        "abbreviation": "IND",
-        "name": "Indianapolis Colts"
-      },
-      "status": "live",
-      "away_score": 28,
-      "home_score": 13
-    },
-    {
-      "id": "401872658",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "1",
-        "abbreviation": "ATL",
-        "name": "Atlanta Falcons"
-      },
-      "home": {
-        "id": "23",
-        "abbreviation": "PIT",
-        "name": "Pittsburgh Steelers"
-      },
-      "status": "live",
-      "away_score": 7,
-      "home_score": 13
+      "away_score": 24,
+      "home_score": 24
     },
     {
       "id": "401872661",
@@ -135,8 +67,76 @@
         "name": "Carolina Panthers"
       },
       "status": "live",
-      "away_score": 30,
-      "home_score": 24
+      "away_score": 52,
+      "home_score": 37
+    },
+    {
+      "id": "401872925",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "27",
+        "abbreviation": "TB",
+        "name": "Tampa Bay Buccaneers"
+      },
+      "home": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "name": "Cincinnati Bengals"
+      },
+      "status": "final",
+      "away_score": 27,
+      "home_score": 33
+    },
+    {
+      "id": "401872924",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "name": "New York Jets"
+      },
+      "home": {
+        "id": "10",
+        "abbreviation": "TEN",
+        "name": "Tennessee Titans"
+      },
+      "status": "final",
+      "away_score": 23,
+      "home_score": 10
+    },
+    {
+      "id": "401872659",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "33",
+        "abbreviation": "BAL",
+        "name": "Baltimore Ravens"
+      },
+      "home": {
+        "id": "11",
+        "abbreviation": "IND",
+        "name": "Indianapolis Colts"
+      },
+      "status": "final",
+      "away_score": 41,
+      "home_score": 23
+    },
+    {
+      "id": "401872658",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "1",
+        "abbreviation": "ATL",
+        "name": "Atlanta Falcons"
+      },
+      "home": {
+        "id": "23",
+        "abbreviation": "PIT",
+        "name": "Pittsburgh Steelers"
+      },
+      "status": "final",
+      "away_score": 13,
+      "home_score": 20
     },
     {
       "id": "401872922",
@@ -151,9 +151,9 @@
         "abbreviation": "JAX",
         "name": "Jacksonville Jaguars"
       },
-      "status": "live",
-      "away_score": 0,
-      "home_score": 24
+      "status": "final",
+      "away_score": 10,
+      "home_score": 34
     },
     {
       "id": "401872660",
@@ -168,9 +168,9 @@
         "abbreviation": "HOU",
         "name": "Houston Texans"
       },
-      "status": "live",
-      "away_score": 24,
-      "home_score": 21
+      "status": "final",
+      "away_score": 36,
+      "home_score": 31
     },
     {
       "id": "401872928",
