@@ -4,6 +4,8 @@ const SEASON = 2026;
 const DEFAULT_WEEK = 1;
 const REGULAR_SEASON_WEEKS = 18;
 
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+
 let currentWeekData = null;
 let seasonData = null;
 let playerNameMap = new Map();
@@ -22,7 +24,61 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#week-select").value = String(requestedWeek);
 
     loadWeek(requestedWeek);
+    initializeAutoRefresh();
 });
+
+function initializeAutoRefresh() {
+    window.setInterval(() => {
+        if (!document.hidden) {
+            refreshCurrentWeek();
+        }
+    }, REFRESH_INTERVAL_MS);
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            refreshCurrentWeek();
+        }
+    });
+}
+
+
+async function refreshCurrentWeek() {
+    if (activeCardOverlay !== null) {
+        return;
+    }
+
+    const week = Number(
+        document.querySelector("#week-select").value,
+    );
+
+    try {
+        const response = await fetch(
+            `./data/${SEASON}/week${formatWeek(week)}.json`,
+            { cache: "no-store" },
+        );
+
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+
+        if (
+            JSON.stringify(data)
+            === JSON.stringify(currentWeekData)
+        ) {
+            return;
+        }
+
+        currentWeekData = data;
+        seasonData = null;
+
+        rememberPlayerNames(data.players ?? []);
+        renderWeeklyView(data);
+    } catch {
+        // Keep displaying the existing data if refresh fails.
+    }
+}
 
 
 async function loadAnnouncements() {
@@ -43,7 +99,10 @@ async function loadAnnouncement(path, selector) {
     const element = document.querySelector(selector);
 
     try {
-        const response = await fetch(path);
+        const response = await fetch(
+            path,
+            { cache: "no-store" },
+        );
 
         if (!response.ok) {
             element.hidden = true;
@@ -165,6 +224,7 @@ async function loadWeek(week) {
     try {
         const response = await fetch(
             `./data/${SEASON}/week${formatWeek(week)}.json`,
+            { cache: "no-store" },
         );
 
         if (!response.ok) {
@@ -672,6 +732,7 @@ async function loadSeason() {
     try {
         const response = await fetch(
             `./data/${SEASON}/season.json`,
+            { cache: "no-store" },
         );
 
         if (!response.ok) {
@@ -703,6 +764,7 @@ async function loadSeasonPlayerNames(weeks) {
         try {
             const response = await fetch(
                 `./data/${SEASON}/week${formatWeek(week)}.json`,
+                { cache: "no-store" },
             );
 
             if (!response.ok) {
