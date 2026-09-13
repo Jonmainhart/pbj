@@ -186,8 +186,8 @@
         "name": "Las Vegas Raiders"
       },
       "status": "live",
-      "away_score": 3,
-      "home_score": 10
+      "away_score": 13,
+      "home_score": 27
     },
     {
       "id": "401872927",
@@ -203,8 +203,8 @@
         "name": "Minnesota Vikings"
       },
       "status": "live",
-      "away_score": 12,
-      "home_score": 3
+      "away_score": 22,
+      "home_score": 17
     },
     {
       "id": "401872929",
@@ -220,8 +220,8 @@
         "name": "Philadelphia Eagles"
       },
       "status": "live",
-      "away_score": 3,
-      "home_score": 14
+      "away_score": 16,
+      "home_score": 17
     },
     {
       "id": "401872926",
@@ -237,8 +237,8 @@
         "name": "Los Angeles Chargers"
       },
       "status": "live",
-      "away_score": 10,
-      "home_score": 7
+      "away_score": 23,
+      "home_score": 14
     },
     {
       "id": "401872930",
