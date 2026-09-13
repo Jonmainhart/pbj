@@ -37,40 +37,6 @@
       "home_score": 7
     },
     {
-      "id": "401872923",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "18",
-        "abbreviation": "NO",
-        "name": "New Orleans Saints"
-      },
-      "home": {
-        "id": "8",
-        "abbreviation": "DET",
-        "name": "Detroit Lions"
-      },
-      "status": "live",
-      "away_score": 24,
-      "home_score": 31
-    },
-    {
-      "id": "401872661",
-      "scheduled_time": "2026-09-13T17:00:00+00:00",
-      "away": {
-        "id": "3",
-        "abbreviation": "CHI",
-        "name": "Chicago Bears"
-      },
-      "home": {
-        "id": "29",
-        "abbreviation": "CAR",
-        "name": "Carolina Panthers"
-      },
-      "status": "final",
-      "away_score": 59,
-      "home_score": 37
-    },
-    {
       "id": "401872925",
       "scheduled_time": "2026-09-13T17:00:00+00:00",
       "away": {
@@ -86,6 +52,23 @@
       "status": "final",
       "away_score": 27,
       "home_score": 33
+    },
+    {
+      "id": "401872923",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "18",
+        "abbreviation": "NO",
+        "name": "New Orleans Saints"
+      },
+      "home": {
+        "id": "8",
+        "abbreviation": "DET",
+        "name": "Detroit Lions"
+      },
+      "status": "final",
+      "away_score": 30,
+      "home_score": 31
     },
     {
       "id": "401872924",
@@ -139,6 +122,23 @@
       "home_score": 20
     },
     {
+      "id": "401872661",
+      "scheduled_time": "2026-09-13T17:00:00+00:00",
+      "away": {
+        "id": "3",
+        "abbreviation": "CHI",
+        "name": "Chicago Bears"
+      },
+      "home": {
+        "id": "29",
+        "abbreviation": "CAR",
+        "name": "Carolina Panthers"
+      },
+      "status": "final",
+      "away_score": 59,
+      "home_score": 37
+    },
+    {
       "id": "401872922",
       "scheduled_time": "2026-09-13T17:00:00+00:00",
       "away": {
@@ -187,7 +187,7 @@
       },
       "status": "live",
       "away_score": 0,
-      "home_score": 0
+      "home_score": 10
     },
     {
       "id": "401872927",
@@ -203,8 +203,8 @@
         "name": "Minnesota Vikings"
       },
       "status": "live",
-      "away_score": 3,
-      "home_score": 0
+      "away_score": 9,
+      "home_score": 3
     },
     {
       "id": "401872929",
@@ -221,7 +221,7 @@
       },
       "status": "live",
       "away_score": 3,
-      "home_score": 0
+      "home_score": 7
     },
     {
       "id": "401872926",
@@ -238,7 +238,7 @@
       },
       "status": "live",
       "away_score": 7,
-      "home_score": 0
+      "home_score": 7
     },
     {
       "id": "401872930",
