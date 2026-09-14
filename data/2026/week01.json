@@ -614,8 +614,8 @@
       "tiebreaker": 35.0
     },
     {
-      "id": "jenny-d",
-      "name": "Jenny D.",
+      "id": "jenny-d-husband",
+      "name": "Jenny D. HUSBAND",
       "nickname": null,
       "picks": {
         "401872656": "SEA",
@@ -638,8 +638,8 @@
       "tiebreaker": 60.0
     },
     {
-      "id": "jenny-d-husband",
-      "name": "Jenny D. HUSBAND",
+      "id": "jenny-d",
+      "name": "Jenny D.",
       "nickname": null,
       "picks": {
         "401872656": "SEA",
@@ -1301,7 +1301,7 @@
         "weekly_winner": false
       },
       {
-        "player_id": "jenny-d",
+        "player_id": "jenny-d-husband",
         "wins": 10,
         "losses": 5,
         "ties": 0,
@@ -1312,7 +1312,7 @@
         "weekly_winner": false
       },
       {
-        "player_id": "jenny-d-husband",
+        "player_id": "jenny-d",
         "wins": 3,
         "losses": 12,
         "ties": 0,
