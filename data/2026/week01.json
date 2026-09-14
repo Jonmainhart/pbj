@@ -1301,7 +1301,7 @@
         "weekly_winner": false
       },
       {
-        "player_id": "jenny-d",
+        "player_id": "jenny-d-husband",
         "wins": 10,
         "losses": 5,
         "ties": 0,
@@ -1312,7 +1312,7 @@
         "weekly_winner": false
       },
       {
-        "player_id": "jenny-d-husband",
+        "player_id": "jenny-d",
         "wins": 3,
         "losses": 12,
         "ties": 0,
