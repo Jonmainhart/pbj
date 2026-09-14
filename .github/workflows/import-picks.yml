@@ -56,13 +56,26 @@ jobs:
               2026 \
               "$week_number"
 
+            echo "Scoring season 2026 week $week_number"
+
+            python scripts/score_week.py \
+              2026 \
+              "$week_number"
+
+            echo "Aggregating season 2026"
+
+            python scripts/aggregate_season.py \
+              2026
+
             json_file="data/2026/week${week}.json"
+            season_file="data/2026/season.json"
 
             git add "$json_file"
+            git add "$season_file"
             git add -u "$csv_file"
 
             git commit \
-              -m "Import week $week_number picks"
+              -m "Import week $week_number picks and update scoring"
           done
 
       - name: Push imported picks
