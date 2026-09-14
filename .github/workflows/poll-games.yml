@@ -2,27 +2,11 @@ name: Update Game Results
 
 on:
   schedule:
-    # Thursday evening / Friday early morning UTC
-    - cron: "*/15 23 * * 4"
-    - cron: "*/15 0-5 * * 5"
+    # Broad daytime/evening polling window, Wednesday through Monday
+    - cron: "3,10,17,24,31,38,45,52 12-23 * * 0-1,3-6"
 
-    # Friday broad window
-    - cron: "*/15 16-23 * * 5"
-
-    # Saturday broad window
-    - cron: "*/15 0-5 * * 6"
-    - cron: "*/15 16-23 * * 6"
-
-    # Sunday broad window
-    - cron: "*/15 0-5 * * 0"
-    - cron: "*/15 16-23 * * 0"
-
-    # Monday broad window
-    - cron: "*/15 0-5 * * 1"
-    - cron: "*/15 16-23 * * 1"
-
-    # Tuesday early morning UTC for Monday night games
-    - cron: "*/15 0-5 * * 2"
+    # Overnight continuation into the following UTC day
+    - cron: "3,10,17,24,31,38,45,52 0-9 * * 0-2,4-6"
 
   workflow_dispatch:
 
