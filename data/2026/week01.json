@@ -614,8 +614,8 @@
       "tiebreaker": 35.0
     },
     {
-      "id": "jenny-d",
-      "name": "Jenny D.",
+      "id": "jenny-d-husband",
+      "name": "Jenny D. HUSBAND",
       "nickname": null,
       "picks": {
         "401872656": "SEA",
@@ -638,8 +638,8 @@
       "tiebreaker": 60.0
     },
     {
-      "id": "jenny-d-husband",
-      "name": "Jenny D. HUSBAND",
+      "id": "jenny-d",
+      "name": "Jenny D.",
       "nickname": null,
       "picks": {
         "401872656": "SEA",
