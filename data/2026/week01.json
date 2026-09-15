@@ -270,9 +270,9 @@
         "abbreviation": "KC",
         "name": "Kansas City Chiefs"
       },
-      "status": "live",
-      "away_score": 7,
-      "home_score": 7
+      "status": "final",
+      "away_score": 10,
+      "home_score": 31
     }
   ],
   "lock_time": "2026-09-09T23:20:00+00:00",
