@@ -18,6 +18,7 @@ class SeasonPlayerResult:
     missed_picks: int
     accuracy: float | None
     weekly_wins: int
+    last_place_finishes: int
 
 
 @dataclass(frozen=True)
@@ -39,6 +40,7 @@ class _SeasonTotals:
     ties: int = 0
     missed_picks: int = 0
     weekly_wins: int = 0
+    last_place_finishes: int = 0
 
 
 def aggregate_season(
@@ -64,6 +66,12 @@ def aggregate_season(
 
         weeks_scored.append(week_number)
 
+        last_place_rank = max(
+            player.weekly_rank
+            for player in result.players
+            if player.weekly_rank is not None
+        )
+
         for player in result.players:
             player_totals = totals.setdefault(
                 player.player_id,
@@ -78,6 +86,9 @@ def aggregate_season(
 
             if player.weekly_winner:
                 player_totals.weekly_wins += 1
+
+            if player.weekly_rank == last_place_rank:
+                player_totals.last_place_finishes += 1
 
     players = tuple(
         _build_player_result(
@@ -130,4 +141,5 @@ def _build_player_result(
         missed_picks=totals.missed_picks,
         accuracy=accuracy,
         weekly_wins=totals.weekly_wins,
+        last_place_finishes=totals.last_place_finishes,
     )

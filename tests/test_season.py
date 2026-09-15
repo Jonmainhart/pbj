@@ -363,6 +363,82 @@ def test_split_winners_each_receive_weekly_win():
     assert players["abigail"].weekly_wins == 1
     assert players["bob"].weekly_wins == 1
 
+@pytest.mark.unit
+def test_last_place_player_receives_last_place_finish():
+    """The lowest-ranked player receives one last-place finish."""
+    week = _week_result(
+        players=(
+            _player_result(
+                "abigail",
+                weekly_rank=1,
+                weekly_winner=True,
+            ),
+            _player_result(
+                "bob",
+                weekly_rank=2,
+            ),
+            _player_result(
+                "charlie",
+                weekly_rank=3,
+            ),
+        ),
+        weekly_winners=("abigail",),
+    )
+
+    result = aggregate_season(
+        season=2026,
+        weeks=[
+            (1, week),
+        ],
+    )
+
+    players = {
+        player.player_id: player
+        for player in result.players
+    }
+
+    assert players["abigail"].last_place_finishes == 0
+    assert players["bob"].last_place_finishes == 0
+    assert players["charlie"].last_place_finishes == 1
+
+
+@pytest.mark.unit
+def test_tied_last_place_players_each_receive_last_place_finish():
+    """Every player tied for the lowest rank receives a last-place finish."""
+    week = _week_result(
+        players=(
+            _player_result(
+                "abigail",
+                weekly_rank=1,
+                weekly_winner=True,
+            ),
+            _player_result(
+                "bob",
+                weekly_rank=2,
+            ),
+            _player_result(
+                "charlie",
+                weekly_rank=2,
+            ),
+        ),
+        weekly_winners=("abigail",),
+    )
+
+    result = aggregate_season(
+        season=2026,
+        weeks=[
+            (1, week),
+        ],
+    )
+
+    players = {
+        player.player_id: player
+        for player in result.players
+    }
+
+    assert players["abigail"].last_place_finishes == 0
+    assert players["bob"].last_place_finishes == 1
+    assert players["charlie"].last_place_finishes == 1
 
 @pytest.mark.unit
 def test_player_only_counts_weeks_they_played():

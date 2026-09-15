@@ -444,3 +444,33 @@ def test_missing_season_directory_creates_empty_season(
         "weeks_scored": [],
         "players": [],
     }
+
+@pytest.mark.unit
+def test_last_place_finishes_are_written_to_season_json(
+    tmp_path: Path,
+):
+    """Last-place finishes are included in season.json."""
+    season_dir = tmp_path / "2026"
+    season_dir.mkdir()
+
+    _write_json(
+        season_dir / "week01.json",
+        _week_data(1),
+    )
+
+    aggregate_season_files(
+        season=2026,
+        season_dir=season_dir,
+    )
+
+    data = _read_json(
+        season_dir / "season.json"
+    )
+
+    players = {
+        player["player_id"]: player
+        for player in data["players"]
+    }
+
+    assert players["abigail"]["last_place_finishes"] == 0
+    assert players["bob"]["last_place_finishes"] == 1

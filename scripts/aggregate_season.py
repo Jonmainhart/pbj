@@ -348,6 +348,7 @@ def _season_player_to_dict(
         "missed_picks": result.missed_picks,
         "accuracy": result.accuracy,
         "weekly_wins": result.weekly_wins,
+        "last_place_finishes": result.last_place_finishes,
     }
 
 
