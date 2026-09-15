@@ -895,6 +895,76 @@ def test_tied_players_receive_same_rank():
 
 
 @pytest.mark.unit
+def test_tied_players_use_tournament_ranking():
+    """Ranks skip positions after a tie."""
+    games = [
+        _game(
+            "game-1",
+            "DEN",
+            "KC",
+            20,
+            27,
+            scheduled_time=datetime(
+                2026,
+                9,
+                15,
+                0,
+                15,
+                tzinfo=UTC,
+            ),
+        ),
+        _game(
+            "game-2",
+            "NE",
+            "SEA",
+            10,
+            13,
+        ),
+    ]
+
+    players = [
+        _player(
+            player_id="alpha",
+            picks={
+                "game-1": "KC",
+                "game-2": "SEA",
+            },
+            tiebreaker=47,
+        ),
+        _player(
+            player_id="bravo",
+            picks={
+                "game-1": "KC",
+                "game-2": "NE",
+            },
+            tiebreaker=45,
+        ),
+        _player(
+            player_id="charlie",
+            picks={
+                "game-1": "DEN",
+                "game-2": "SEA",
+            },
+            tiebreaker=49,
+        ),
+        _player(
+            player_id="delta",
+            picks={
+                "game-1": "DEN",
+                "game-2": "NE",
+            },
+            tiebreaker=47,
+        ),
+    ]
+
+    result = score_week(games, players)
+
+    assert [
+        player.weekly_rank
+        for player in result.players
+    ] == [1, 2, 2, 4]
+
+@pytest.mark.unit
 def test_player_count_matches_number_of_players():
     """Week result records the number of participating players."""
     games = [
