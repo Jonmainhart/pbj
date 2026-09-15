@@ -367,6 +367,15 @@ function renderPlayers(players, games, results) {
             weekly_winner: false,
         }));
 
+    const completedRanks = resultPlayers
+        .map((result) => result.weekly_rank)
+        .filter((rank) => rank !== null);
+
+    const lastPlaceRank =
+        completedRanks.length > 0
+            ? Math.max(...completedRanks)
+            : null;
+
     for (const result of resultPlayers) {
         const player = playersById.get(result.player_id);
 
@@ -379,13 +388,20 @@ function renderPlayers(players, games, results) {
                 player,
                 result,
                 games,
+                lastPlaceRank !== null
+                    && result.weekly_rank === lastPlaceRank,
             ),
         );
     }
 }
 
 
-function createPlayerCard(player, result, games) {
+function createPlayerCard(
+    player,
+    result,
+    games,
+    isLastPlace,
+) {
     const card = document.createElement("article");
     card.className = "player-card";
 
@@ -403,6 +419,10 @@ function createPlayerCard(player, result, games) {
 
     if (result.weekly_winner) {
         name.textContent = `🏆 ${name.textContent}`;
+    }
+
+    if (isLastPlace) {
+        name.textContent = `💩 ${name.textContent}`;
     }
 
     const record = document.createElement("div");
@@ -683,7 +703,6 @@ function createPickList(player, games) {
 
 function getPickStatus(pick, game) {
     if (!pick) {
-if (!pick) {
         if (game.status === "final") {
             return {
                 icon: "❌",
