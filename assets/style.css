@@ -639,6 +639,10 @@ h1 {
   color: var(--text-muted);
 }
 
+.pick-live {
+  color: var(--success);
+}
+
 /*
  * Season cards
  */

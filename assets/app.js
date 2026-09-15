@@ -619,6 +619,26 @@ function formatKickoffTime(scheduledTime) {
     ).format(kickoff);
 }
 
+function formatGameDisplay(game) {
+    const away = game.away.abbreviation;
+    const home = game.home.abbreviation;
+
+    if (game.status === "live") {
+        return `${away} ${game.away_score} @ ${home} ${game.home_score} — Live`;
+    }
+
+    if (game.status === "final") {
+        return `${away} ${game.away_score} @ ${home} ${game.home_score} — Final`;
+    }
+
+    const kickoff = formatKickoffTime(game.scheduled_time);
+
+    return (
+        `${away} @ ${home}`
+        + (kickoff ? ` — ${kickoff}` : "")
+    );
+}
+
 function createPickList(player, games) {
     const list = document.createElement("div");
     list.className = "pick-list";
@@ -630,11 +650,7 @@ function createPickList(player, games) {
         const gameName = document.createElement("div");
         gameName.className = "game-name";
 
-        const kickoff = formatKickoffTime(game.scheduled_time);
-
-        gameName.textContent =
-            `${game.away.abbreviation} @ ${game.home.abbreviation}`
-            + (kickoff ? ` — ${kickoff}` : "");
+        gameName.textContent = formatGameDisplay(game);
 
         const pick = document.createElement("div");
 
@@ -667,6 +683,7 @@ function createPickList(player, games) {
 
 function getPickStatus(pick, game) {
     if (!pick) {
+if (!pick) {
         if (game.status === "final") {
             return {
                 icon: "❌",
@@ -677,6 +694,13 @@ function getPickStatus(pick, game) {
         return {
             icon: "⏳",
             className: "pick-pending",
+        };
+    }
+
+    if (game.status === "live") {
+        return {
+            icon: "🟢",
+            className: "pick-live",
         };
     }
 
