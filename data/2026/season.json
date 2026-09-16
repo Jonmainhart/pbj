@@ -12,7 +12,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "angie-mainhart",
@@ -22,7 +23,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "atrain",
@@ -32,7 +34,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.4375,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "beave",
@@ -42,7 +45,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.8125,
-      "weekly_wins": 1
+      "weekly_wins": 1,
+      "last_place_finishes": 0
     },
     {
       "player_id": "big-red",
@@ -52,7 +56,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "bill-wonorski",
@@ -62,7 +67,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "d-rell",
@@ -72,7 +78,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "deacon",
@@ -82,7 +89,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "don-gammon",
@@ -92,7 +100,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "eli-street",
@@ -102,7 +111,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "heavy-d",
@@ -112,7 +122,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "james-pbj",
@@ -122,7 +133,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "jeanette",
@@ -132,7 +144,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "jeff-kennedy",
@@ -142,7 +155,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "jenny-d",
@@ -152,7 +166,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.1875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 1
     },
     {
       "player_id": "jenny-d-husband",
@@ -162,7 +177,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "jim",
@@ -172,7 +188,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "john-b3",
@@ -182,7 +199,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "john-perry-jr",
@@ -192,7 +210,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "karlee",
@@ -202,7 +221,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "kelly-b",
@@ -212,7 +232,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "keri",
@@ -222,7 +243,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "kevin-smalls",
@@ -232,7 +254,8 @@
       "ties": 0,
       "missed_picks": 1,
       "accuracy": 0.4375,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "kolton",
@@ -242,7 +265,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "liz-gammon",
@@ -252,7 +276,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "mafia",
@@ -262,7 +287,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "matt-a",
@@ -272,7 +298,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "mr-angie",
@@ -282,7 +309,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "nick-s",
@@ -292,7 +320,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "nina-perry",
@@ -302,7 +331,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "shawna",
@@ -312,7 +342,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "steff",
@@ -322,7 +353,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "sweary",
@@ -332,7 +364,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5625,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "talishious",
@@ -342,7 +375,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.5,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "tom-elwell",
@@ -352,7 +386,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.75,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     },
     {
       "player_id": "tommy-shawnas-hubby",
@@ -362,7 +397,8 @@
       "ties": 0,
       "missed_picks": 0,
       "accuracy": 0.6875,
-      "weekly_wins": 0
+      "weekly_wins": 0,
+      "last_place_finishes": 0
     }
   ]
 }

@@ -868,13 +868,13 @@ function createSeasonCard(player, position) {
     const name = document.createElement("div");
     name.className = "season-name";
 
-    const trophy =
+    const crown =
         position === 1
-            ? "🏆 "
+            ? "👑 "
             : "";
 
     name.textContent =
-        `${trophy}${position}. ${getPlayerName(player.player_id)}`;
+        `${crown}${position}. ${getPlayerName(player.player_id)}`;
 
     const meta = document.createElement("div");
     meta.className = "season-meta";
@@ -883,8 +883,8 @@ function createSeasonCard(player, position) {
 
     meta.textContent =
         `${player.wins}-${player.losses}-${player.ties}`
-        + ` • ${player.weeks_played} week(s)`
-        + ` • ${missedPicks} missed`;
+        + ` • Weeks played: ${player.weeks_played}`
+        + ` • Missed picks: ${missedPicks}`;
 
     left.append(name, meta);
 
@@ -896,21 +896,32 @@ function createSeasonCard(player, position) {
     accuracy.textContent =
         formatAccuracy(player.accuracy);
 
-    const weeklyWins = document.createElement("div");
-    weeklyWins.className = "weekly-wins";
-    weeklyWins.textContent =
-        `${player.weekly_wins} weekly win(s)`;
+    const finishIndicators = document.createElement("div");
+    finishIndicators.className = "weekly-wins";
+
+    const indicators = [
+        `🏆 ${player.weekly_wins}`,
+    ];
+
+    const lastPlaceFinishes =
+        player.last_place_finishes ?? 0;
+
+    if (lastPlaceFinishes > 0) {
+        indicators.push(`💩 ${lastPlaceFinishes}`);
+    }
+
+    finishIndicators.textContent =
+        indicators.join(" • ");
 
     right.append(
         accuracy,
-        weeklyWins,
+        finishIndicators,
     );
 
     card.append(left, right);
 
     return card;
 }
-
 
 function compareSeasonPlayers(left, right) {
     if (left.weekly_wins !== right.weekly_wins) {
