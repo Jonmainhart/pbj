@@ -20,7 +20,7 @@ PBJ Dashboard:
 - Imports player picks from CSV.
 - Updates game scores and statuses.
 - Calculates weekly records and accuracy.
-- Determines weekly winners.
+- Determines weekly rankings and winners.
 - Applies the Monday night tiebreaker when necessary.
 - Tracks season statistics.
 - Publishes results through GitHub Pages.
@@ -42,24 +42,30 @@ Missed picks are included in losses and are also tracked separately.
 Accuracy is based on wins and losses. NFL ties are excluded from the
 calculation.
 
-### Weekly Winner
+### Weekly Ranking and Winner
 
-The weekly winner is determined by:
+Weekly standings are ranked by:
 
 1. Most wins.
 2. Closest Monday night tiebreaker prediction.
-3. A split win if both remain equal.
+
+Competition ranking is used. Players with identical wins and tiebreaker
+distance share a rank, and the following rank skips the occupied positions.
+For example: `1, 2, 2, 4`.
+
+The weekly winner is the player ranked first. If multiple players remain tied
+for first, the weekly win is split between them.
 
 If multiple Monday games are played, their final scores are combined into one
 Monday total.
 
 Each player in a split receives one weekly win for season tracking.
 
-Winners are not declared until every game for the week is final.
+Rankings and winners are not declared until every game for the week is final.
 
 ## Season Statistics
 
-The dashboard tracks:
+PBJ Dashboard tracks:
 
 - Weeks played
 - Wins
@@ -68,6 +74,10 @@ The dashboard tracks:
 - Missed picks
 - Accuracy
 - Weekly wins
+- Last-place finishes
+
+A last-place finish is recorded for each player sharing the lowest final
+weekly rank.
 
 Season statistics are rebuilt from completed weekly results, allowing
 corrections to earlier weeks to propagate cleanly.
@@ -78,21 +88,37 @@ The public site is a static HTML, CSS, and JavaScript application designed
 primarily for phones.
 
 It provides weekly and season views, game progress, weekly winners, player
-records, individual picks, tiebreaker results, and optional announcements.
+records, individual picks, tiebreaker results, season statistics, and optional
+announcements.
 
 Player cards remain compact until selected, then open to show detailed
 statistics and picks.
+
+Scheduled games show their local kickoff time. Live and final games show their
+current or final score.
 
 Pick indicators include:
 
 - `✅` Correct
 - `❌` Incorrect
 - `➖` NFL tie
+- `🟢` Live
 - `⏳` Pending
 - `⏳ N/P` Pending non-pick
 - `❌ N/P` Final non-pick
 
 Weekly winners are marked with `🏆`.
+
+Players finishing last in a completed week are marked with `💩`. All players
+sharing the lowest final rank receive the indicator.
+
+The season view uses:
+
+- `👑` for the current first-place player.
+- `🏆` for each player's number of weekly wins.
+- `💩` for each player's number of last-place finishes.
+
+The last-place count is hidden when a player has no last-place finishes.
 
 ## Weekly Workflow
 
@@ -101,9 +127,10 @@ The normal workflow is:
 1. PBJ Dashboard creates the week's NFL schedule.
 2. The commissioner exports player picks to CSV.
 3. Pushing the CSV imports the picks.
-4. Game data is updated automatically around NFL game times.
-5. Weekly results are recalculated as games finish.
-6. Season statistics are rebuilt after scoring changes.
+4. The week is rescored and season statistics are rebuilt after player changes.
+5. Game data is updated automatically around NFL game times.
+6. Weekly results are recalculated as games finish.
+7. Season statistics are rebuilt after scoring changes.
 
 Invalid CSV imports do not replace existing player data.
 

@@ -1,40 +1,35 @@
 # PBJ Dashboard Development Notes
 
-PBJ Dashboard is a small, static dashboard for the weekly football pool.
+PBJ Dashboard is a static dashboard for a weekly football pool.
 
 The commissioner's spreadsheet remains the source for player picks. PBJ
-Dashboard consumes a CSV export and adds automated game updates, scoring,
-season statistics, and a mobile-friendly presentation layer.
+Dashboard consumes CSV exports, obtains NFL data from ESPN, derives weekly and
+season results, and publishes the generated data through a static frontend.
 
 ## Design Principles
 
 - Preserve the commissioner's spreadsheet workflow.
-- Keep hosting free and simple with GitHub Pages.
-- Make the dashboard excellent on phones.
-- Avoid accounts, authentication, databases, and unnecessary infrastructure.
+- Keep hosting and infrastructure simple.
+- Prioritize mobile usability.
+- Keep authoritative and derived data separate.
 - Isolate external services behind provider interfaces.
-- Keep authoritative and derived data clearly separated.
 - Make derived data reproducible.
-- Prefer simple, maintainable solutions.
+- Prefer simple designs that are easy to change.
 
 ## Architecture
 
 The primary data flow is:
 
-Spreadsheet → CSV → player data
+    Spreadsheet → CSV → player data
+    ESPN → game data
+    Games + players → weekly results → season results
 
-ESPN → game data
-
-Games + players → weekly results → season results
-
-GitHub Actions performs routine production processing. The browser reads the
+GitHub Actions performs routine production processing. The browser reads
 generated JSON and handles presentation only.
 
 ## Data
 
-Weekly data is stored in `data/<season>/weekNN.json`.
-
-Each weekly file contains:
+Weekly data is stored in `data/<season>/weekNN.json` and contains:
 
 - `season`
 - `week`
@@ -47,22 +42,13 @@ Season statistics are stored in `data/<season>/season.json`.
 
 ### Games
 
-Games use the ESPN event ID as their stable identifier.
+Games use the ESPN event ID as their stable identifier and retain only the
+schedule, team, status, and score information PBJ Dashboard needs.
 
-PBJ Dashboard retains only the game information it needs, including teams,
-scheduled time, status, and scores.
+Normalized statuses are `scheduled`, `live`, and `final`.
 
-Normalized game statuses are:
-
-- `scheduled`
-- `live`
-- `final`
-
-PBJ Dashboard does not persist a provider-supplied winner. The winner is
-derived from final scores.
-
-A score of zero is valid. Game status determines whether a score is
-meaningful.
+Game winners are derived from final scores rather than persisted separately.
+A score of zero is valid; status determines whether a score is meaningful.
 
 ### Players
 
@@ -70,62 +56,47 @@ Players have a stable ID, display name, optional nickname, picks, and a
 tiebreaker prediction.
 
 Picks are keyed by game ID and contain the selected team's abbreviation.
-
-The absence of a game from a player's picks represents N/P.
+An absent game represents N/P.
 
 ## CSV Import
-
-The CSV contains one column per matchup and one row per player.
 
 The importer matches matchup columns against the normalized NFL schedule and
 normalizes known team-abbreviation aliases.
 
 Import rules:
 
-- A pick must match one of the teams playing that game.
-- A blank pick is an error.
-- Explicit `N/P` is accepted and omitted from the normalized picks.
-- N/P produces a warning.
+- Picks must match one of the teams playing the game.
+- Blank picks are errors.
+- Explicit `N/P` is accepted, omitted from normalized picks, and produces a warning.
 - Spreadsheet scoring or `CORRECT` data is ignored.
 
-On successful import, player data is replaced atomically and the imported CSV
-is deleted.
+A successful import atomically replaces player data. The week is then rescored
+and season statistics are rebuilt so corrections propagate immediately.
 
-On failure, the existing weekly data remains intact and the CSV remains
-available for correction.
+A failed import leaves existing weekly data unchanged and preserves the CSV for
+correction.
 
 ## Data Ownership
 
-Each transformation owns a specific part of the generated data.
+Each transformation owns part of the generated data:
 
-`update_games.py`
-: Owns games and establishes the initial lock time.
-
-`import_picks.py`
-: Owns players.
-
-`score_week.py`
-: Owns weekly results.
-
-`aggregate_season.py`
-: Owns `season.json`.
-
-`app.js`
-: Owns presentation only.
+- `update_games.py` — games and initial lock time
+- `import_picks.py` — players
+- `score_week.py` — weekly results
+- `aggregate_season.py` — `season.json`
+- `app.js` — presentation only
 
 Each transformation must preserve data owned by the others.
 
-Per-pick correctness is not persisted. It can be derived from the player's
-pick and authoritative game result.
+Per-pick correctness is not persisted; it is derived from the player's pick and
+the authoritative game result.
 
 ## Lock Time
 
-Picks lock one hour before the scheduled kickoff of the first game of the
-football week.
+Picks lock one hour before the scheduled kickoff of the first game of the week.
 
-The lock time is established when the weekly schedule is created and stored
-in the weekly data. Later schedule changes do not silently move the established
-pool lock time.
+The lock time is established when the schedule is created and stored in weekly
+data. Later schedule changes do not silently move it.
 
 ## Weekly Scoring
 
@@ -133,95 +104,61 @@ Only final games affect player statistics.
 
 For a normal final game:
 
-- Correct pick → win.
-- Incorrect pick → loss.
-- N/P → loss and missed pick.
+- Correct pick → win
+- Incorrect pick → loss
+- N/P → loss and missed pick
 
 For an NFL tie:
 
 - A player who made a pick receives a tie.
 - N/P receives a loss and missed pick.
 
-Scheduled and live games do not yet affect statistics, including N/Ps.
+Scheduled and live games do not affect statistics.
 
-`missed_picks` is a subset of losses. It is tracked separately for visibility
-but is not an additional scoring outcome.
+`missed_picks` is a subset of losses, not an additional scoring outcome.
 
 ### Accuracy
 
-Accuracy is wins divided by wins plus losses.
+Accuracy is:
 
-NFL ties are excluded from the denominator.
+    wins / (wins + losses)
 
-N/P losses are included in the denominator.
+NFL ties are excluded. N/P losses are included. Accuracy is null when a player
+has no wins or losses.
 
-If a player has no wins or losses, accuracy is null.
-
-## Weekly Completion
+## Weekly Completion and Ranking
 
 A week is complete only when every game is final.
 
-Before completion:
+Until then:
 
 - Final games contribute current statistics.
 - Scheduled and live games do not.
-- Weekly winners are not declared.
-- Weekly ranks are unavailable.
-- The Monday tiebreaker is unavailable until all Monday games are final.
+- Weekly ranks and winners are unavailable.
 
-A postponed or rescheduled game therefore keeps the week incomplete.
-
-## Monday Tiebreaker
-
-Monday games are determined using the kickoff's local calendar date in
-`America/New_York`.
-
-If multiple Monday games are played, the actual Monday total is the combined
-score of all Monday games.
-
-The total is unavailable until every Monday game is final.
+Monday games are determined using `America/New_York`. If multiple Monday games
+are played, their scores are combined into one Monday total. The total is
+unavailable until every Monday game is final.
 
 A player's tiebreaker distance is the absolute difference between their
-prediction and the actual Monday total.
+prediction and the final Monday total.
 
-## Weekly Winner
-
-Weekly winners are determined only after the entire week is complete.
-
-Ranking is:
+Completed weeks are ranked by:
 
 1. Most wins.
-2. Smallest Monday tiebreaker distance.
-3. Equal wins and distance result in split winners.
+2. Smallest tiebreaker distance.
 
-Competition ranking is used.
+Equal wins and distance share a rank. Competition ranking is used, such as
+`1, 2, 2, 4`.
 
-Every split winner receives one weekly win for season tracking.
+Every player ranked first is a weekly winner and receives one weekly win for
+season tracking.
 
-Winnings and pot amounts are private and are not stored in public dashboard
-data.
-
-## Weekly Results
-
-Weekly results contain:
-
-- Monday total
-- Player count
-- Weekly winner IDs
-- Wins
-- Losses
-- Ties
-- Missed picks
-- Accuracy
-- Tiebreaker distance
-- Weekly rank
-- Weekly winner status
-
-Weekly results are derived data and may be regenerated from games and players.
+Every player sharing the lowest final weekly rank receives a last-place finish.
 
 ## Season Aggregation
 
-Season statistics track:
+Completed weeks contribute:
 
 - Weeks played
 - Wins
@@ -230,33 +167,25 @@ Season statistics track:
 - Missed picks
 - Accuracy
 - Weekly wins
+- Last-place finishes
 
-Season accuracy uses cumulative wins and losses. N/P losses therefore affect
-season accuracy normally.
+`season.json` is a deterministic derived cache. It is rebuilt from completed
+weekly results rather than incrementally patched.
 
-Missed picks are summed separately.
-
-Only completed, scored weeks contribute to season statistics.
-
-`season.json` is a derived cache. It is rebuilt deterministically from weekly
-results rather than incrementally patched.
-
-If an earlier week changes, rescore that week and rebuild the season.
+Corrections to an earlier week therefore require rescoring that week and
+rebuilding the season.
 
 ## ESPN Provider
 
 ESPN access is isolated behind the provider layer.
 
-The provider converts ESPN-specific responses into PBJ domain objects. Other
-parts of the application should not depend directly on ESPN response
-structures.
-
-This boundary allows the provider to be replaced without changing scoring or
-season logic.
+The provider converts ESPN-specific responses into PBJ domain objects. Scoring,
+season aggregation, and presentation should not depend directly on ESPN
+response structures.
 
 ## Automation
 
-Routine production processing uses:
+Production processing uses:
 
 - `create-week.yml`
 - `import-picks.yml`
@@ -266,82 +195,56 @@ The normal lifecycle is:
 
 1. Create the weekly schedule.
 2. Import the commissioner's CSV.
-3. Poll ESPN around game times.
-4. Update game data.
-5. Score the week.
-6. Rebuild season statistics.
+3. Update game data around NFL game times.
+4. Score changed weekly data.
+5. Rebuild season statistics.
 
-Each meaningful transformation receives its own Git commit. A transformation
-that produces no change produces no commit.
+Meaningful generated-data changes are committed by the workflows.
 
 The 2026 season is currently explicit in the workflows.
 
-### Schedule Creation
+### Polling
 
-The schedule workflow runs Tuesday morning and can also be started manually.
-
-It creates the next regular-season week and stops after Week 18.
-
-### Pick Import
-
-Pushing a matching weekly CSV triggers the import workflow.
-
-A successful import updates the weekly player data, removes the CSV, and
-commits the result.
-
-A failed import does not commit partial data.
-
-### Schedule-Aware Polling
-
-The polling workflow runs during broad NFL game windows.
-
-ESPN polling is required when:
+Polling is required when:
 
 - A scheduled game is between 15 minutes before and six hours after kickoff.
 - Any game is live.
 
-Final games do not independently require polling.
+Final games do not independently require polling. Manual workflow dispatch can
+handle unusual schedules.
 
-The live-game rule intentionally overrides the six-hour window.
-
-Manual workflow dispatch can handle unusual game schedules.
-
-### Known Polling Limitation
-
-The current workflow selects the active week using the highest existing weekly
-file.
-
-Creating a future week's file too early can therefore prevent an unfinished
-earlier week from being selected for polling.
-
-Active-week selection should eventually be based on game schedule and status
-rather than the highest week number.
+The workflow currently identifies the active week using the highest existing
+weekly file. Creating a future week too early can therefore prevent an
+unfinished earlier week from polling. Active-week selection should eventually
+be schedule/status based.
 
 ## Frontend
 
-The frontend consists of `index.html`, `assets/style.css`, and
-`assets/app.js`.
+The frontend consists of `index.html`, `assets/style.css`, and `assets/app.js`
+with no frontend framework.
 
-It uses no frontend framework.
+Phone usability is the primary design requirement.
 
-Phone usability is a primary design requirement. Avoid wide tables,
-horizontal scrolling, pinch-to-zoom requirements, and dense spreadsheet-style
-layouts.
+Player cards show compact weekly information and expand to show detailed picks.
+Presentation state is derived in JavaScript:
 
-Players appear as compact cards. Selecting a player opens a raised card with
-detailed statistics and picks.
+- Scheduled pick → `⏳`
+- Live pick → `🟢`
+- Final correct pick → `✅`
+- Final incorrect pick → `❌`
+- NFL tie → `➖`
+- Scheduled/live N/P → `⏳ N/P`
+- Final N/P → `❌ N/P`
 
-Individual pick presentation is derived in JavaScript:
+Scheduled games show localized kickoff times. Live and final games show scores.
 
-- N/P on a scheduled or live game → pending N/P.
-- N/P on a final game → incorrect N/P.
-- Pending pick → pending.
-- NFL tie → tie.
-- Correct pick → correct.
-- Incorrect pick → incorrect.
+Completed weekly winners are marked with `🏆`; players sharing the lowest final
+rank are marked with `💩`.
 
-Python scoring remains authoritative. JavaScript only presents the underlying
-state.
+The season view uses `👑` for the current first-place player, `🏆` for weekly
+win counts, and `💩` for nonzero last-place-finish counts.
+
+Python scoring remains authoritative. JavaScript presents the underlying state.
 
 The season view is presentation-sorted by weekly wins, accuracy, then wins.
 This is not an official season-champion rule.
@@ -353,66 +256,31 @@ Optional announcements are read from:
 - `assets/announcement-top.txt`
 - `assets/announcement-bottom.txt`
 
-Empty announcement files remain hidden.
-
-## Reproducibility
-
-Authoritative inputs are:
-
-- ESPN for game data.
-- CSV for player picks.
-
-Weekly results are derived from games and players.
-
-Season results are derived from completed weekly results.
-
-Derived JSON should always be reproducible from those inputs.
-
-Scripts that modify JSON use atomic writes so failed transformations do not
-leave partially written files.
+Empty files remain hidden. Existing line breaks are preserved.
 
 ## Development
 
-Install development dependencies with:
+Install or reinstall the project and development dependencies with:
 
     python -m pip install ".[dev]"
 
-The project uses a `src/` package layout. Source changes may require
-reinstalling the package before running against the installed version.
+The project uses a `src/` layout and a non-editable install. Reinstall after
+source changes when testing the installed package.
 
-Do not use `PYTHONPATH=src` as part of the normal development or production
-workflow.
+Do not use `PYTHONPATH=src` as part of the normal workflow.
 
 ### Manual Commands
 
-Create or update games:
-
     python scripts/update_games.py <season> <week>
-
-Import picks:
-
     python scripts/import_picks.py <season> <week>
-
-Score a week:
-
     python scripts/score_week.py <season> <week>
-
-Rebuild season statistics:
-
     python scripts/aggregate_season.py <season>
-
-Check whether polling is required:
-
     python scripts/should_poll.py <season> <week>
 
 For `should_poll.py`, exit code 0 means polling is required and exit code 1
-means it is not required. Other non-zero codes indicate errors.
+means it is not. Other nonzero codes indicate errors.
 
-GitHub Actions is the normal production execution environment.
-
-## Testing and Quality
-
-The project uses pytest, mypy, and Ruff.
+### Testing and Quality
 
 Before committing Python changes:
 
@@ -420,17 +288,15 @@ Before committing Python changes:
     mypy src tests
     ruff check .
 
+Coverage can be checked with:
+
+    pytest --cov=pbj
+
 Production code should contain no `print()` calls. Use logging for operational
 messages and exceptions for failures.
 
-Testing follows a relaxed TDD cadence:
-
-1. Add meaningful tests.
-2. Implement the behavior.
-3. Run the tests and static checks.
-4. Refactor while keeping the suite green.
-
-Prefer explicit, boring, maintainable code.
+Development follows a relaxed TDD cadence: add meaningful tests, implement the
+behavior, run the checks, and refactor while keeping the suite green.
 
 ## License
 
