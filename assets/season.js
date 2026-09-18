@@ -1,6 +1,6 @@
 "use strict";
 
-import { formatAccuracy } from "./weekly.js";
+import { formatAccuracy } from "./format.js";
 
 export function renderSeason(data, getPlayerName) {
     const container = document.querySelector("#season-list");

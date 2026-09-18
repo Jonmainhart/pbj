@@ -7,6 +7,8 @@ import {
 
 import { displayName } from "./players.js";
 
+import { formatAccuracy } from "./format.js";
+
 export function renderWeeklyView(data, getPlayerName) {
     const results = data.results ?? null;
     const players = data.players ?? [];
@@ -432,18 +434,6 @@ function isWeekComplete(data) {
             (game) => game.status === "final",
         )
     );
-}
-
-
-export function formatAccuracy(value) {
-    if (
-        value === null
-        || value === undefined
-    ) {
-        return "—";
-    }
-
-    return `${Math.round(value * 1000) / 10}%`;
 }
 
 
