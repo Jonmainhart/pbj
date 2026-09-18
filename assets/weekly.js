@@ -133,7 +133,11 @@ function renderPlayers(players, games, results) {
             ? Math.max(...completedRanks)
             : null;
 
-    for (const result of resultPlayers) {
+    const sortedResults = [...resultPlayers].sort(
+        compareWeeklyResults,
+    );
+
+    for (const result of sortedResults) {
         const player = playersById.get(result.player_id);
 
         if (!player) {
@@ -150,6 +154,17 @@ function renderPlayers(players, games, results) {
             ),
         );
     }
+}
+
+function compareWeeklyResults(left, right) {
+    if (
+        left.weekly_rank !== null
+        && right.weekly_rank !== null
+    ) {
+        return left.weekly_rank - right.weekly_rank;
+    }
+
+    return right.wins - left.wins;
 }
 
 
