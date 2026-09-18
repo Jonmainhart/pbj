@@ -30,6 +30,15 @@ export async function fetchSeason(season) {
     return response.json();
 }
 
+export async function fetchAvailableWeeks() {
+    const response = await fetch("./data/available-weeks.json");
+
+    if (!response.ok) {
+        throw new Error("Available weeks could not be loaded.");
+    }
+
+    return response.json();
+}
 
 function formatWeek(week) {
     return String(week).padStart(2, "0");

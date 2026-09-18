@@ -3,6 +3,7 @@
 import { loadAnnouncements } from "./announcements.js";
 
 import {
+    fetchAvailableWeeks,
     fetchSeason,
     fetchWeek,
 } from "./data.js";
@@ -25,25 +26,48 @@ import { renderSeason } from "./season.js";
 import { initializeAutoRefresh } from "./refresh.js";
 
 const SEASON = 2026;
-const DEFAULT_WEEK = 1;
-const REGULAR_SEASON_WEEKS = 18;
 
 let currentWeekData = null;
 let seasonData = null;
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    initializeWeekSelector();
+document.addEventListener("DOMContentLoaded", async () => {
     initializeTabs();
     initializePlayerCardInteractions();
     loadAnnouncements();
 
-    const requestedWeek = getRequestedWeek();
+    try {
+        const manifest = await fetchAvailableWeeks();
+        const availableWeeks = manifest[String(SEASON)] ?? [];
 
-    document.querySelector("#week-select").value = String(requestedWeek);
+        if (availableWeeks.length === 0) {
+            setText(
+                "#weekly-message",
+                "No weeks are available yet.",
+            );
+            return;
+        }
 
-    loadWeek(requestedWeek);
-    initializeAutoRefresh(refreshCurrentWeek);
+        initializeWeekSelector(availableWeeks);
+
+        const requestedWeek = getRequestedWeek(
+            availableWeeks,
+        );
+
+        document.querySelector("#week-select").value =
+            String(requestedWeek);
+
+        updateWeekQueryString(requestedWeek);
+        await loadWeek(requestedWeek);
+        initializeAutoRefresh(refreshCurrentWeek);
+    } catch (error) {
+        setText(
+            "#weekly-message",
+            error instanceof Error
+                ? error.message
+                : "Unable to load available weeks.",
+        );
+    }
 });
 
 
@@ -77,10 +101,10 @@ async function refreshCurrentWeek() {
 }
 
 
-function initializeWeekSelector() {
+function initializeWeekSelector(availableWeeks) {
     const select = document.querySelector("#week-select");
 
-    for (let week = 1; week <= REGULAR_SEASON_WEEKS; week += 1) {
+    for (const week of availableWeeks) {
         const option = document.createElement("option");
 
         option.value = String(week);
@@ -222,7 +246,7 @@ async function loadSeasonPlayerNames(weeks) {
 }
 
 
-function getRequestedWeek() {
+function getRequestedWeek(availableWeeks) {
     const params = new URLSearchParams(
         window.location.search,
     );
@@ -233,13 +257,12 @@ function getRequestedWeek() {
 
     if (
         Number.isInteger(requested)
-        && requested >= 1
-        && requested <= REGULAR_SEASON_WEEKS
+        && availableWeeks.includes(requested)
     ) {
         return requested;
     }
 
-    return DEFAULT_WEEK;
+    return Math.max(...availableWeeks);
 }
 
 
