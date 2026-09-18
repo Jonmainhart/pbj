@@ -22,9 +22,7 @@ def _week_data(
         "games": [
             {
                 "id": "game-1",
-                "scheduled_time": (
-                    "2026-09-17T00:20:00+00:00"
-                ),
+                "scheduled_time": ("2026-09-17T00:20:00+00:00"),
                 "away": {
                     "id": "1",
                     "abbreviation": "NE",
@@ -41,9 +39,7 @@ def _week_data(
             },
             {
                 "id": "game-2",
-                "scheduled_time": (
-                    "2026-09-20T17:00:00+00:00"
-                ),
+                "scheduled_time": ("2026-09-20T17:00:00+00:00"),
                 "away": {
                     "id": "3",
                     "abbreviation": "BUF",
@@ -129,9 +125,7 @@ def _read_json(
     )
 
     if not isinstance(data, dict):
-        raise ValueError(
-            "test JSON must contain an object"
-        )
+        raise ValueError("test JSON must contain an object")
 
     return data
 
@@ -154,9 +148,7 @@ def test_default_csv_path() -> None:
         week=2,
     )
 
-    assert path == Path(
-        "data/2026/week02.csv"
-    )
+    assert path == Path("data/2026/week02.csv")
 
 
 @pytest.mark.unit
@@ -189,10 +181,7 @@ def test_import_replaces_players(
 
     data = _read_json(week_path)
 
-    assert [
-        player["id"]
-        for player in data["players"]
-    ] == [
+    assert [player["id"] for player in data["players"]] == [
         "abigail",
         "bob",
     ]
@@ -300,10 +289,7 @@ def test_import_preserves_lock_time(
 
     data = _read_json(week_path)
 
-    assert (
-        data["lock_time"]
-        == original["lock_time"]
-    )
+    assert data["lock_time"] == original["lock_time"]
 
 
 @pytest.mark.unit
@@ -357,9 +343,7 @@ def test_import_failure_preserves_csv(
         _csv_file: object,
         _games: object,
     ) -> list[Player]:
-        raise ValueError(
-            "simulated import failure"
-        )
+        raise ValueError("simulated import failure")
 
     monkeypatch.setattr(
         import_picks,
@@ -406,9 +390,7 @@ def test_json_write_failure_preserves_csv(
         path: Path,
         data: dict[str, Any],
     ) -> None:
-        raise OSError(
-            "simulated write failure"
-        )
+        raise OSError("simulated write failure")
 
     monkeypatch.setattr(
         import_picks,
@@ -584,9 +566,7 @@ def test_wrong_week_preserves_csv(
 @pytest.mark.unit
 def test_non_pick_count() -> None:
     """Missing game picks are counted across imported players."""
-    games = import_picks._games_from_week_data(
-        _week_data()
-    )
+    games = import_picks._games_from_week_data(_week_data())
 
     players = [
         Player(

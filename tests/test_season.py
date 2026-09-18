@@ -355,13 +355,11 @@ def test_split_winners_each_receive_weekly_win():
         ],
     )
 
-    players = {
-        player.player_id: player
-        for player in result.players
-    }
+    players = {player.player_id: player for player in result.players}
 
     assert players["abigail"].weekly_wins == 1
     assert players["bob"].weekly_wins == 1
+
 
 @pytest.mark.unit
 def test_last_place_player_receives_last_place_finish():
@@ -392,10 +390,7 @@ def test_last_place_player_receives_last_place_finish():
         ],
     )
 
-    players = {
-        player.player_id: player
-        for player in result.players
-    }
+    players = {player.player_id: player for player in result.players}
 
     assert players["abigail"].last_place_finishes == 0
     assert players["bob"].last_place_finishes == 0
@@ -431,14 +426,12 @@ def test_tied_last_place_players_each_receive_last_place_finish():
         ],
     )
 
-    players = {
-        player.player_id: player
-        for player in result.players
-    }
+    players = {player.player_id: player for player in result.players}
 
     assert players["abigail"].last_place_finishes == 0
     assert players["bob"].last_place_finishes == 1
     assert players["charlie"].last_place_finishes == 1
+
 
 @pytest.mark.unit
 def test_player_only_counts_weeks_they_played():
@@ -483,10 +476,7 @@ def test_player_only_counts_weeks_they_played():
         ],
     )
 
-    players = {
-        player.player_id: player
-        for player in result.players
-    }
+    players = {player.player_id: player for player in result.players}
 
     assert players["abigail"].weeks_played == 2
     assert players["abigail"].missed_picks == 2
@@ -603,10 +593,7 @@ def test_players_are_sorted_by_player_id():
         ],
     )
 
-    assert tuple(
-        player.player_id
-        for player in result.players
-    ) == (
+    assert tuple(player.player_id for player in result.players) == (
         "abigail",
         "bob",
         "charlie",

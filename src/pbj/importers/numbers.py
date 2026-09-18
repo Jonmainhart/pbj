@@ -176,8 +176,7 @@ def _resolve_game_columns(
 
     if len(resolved) != len(games):
         raise ValueError(
-            f"spreadsheet contains {len(resolved)} resolved games; "
-            f"schedule contains {len(games)}"
+            f"spreadsheet contains {len(resolved)} resolved games; schedule contains {len(games)}"
         )
 
     return resolved
