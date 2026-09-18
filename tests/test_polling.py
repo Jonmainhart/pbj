@@ -44,8 +44,7 @@ def test_poll_fifteen_minutes_before_kickoff() -> None:
     )
 
     game = _game(
-        scheduled_time=now
-        + timedelta(minutes=15),
+        scheduled_time=now + timedelta(minutes=15),
     )
 
     assert should_poll([game], now)
@@ -63,8 +62,7 @@ def test_does_not_poll_too_early() -> None:
     )
 
     game = _game(
-        scheduled_time=now
-        + timedelta(minutes=16),
+        scheduled_time=now + timedelta(minutes=16),
     )
 
     assert not should_poll([game], now)
@@ -82,8 +80,7 @@ def test_poll_during_expected_game_window() -> None:
     )
 
     game = _game(
-        scheduled_time=now
-        - timedelta(hours=3),
+        scheduled_time=now - timedelta(hours=3),
     )
 
     assert should_poll([game], now)
@@ -123,8 +120,7 @@ def test_live_game_always_polls() -> None:
     )
 
     game = _game(
-        scheduled_time=now
-        - timedelta(hours=8),
+        scheduled_time=now - timedelta(hours=8),
         status=GameStatus.LIVE,
     )
 
@@ -143,8 +139,7 @@ def test_final_game_does_not_poll() -> None:
     )
 
     game = _game(
-        scheduled_time=now
-        - timedelta(hours=3),
+        scheduled_time=now - timedelta(hours=3),
         status=GameStatus.FINAL,
     )
 
@@ -163,14 +158,12 @@ def test_any_relevant_game_enables_polling() -> None:
     )
 
     final_game = _game(
-        scheduled_time=now
-        - timedelta(hours=3),
+        scheduled_time=now - timedelta(hours=3),
         status=GameStatus.FINAL,
     )
 
     scheduled_game = _game(
-        scheduled_time=now
-        + timedelta(minutes=10),
+        scheduled_time=now + timedelta(minutes=10),
     )
 
     assert should_poll(

@@ -18,9 +18,7 @@ def _week_data() -> dict[str, Any]:
         "games": [
             {
                 "id": "game-1",
-                "scheduled_time": (
-                    "2026-09-13T17:00:00+00:00"
-                ),
+                "scheduled_time": ("2026-09-13T17:00:00+00:00"),
                 "away": {
                     "id": "NE-id",
                     "abbreviation": "NE",
@@ -37,9 +35,7 @@ def _week_data() -> dict[str, Any]:
             },
             {
                 "id": "game-2",
-                "scheduled_time": (
-                    "2026-09-15T00:15:00+00:00"
-                ),
+                "scheduled_time": ("2026-09-15T00:15:00+00:00"),
                 "away": {
                     "id": "DEN-id",
                     "abbreviation": "DEN",
@@ -152,10 +148,7 @@ def test_score_week_writes_player_results(
 
     data = _read_week(path)
 
-    players = {
-        player["player_id"]: player
-        for player in data["results"]["players"]
-    }
+    players = {player["player_id"]: player for player in data["results"]["players"]}
 
     abigail = players["abigail"]
 
@@ -193,10 +186,7 @@ def test_score_week_writes_missed_pick_as_loss(
 
     data = _read_week(path)
 
-    players = {
-        player["player_id"]: player
-        for player in data["results"]["players"]
-    }
+    players = {player["player_id"]: player for player in data["results"]["players"]}
 
     bob_result = players["bob"]
 
@@ -277,10 +267,7 @@ def test_score_week_preserves_lock_time(
 
     data = _read_week(path)
 
-    assert (
-        data["lock_time"]
-        == "2026-09-09T23:20:00+00:00"
-    )
+    assert data["lock_time"] == "2026-09-09T23:20:00+00:00"
 
 
 @pytest.mark.unit

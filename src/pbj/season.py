@@ -67,9 +67,7 @@ def aggregate_season(
         weeks_scored.append(week_number)
 
         last_place_rank = max(
-            player.weekly_rank
-            for player in result.players
-            if player.weekly_rank is not None
+            player.weekly_rank for player in result.players if player.weekly_rank is not None
         )
 
         for player in result.players:
@@ -112,10 +110,7 @@ def _week_is_complete(
     return (
         bool(result.players)
         and bool(result.weekly_winners)
-        and all(
-            player.weekly_rank is not None
-            for player in result.players
-        )
+        and all(player.weekly_rank is not None for player in result.players)
     )
 
 
@@ -126,11 +121,7 @@ def _build_player_result(
     """Build immutable season statistics from accumulated totals."""
     denominator = totals.wins + totals.losses
 
-    accuracy = (
-        totals.wins / denominator
-        if denominator
-        else None
-    )
+    accuracy = totals.wins / denominator if denominator else None
 
     return SeasonPlayerResult(
         player_id=player_id,
