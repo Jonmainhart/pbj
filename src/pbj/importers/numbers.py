@@ -31,6 +31,7 @@ def import_players(
     header_index = _find_header_row(rows)
 
     headers = [cell.strip() for cell in rows[header_index]]
+    headers = _headers_through_correct(headers)
     game_columns = _resolve_game_columns(headers, games)
 
     players: list[Player] = []
@@ -110,6 +111,17 @@ def _find_header_row(rows: list[list[str]]) -> int:
     raise ValueError("CSV is missing NAME header row")
 
 
+def _headers_through_correct(
+    headers: list[str],
+) -> list[str]:
+    """Return spreadsheet headers through the CORRECT column."""
+    for index, header in enumerate(headers):
+        if header.upper() == "CORRECT":
+            return headers[: index + 1]
+
+    return headers
+
+
 def _row_to_dict(
     headers: list[str],
     values: list[str],
@@ -164,7 +176,8 @@ def _resolve_game_columns(
 
     if len(resolved) != len(games):
         raise ValueError(
-            f"spreadsheet contains {len(resolved)} resolved games; schedule contains {len(games)}"
+            f"spreadsheet contains {len(resolved)} resolved games; "
+            f"schedule contains {len(games)}"
         )
 
     return resolved

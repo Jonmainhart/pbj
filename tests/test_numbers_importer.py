@@ -69,6 +69,30 @@ def test_import_players_imports_normal_row():
     }
     assert player.tiebreaker == 56.0
 
+@pytest.mark.unit
+def test_import_players_ignores_columns_after_correct():
+    """Columns after CORRECT are outside the PBJ import boundary."""
+    games = [
+        _game("game-1", "NE", "SEA"),
+        _game("game-2", "SF", "LAR"),
+    ]
+
+    csv_file = StringIO(
+        "NAME,NE SEA,SF LAR,TIEBREAKER,CORRECT,TIEBREAKER DIFF,NOTES\n"
+        "Abigail,SEA,LAR,56,,14,commissioner note\n"
+    )
+
+    players = import_players(
+        csv_file,
+        games,
+    )
+
+    assert len(players) == 1
+    assert players[0].picks == {
+        "game-1": "SEA",
+        "game-2": "LAR",
+    }
+    assert players[0].tiebreaker == 56.0
 
 @pytest.mark.unit
 def test_import_players_skips_numbers_preamble():
