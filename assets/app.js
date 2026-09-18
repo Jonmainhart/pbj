@@ -3,6 +3,11 @@
 import { loadAnnouncements } from "./announcements.js";
 
 import {
+    fetchSeason,
+    fetchWeek,
+} from "./data.js";
+
+import {
     closeActivePlayerCard,
     initializePlayerCardInteractions,
     isPlayerCardOpen,
@@ -63,16 +68,7 @@ async function refreshCurrentWeek() {
     );
 
     try {
-        const response = await fetch(
-            `./data/${SEASON}/week${formatWeek(week)}.json`,
-            { cache: "no-store" },
-        );
-
-        if (!response.ok) {
-            return;
-        }
-
-        const data = await response.json();
+        const data = await fetchWeek(SEASON, week);
 
         if (
             JSON.stringify(data)
@@ -176,16 +172,7 @@ async function loadWeek(week) {
     summary.replaceChildren();
 
     try {
-        const response = await fetch(
-            `./data/${SEASON}/week${formatWeek(week)}.json`,
-            { cache: "no-store" },
-        );
-
-        if (!response.ok) {
-            throw new Error(`Week ${week} is not available yet.`);
-        }
-
-        currentWeekData = await response.json();
+        currentWeekData = await fetchWeek(SEASON, week);
 
         rememberPlayerNames(currentWeekData.players ?? []);
 
@@ -213,18 +200,7 @@ async function loadSeason() {
     );
 
     try {
-        const response = await fetch(
-            `./data/${SEASON}/season.json`,
-            { cache: "no-store" },
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                "Season standings are not available yet.",
-            );
-        }
-
-        seasonData = await response.json();
+        seasonData = await fetchSeason(SEASON);
 
         await loadSeasonPlayerNames(
             seasonData.weeks_scored ?? [],
@@ -245,16 +221,7 @@ async function loadSeason() {
 async function loadSeasonPlayerNames(weeks) {
     const requests = weeks.map(async (week) => {
         try {
-            const response = await fetch(
-                `./data/${SEASON}/week${formatWeek(week)}.json`,
-                { cache: "no-store" },
-            );
-
-            if (!response.ok) {
-                return;
-            }
-
-            const data = await response.json();
+            const data = await fetchWeek(SEASON, week);
 
             rememberPlayerNames(data.players ?? []);
         } catch {
