@@ -16,7 +16,6 @@ import {
     closeActivePlayerCard,
     initializePlayerCardInteractions,
     isPlayerCardOpen,
-    openPlayerCard,
 } from "./player-card.js";
 
 import { renderWeeklyView } from "./weekly.js";
@@ -220,11 +219,6 @@ async function loadSeasonPlayerNames(weeks) {
     });
 
     await Promise.all(requests);
-}
-
-
-function formatWeek(week) {
-    return String(week).padStart(2, "0");
 }
 
 
