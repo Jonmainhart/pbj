@@ -20,8 +20,8 @@
   >
 
   <script
+    type="module"
     src="./assets/app.js"
-    defer
   ></script>
 </head>
 
@@ -42,12 +42,18 @@
         </p>
       </div>
 
-      <div
-        class="week-status"
-        id="week-status"
-        aria-live="polite"
-      >
-        Loading…
+      <div class="week-status">
+        <div
+          id="week-status"
+          aria-live="polite"
+        >
+          Loading…
+        </div>
+        <div
+          class="last-updated"
+          id="last-updated"
+          hidden
+        ></div>
       </div>
     </div>
   </header>
@@ -157,9 +163,9 @@
 
   <footer class="site-footer">
     <p>
-      PBJ Football Dashboard
+      Plus-Sized Squirrels
       <span aria-hidden="true">•</span>
-      GitHub Pages
+      Apache 2.0
     </p>
   </footer>
 </body>

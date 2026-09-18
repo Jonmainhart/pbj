@@ -69,13 +69,18 @@ jobs:
             "${{ steps.week.outputs.season }}" \
             "${{ steps.week.outputs.week }}"
 
+      - name: Generate available-week manifest
+        if: steps.week.outputs.create == 'true'
+        run: python scripts/generate_manifest.py
+
       - name: Commit weekly schedule
         if: steps.week.outputs.create == 'true'
         shell: bash
         run: |
           week_file="data/${{ steps.week.outputs.season }}/week$(printf '%02d' '${{ steps.week.outputs.week }}').json"
+          manifest_file="data/available-weeks.json"
 
-          git add "$week_file"
+          git add "$week_file" "$manifest_file"
 
           if git diff --cached --quiet; then
             echo "No schedule changes to commit."

@@ -959,10 +959,8 @@ def test_tied_players_use_tournament_ranking():
 
     result = score_week(games, players)
 
-    assert [
-        player.weekly_rank
-        for player in result.players
-    ] == [1, 2, 2, 4]
+    assert [player.weekly_rank for player in result.players] == [1, 2, 2, 4]
+
 
 @pytest.mark.unit
 def test_player_count_matches_number_of_players():

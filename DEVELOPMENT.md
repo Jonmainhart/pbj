@@ -205,23 +205,27 @@ The 2026 season is currently explicit in the workflows.
 
 ### Polling
 
+`poll-games.yml` is triggered every five minutes by an external scheduler using
+GitHub's `workflow_dispatch` event. PBJ Dashboard then determines whether game
+data actually needs to be refreshed.
+
 Polling is required when:
 
 - A scheduled game is between 15 minutes before and six hours after kickoff.
 - Any game is live.
 
-Final games do not independently require polling. Manual workflow dispatch can
-handle unusual schedules.
+Final games do not independently require polling.
 
-The workflow currently identifies the active week using the highest existing
-weekly file. Creating a future week too early can therefore prevent an
-unfinished earlier week from polling. Active-week selection should eventually
-be schedule/status based.
+The active week is the earliest weekly file containing an unfinished game.
+This prevents a future weekly file from blocking updates to an earlier
+unfinished week.
+
+Manual workflow dispatch can still be used when needed.
 
 ## Frontend
 
-The frontend consists of `index.html`, `assets/style.css`, and `assets/app.js`
-with no frontend framework.
+The frontend consists of `index.html`, `assets/style.css`, and native JavaScript
+modules under `assets/`, with no frontend framework or build step.
 
 Phone usability is the primary design requirement.
 

@@ -61,11 +61,7 @@ def score_week(
 
     ranked_results = _rank_players(player_results)
 
-    winners = tuple(
-        result.player_id
-        for result in ranked_results
-        if result.weekly_winner
-    )
+    winners = tuple(result.player_id for result in ranked_results if result.weekly_winner)
 
     return WeekResult(
         monday_total=monday_total,
@@ -91,9 +87,7 @@ def _score_player(
             continue
 
         if game.away_score is None or game.home_score is None:
-            raise ValueError(
-                f"final game {game.id} is missing a score"
-            )
+            raise ValueError(f"final game {game.id} is missing a score")
 
         pick = player.picks.get(game.id)
 
@@ -107,9 +101,7 @@ def _score_player(
             continue
 
         winning_team = (
-            game.away.abbreviation
-            if game.away_score > game.home_score
-            else game.home.abbreviation
+            game.away.abbreviation if game.away_score > game.home_score else game.home.abbreviation
         )
 
         if pick == winning_team:
@@ -119,16 +111,10 @@ def _score_player(
 
     denominator = wins + losses
 
-    accuracy = (
-        wins / denominator
-        if denominator
-        else None
-    )
+    accuracy = wins / denominator if denominator else None
 
     tiebreaker_distance = (
-        abs(player.tiebreaker - monday_total)
-        if monday_total is not None
-        else None
+        abs(player.tiebreaker - monday_total) if monday_total is not None else None
     )
 
     return PlayerResult(
@@ -148,41 +134,26 @@ def _week_is_complete(
     games: list[Game],
 ) -> bool:
     """Return True only when every game is final."""
-    return bool(games) and all(
-        game.status == GameStatus.FINAL
-        for game in games
-    )
+    return bool(games) and all(game.status == GameStatus.FINAL for game in games)
 
 
 def _monday_total(
     games: list[Game],
 ) -> int | None:
     """Return the combined score of all Monday games once final."""
-    monday_games = [
-        game
-        for game in games
-        if _is_monday(game.scheduled_time)
-    ]
+    monday_games = [game for game in games if _is_monday(game.scheduled_time)]
 
     if not monday_games:
         return None
 
-    if any(
-        game.status != GameStatus.FINAL
-        for game in monday_games
-    ):
+    if any(game.status != GameStatus.FINAL for game in monday_games):
         return None
 
     total = 0
 
     for game in monday_games:
-        if (
-            game.away_score is None
-            or game.home_score is None
-        ):
-            raise ValueError(
-                f"final Monday game {game.id} is missing a score"
-            )
+        if game.away_score is None or game.home_score is None:
+            raise ValueError(f"final Monday game {game.id} is missing a score")
 
         total += game.away_score + game.home_score
 
@@ -194,9 +165,7 @@ def _is_monday(
 ) -> bool:
     """Return whether kickoff occurs on Monday in U.S. Eastern time."""
     if scheduled_time.tzinfo is None:
-        raise ValueError(
-            "game scheduled time must contain timezone information"
-        )
+        raise ValueError("game scheduled time must contain timezone information")
 
     eastern_time = scheduled_time.astimezone(EASTERN)
 
@@ -246,9 +215,7 @@ def _ranking_key(
 ) -> tuple[int, float]:
     """Return a sortable weekly ranking key."""
     distance = (
-        result.tiebreaker_distance
-        if result.tiebreaker_distance is not None
-        else float("inf")
+        result.tiebreaker_distance if result.tiebreaker_distance is not None else float("inf")
     )
 
     return (

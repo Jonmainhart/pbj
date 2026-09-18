@@ -169,6 +169,14 @@ h1 {
   font-weight: 700;
 }
 
+.last-updated {
+  margin-top: 0.2rem;
+
+  color: var(--header-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+ }
+
 /*
  * Main page
  */
