@@ -23,11 +23,11 @@ import { renderWeeklyView } from "./weekly.js";
 
 import { renderSeason } from "./season.js";
 
+import { initializeAutoRefresh } from "./refresh.js";
+
 const SEASON = 2026;
 const DEFAULT_WEEK = 1;
 const REGULAR_SEASON_WEEKS = 18;
-
-const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 let currentWeekData = null;
 let seasonData = null;
@@ -44,22 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#week-select").value = String(requestedWeek);
 
     loadWeek(requestedWeek);
-    initializeAutoRefresh();
+    initializeAutoRefresh(refreshCurrentWeek);
 });
-
-function initializeAutoRefresh() {
-    window.setInterval(() => {
-        if (!document.hidden) {
-            refreshCurrentWeek();
-        }
-    }, REFRESH_INTERVAL_MS);
-
-    document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) {
-            refreshCurrentWeek();
-        }
-    });
-}
 
 
 async function refreshCurrentWeek() {
