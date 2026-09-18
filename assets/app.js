@@ -72,32 +72,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 async function refreshCurrentWeek() {
-    if (isPlayerCardOpen()) {
-        return;
+  if (isPlayerCardOpen()) {
+    return;
+  }
+
+  const week = Number(document.querySelector("#week-select").value);
+
+  try {
+    const data = await fetchWeek(SEASON, week);
+
+    if (JSON.stringify(data) === JSON.stringify(currentWeekData)) {
+      return;
     }
 
-    const week = Number(
-        document.querySelector("#week-select").value,
-    );
+    currentWeekData = data;
+    seasonData = null;
 
-    try {
-        const data = await fetchWeek(SEASON, week);
-
-        if (
-            JSON.stringify(data)
-            === JSON.stringify(currentWeekData)
-        ) {
-            return;
-        }
-
-        currentWeekData = data;
-        seasonData = null;
-
-        rememberPlayerNames(data.players ?? []);
-        renderWeeklyView(data, getPlayerName);
-    } catch {
-        // Keep displaying the existing data if refresh fails.
-    }
+    rememberPlayerNames(data.players ?? []);
+    renderWeeklyView(data, getPlayerName);
+  } catch {
+    // Keep displaying the existing data if refresh fails.
+  }
 }
 
 
@@ -186,6 +181,7 @@ async function loadWeek(week) {
 
     try {
         currentWeekData = await fetchWeek(SEASON, week);
+        updateLastUpdated();
 
         rememberPlayerNames(currentWeekData.players ?? []);
 
@@ -286,4 +282,19 @@ function setText(selector, text) {
     const element = document.querySelector(selector);
 
     element.textContent = text;
+}
+
+
+function updateLastUpdated() {
+    const element = document.querySelector("#last-updated");
+
+    element.textContent = `Updated ${new Intl.DateTimeFormat(
+        undefined,
+        {
+            hour: "numeric",
+            minute: "2-digit",
+        },
+    ).format(new Date())}`;
+
+    element.hidden = false;
 }
