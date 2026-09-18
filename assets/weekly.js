@@ -5,6 +5,8 @@ import {
     openPlayerCard,
 } from "./player-card.js";
 
+import { displayName } from "./players.js";
+
 export function renderWeeklyView(data, getPlayerName) {
     const results = data.results ?? null;
     const players = data.players ?? [];
@@ -442,11 +444,6 @@ export function formatAccuracy(value) {
     }
 
     return `${Math.round(value * 1000) / 10}%`;
-}
-
-
-function displayName(player) {
-    return player.nickname || player.name;
 }
 
 

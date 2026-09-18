@@ -8,6 +8,11 @@ import {
 } from "./data.js";
 
 import {
+    getPlayerName,
+    rememberPlayerNames,
+} from "./players.js";
+
+import {
     closeActivePlayerCard,
     initializePlayerCardInteractions,
     isPlayerCardOpen,
@@ -26,7 +31,6 @@ const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 let currentWeekData = null;
 let seasonData = null;
-let playerNameMap = new Map();
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -231,44 +235,6 @@ async function loadSeasonPlayerNames(weeks) {
 
     await Promise.all(requests);
 }
-
-
-function rememberPlayerNames(players) {
-    for (const player of players) {
-        playerNameMap.set(
-            player.id,
-            displayName(player),
-        );
-    }
-}
-
-
-function displayName(player) {
-    return player.nickname || player.name;
-}
-
-
-function getPlayerName(playerId) {
-    return (
-        playerNameMap.get(playerId)
-        ?? humanizePlayerId(playerId)
-    );
-}
-
-
-function humanizePlayerId(playerId) {
-    return playerId
-        .split("-")
-        .map(
-            (part) =>
-                part.charAt(0).toUpperCase()
-                + part.slice(1),
-        )
-        .join(" ");
-}
-
-
-
 
 
 function formatWeek(week) {
