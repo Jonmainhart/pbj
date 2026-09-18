@@ -1,6 +1,12 @@
 "use strict";
 
 import { loadAnnouncements } from "./announcements.js";
+import {
+    closeActivePlayerCard,
+    initializePlayerCardInteractions,
+    isPlayerCardOpen,
+    openPlayerCard,
+} from "./player-card.js";
 
 const SEASON = 2026;
 const DEFAULT_WEEK = 1;
@@ -12,8 +18,6 @@ let currentWeekData = null;
 let seasonData = null;
 let playerNameMap = new Map();
 
-let activePlayerCard = null;
-let activeCardOverlay = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeWeekSelector();
@@ -45,7 +49,7 @@ function initializeAutoRefresh() {
 
 
 async function refreshCurrentWeek() {
-    if (activeCardOverlay !== null) {
+    if (isPlayerCardOpen()) {
         return;
     }
 
@@ -121,18 +125,6 @@ function initializeTabs() {
 
         if (seasonData === null) {
             await loadSeason();
-        }
-    });
-}
-
-
-function initializePlayerCardInteractions() {
-    document.addEventListener("keydown", (event) => {
-        if (
-            event.key === "Escape"
-            && activeCardOverlay !== null
-        ) {
-            closeActivePlayerCard(true);
         }
     });
 }
@@ -426,108 +418,6 @@ function createPlayerCard(
     card.append(summary, body);
 
     return card;
-}
-
-
-function openPlayerCard(sourceCard) {
-    closeActivePlayerCard();
-
-    const overlay = document.createElement("div");
-    overlay.className = "player-card-overlay";
-
-    const raisedCard = sourceCard.cloneNode(true);
-
-    raisedCard.classList.remove("is-selected");
-
-    const raisedSummary =
-        raisedCard.querySelector(".player-summary");
-
-    if (raisedSummary !== null) {
-        raisedSummary.setAttribute(
-            "aria-expanded",
-            "true",
-        );
-
-        raisedSummary.addEventListener(
-            "click",
-            (event) => {
-                event.stopPropagation();
-                closeActivePlayerCard(true);
-            },
-        );
-    }
-
-    raisedCard.addEventListener(
-        "click",
-        (event) => {
-            event.stopPropagation();
-        },
-    );
-
-    overlay.addEventListener(
-        "click",
-        () => {
-            closeActivePlayerCard();
-        },
-    );
-
-    overlay.append(raisedCard);
-    document.body.append(overlay);
-
-    activePlayerCard = sourceCard;
-    activeCardOverlay = overlay;
-
-    sourceCard.classList.add("is-selected");
-
-    const sourceSummary =
-        sourceCard.querySelector(".player-summary");
-
-    if (sourceSummary !== null) {
-        sourceSummary.setAttribute(
-            "aria-expanded",
-            "true",
-        );
-    }
-
-    document.body.classList.add("card-open");
-
-    raisedCard.scrollTop = 0;
-
-    if (raisedSummary !== null) {
-        raisedSummary.focus();
-    }
-}
-
-
-function closeActivePlayerCard(restoreFocus = false) {
-    const sourceCard = activePlayerCard;
-
-    if (activeCardOverlay !== null) {
-        activeCardOverlay.remove();
-    }
-
-    if (sourceCard !== null) {
-        sourceCard.classList.remove("is-selected");
-
-        const sourceSummary =
-            sourceCard.querySelector(".player-summary");
-
-        if (sourceSummary !== null) {
-            sourceSummary.setAttribute(
-                "aria-expanded",
-                "false",
-            );
-
-            if (restoreFocus) {
-                sourceSummary.focus();
-            }
-        }
-    }
-
-    activePlayerCard = null;
-    activeCardOverlay = null;
-
-    document.body.classList.remove("card-open");
 }
 
 
