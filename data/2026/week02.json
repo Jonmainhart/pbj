@@ -50,7 +50,7 @@
         "name": "Chicago Bears"
       },
       "status": "live",
-      "away_score": 6,
+      "away_score": 9,
       "home_score": 3
     },
     {
@@ -101,7 +101,7 @@
         "name": "New York Jets"
       },
       "status": "live",
-      "away_score": 7,
+      "away_score": 14,
       "home_score": 17
     },
     {
@@ -118,7 +118,7 @@
         "name": "Tampa Bay Buccaneers"
       },
       "status": "live",
-      "away_score": 16,
+      "away_score": 23,
       "home_score": 19
     },
     {
