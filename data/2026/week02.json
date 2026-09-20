@@ -20,23 +20,6 @@
       "home_score": 41
     },
     {
-      "id": "401872935",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "5",
-        "abbreviation": "CLE",
-        "name": "Cleveland Browns"
-      },
-      "home": {
-        "id": "27",
-        "abbreviation": "TB",
-        "name": "Tampa Bay Buccaneers"
-      },
-      "status": "final",
-      "away_score": 23,
-      "home_score": 19
-    },
-    {
       "id": "401872933",
       "scheduled_time": "2026-09-20T17:00:00+00:00",
       "away": {
@@ -120,6 +103,23 @@
       "status": "final",
       "away_score": 20,
       "home_score": 17
+    },
+    {
+      "id": "401872935",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "name": "Cleveland Browns"
+      },
+      "home": {
+        "id": "27",
+        "abbreviation": "TB",
+        "name": "Tampa Bay Buccaneers"
+      },
+      "status": "final",
+      "away_score": 23,
+      "home_score": 19
     },
     {
       "id": "401872938",
@@ -238,7 +238,7 @@
       },
       "status": "live",
       "away_score": 6,
-      "home_score": 28
+      "home_score": 35
     },
     {
       "id": "401872945",
