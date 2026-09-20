@@ -54,23 +54,6 @@
       "home_score": 19
     },
     {
-      "id": "401872934",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "4",
-        "abbreviation": "CIN",
-        "name": "Cincinnati Bengals"
-      },
-      "home": {
-        "id": "34",
-        "abbreviation": "HOU",
-        "name": "Houston Texans"
-      },
-      "status": "final",
-      "away_score": 20,
-      "home_score": 6
-    },
-    {
       "id": "401872933",
       "scheduled_time": "2026-09-20T17:00:00+00:00",
       "away": {
@@ -154,6 +137,23 @@
       "status": "final",
       "away_score": 24,
       "home_score": 17
+    },
+    {
+      "id": "401872934",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "name": "Cincinnati Bengals"
+      },
+      "home": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "name": "Houston Texans"
+      },
+      "status": "final",
+      "away_score": 20,
+      "home_score": 6
     },
     {
       "id": "401872940",
