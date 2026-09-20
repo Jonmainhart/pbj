@@ -67,7 +67,7 @@
         "name": "Tennessee Titans"
       },
       "status": "live",
-      "away_score": 17,
+      "away_score": 23,
       "home_score": 20
     },
     {
@@ -83,7 +83,7 @@
         "abbreviation": "NE",
         "name": "New England Patriots"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 3,
       "home_score": 20
     },
@@ -134,7 +134,7 @@
         "abbreviation": "BAL",
         "name": "Baltimore Ravens"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 24,
       "home_score": 17
     },
