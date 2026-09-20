@@ -202,7 +202,7 @@
         "abbreviation": "DAL",
         "name": "Dallas Cowboys"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
@@ -219,7 +219,7 @@
         "abbreviation": "ARI",
         "name": "Arizona Cardinals"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
@@ -236,7 +236,7 @@
         "abbreviation": "SF",
         "name": "San Francisco 49ers"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
