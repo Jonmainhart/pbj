@@ -32,7 +32,7 @@
         "abbreviation": "TB",
         "name": "Tampa Bay Buccaneers"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 23,
       "home_score": 19
     },
@@ -170,7 +170,7 @@
       },
       "status": "live",
       "away_score": 13,
-      "home_score": 6
+      "home_score": 13
     },
     {
       "id": "401872941",
@@ -203,7 +203,7 @@
         "name": "Dallas Cowboys"
       },
       "status": "live",
-      "away_score": 10,
+      "away_score": 13,
       "home_score": 17
     },
     {
