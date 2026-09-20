@@ -32,9 +32,60 @@
         "abbreviation": "ATL",
         "name": "Atlanta Falcons"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 34,
       "home_score": 3
+    },
+    {
+      "id": "401872936",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "9",
+        "abbreviation": "GB",
+        "name": "Green Bay Packers"
+      },
+      "home": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "name": "New York Jets"
+      },
+      "status": "live",
+      "away_score": 17,
+      "home_score": 17
+    },
+    {
+      "id": "401872935",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "name": "Cleveland Browns"
+      },
+      "home": {
+        "id": "27",
+        "abbreviation": "TB",
+        "name": "Tampa Bay Buccaneers"
+      },
+      "status": "live",
+      "away_score": 23,
+      "home_score": 19
+    },
+    {
+      "id": "401872934",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "name": "Cincinnati Bengals"
+      },
+      "home": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "name": "Houston Texans"
+      },
+      "status": "live",
+      "away_score": 20,
+      "home_score": 6
     },
     {
       "id": "401872937",
@@ -88,40 +139,6 @@
       "home_score": 20
     },
     {
-      "id": "401872936",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "9",
-        "abbreviation": "GB",
-        "name": "Green Bay Packers"
-      },
-      "home": {
-        "id": "20",
-        "abbreviation": "NYJ",
-        "name": "New York Jets"
-      },
-      "status": "live",
-      "away_score": 17,
-      "home_score": 17
-    },
-    {
-      "id": "401872935",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "5",
-        "abbreviation": "CLE",
-        "name": "Cleveland Browns"
-      },
-      "home": {
-        "id": "27",
-        "abbreviation": "TB",
-        "name": "Tampa Bay Buccaneers"
-      },
-      "status": "live",
-      "away_score": 23,
-      "home_score": 19
-    },
-    {
       "id": "401872938",
       "scheduled_time": "2026-09-20T17:00:00+00:00",
       "away": {
@@ -139,23 +156,6 @@
       "home_score": 17
     },
     {
-      "id": "401872934",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "4",
-        "abbreviation": "CIN",
-        "name": "Cincinnati Bengals"
-      },
-      "home": {
-        "id": "34",
-        "abbreviation": "HOU",
-        "name": "Houston Texans"
-      },
-      "status": "live",
-      "away_score": 20,
-      "home_score": 6
-    },
-    {
       "id": "401872940",
       "scheduled_time": "2026-09-20T20:05:00+00:00",
       "away": {
@@ -168,7 +168,7 @@
         "abbreviation": "DEN",
         "name": "Denver Broncos"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
@@ -185,7 +185,7 @@
         "abbreviation": "LAC",
         "name": "Los Angeles Chargers"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
