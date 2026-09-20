@@ -156,6 +156,23 @@
       "home_score": 6
     },
     {
+      "id": "401872941",
+      "scheduled_time": "2026-09-20T20:05:00+00:00",
+      "away": {
+        "id": "13",
+        "abbreviation": "LV",
+        "name": "Las Vegas Raiders"
+      },
+      "home": {
+        "id": "24",
+        "abbreviation": "LAC",
+        "name": "Los Angeles Chargers"
+      },
+      "status": "live",
+      "away_score": 26,
+      "home_score": 14
+    },
+    {
       "id": "401872940",
       "scheduled_time": "2026-09-20T20:05:00+00:00",
       "away": {
@@ -173,23 +190,6 @@
       "home_score": 20
     },
     {
-      "id": "401872941",
-      "scheduled_time": "2026-09-20T20:05:00+00:00",
-      "away": {
-        "id": "13",
-        "abbreviation": "LV",
-        "name": "Las Vegas Raiders"
-      },
-      "home": {
-        "id": "24",
-        "abbreviation": "LAC",
-        "name": "Los Angeles Chargers"
-      },
-      "status": "live",
-      "away_score": 24,
-      "home_score": 14
-    },
-    {
       "id": "401872944",
       "scheduled_time": "2026-09-20T20:25:00+00:00",
       "away": {
@@ -203,7 +203,7 @@
         "name": "Dallas Cowboys"
       },
       "status": "live",
-      "away_score": 13,
+      "away_score": 20,
       "home_score": 30
     },
     {
