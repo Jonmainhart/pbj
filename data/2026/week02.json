@@ -49,7 +49,7 @@
         "abbreviation": "CHI",
         "name": "Chicago Bears"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 9,
       "home_score": 3
     },
@@ -66,8 +66,8 @@
         "abbreviation": "TEN",
         "name": "Tennessee Titans"
       },
-      "status": "live",
-      "away_score": 23,
+      "status": "final",
+      "away_score": 24,
       "home_score": 20
     },
     {
@@ -101,7 +101,7 @@
         "name": "New York Jets"
       },
       "status": "live",
-      "away_score": 14,
+      "away_score": 17,
       "home_score": 17
     },
     {
