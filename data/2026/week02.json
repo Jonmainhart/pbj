@@ -20,23 +20,6 @@
       "home_score": 41
     },
     {
-      "id": "401872936",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "9",
-        "abbreviation": "GB",
-        "name": "Green Bay Packers"
-      },
-      "home": {
-        "id": "20",
-        "abbreviation": "NYJ",
-        "name": "New York Jets"
-      },
-      "status": "live",
-      "away_score": 17,
-      "home_score": 17
-    },
-    {
       "id": "401872935",
       "scheduled_time": "2026-09-20T17:00:00+00:00",
       "away": {
@@ -120,6 +103,23 @@
       "status": "final",
       "away_score": 3,
       "home_score": 20
+    },
+    {
+      "id": "401872936",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "9",
+        "abbreviation": "GB",
+        "name": "Green Bay Packers"
+      },
+      "home": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "name": "New York Jets"
+      },
+      "status": "final",
+      "away_score": 20,
+      "home_score": 17
     },
     {
       "id": "401872938",
