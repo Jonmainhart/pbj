@@ -168,7 +168,7 @@
         "abbreviation": "DEN",
         "name": "Denver Broncos"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 13,
       "home_score": 20
     },
@@ -204,7 +204,7 @@
       },
       "status": "live",
       "away_score": 13,
-      "home_score": 27
+      "home_score": 30
     },
     {
       "id": "401872943",
