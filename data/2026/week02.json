@@ -20,23 +20,6 @@
       "home_score": 41
     },
     {
-      "id": "401872933",
-      "scheduled_time": "2026-09-20T17:00:00+00:00",
-      "away": {
-        "id": "29",
-        "abbreviation": "CAR",
-        "name": "Carolina Panthers"
-      },
-      "home": {
-        "id": "1",
-        "abbreviation": "ATL",
-        "name": "Atlanta Falcons"
-      },
-      "status": "final",
-      "away_score": 34,
-      "home_score": 3
-    },
-    {
       "id": "401872936",
       "scheduled_time": "2026-09-20T17:00:00+00:00",
       "away": {
@@ -86,6 +69,23 @@
       "status": "live",
       "away_score": 20,
       "home_score": 6
+    },
+    {
+      "id": "401872933",
+      "scheduled_time": "2026-09-20T17:00:00+00:00",
+      "away": {
+        "id": "29",
+        "abbreviation": "CAR",
+        "name": "Carolina Panthers"
+      },
+      "home": {
+        "id": "1",
+        "abbreviation": "ATL",
+        "name": "Atlanta Falcons"
+      },
+      "status": "final",
+      "away_score": 34,
+      "home_score": 3
     },
     {
       "id": "401872937",
