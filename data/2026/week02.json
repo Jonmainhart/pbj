@@ -102,7 +102,7 @@
       },
       "status": "live",
       "away_score": 7,
-      "home_score": 7
+      "home_score": 14
     },
     {
       "id": "401872935",
@@ -118,7 +118,7 @@
         "name": "Tampa Bay Buccaneers"
       },
       "status": "live",
-      "away_score": 9,
+      "away_score": 16,
       "home_score": 16
     },
     {
@@ -135,7 +135,7 @@
         "name": "Baltimore Ravens"
       },
       "status": "live",
-      "away_score": 9,
+      "away_score": 17,
       "home_score": 17
     },
     {
@@ -152,7 +152,7 @@
         "name": "Houston Texans"
       },
       "status": "live",
-      "away_score": 16,
+      "away_score": 17,
       "home_score": 3
     },
     {
