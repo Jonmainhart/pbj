@@ -242,6 +242,19 @@ Presentation state is derived in JavaScript:
 
 Scheduled games show localized kickoff times. Live and final games show scores.
 
+During an incomplete week, the frontend derives mathematical elimination from
+the current wins, remaining games, and player picks. A player remains in
+contention if any possible combination of remaining game winners allows that
+player to finish tied for the most wins.
+
+Players still in contention are displayed first, followed by an `ELIMINATED`
+divider and the remaining players. Within each group, players are sorted by
+current wins.
+
+Elimination is presentation-only state. It is not persisted and does not
+participate in official scoring or tiebreaker calculations. Once the week is
+complete, `weekly_rank` is authoritative.
+
 Completed weekly winners are marked with `🏆`; players sharing the lowest final
 rank are marked with `💩`.
 
