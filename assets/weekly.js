@@ -177,7 +177,7 @@ function renderPlayers(players, games, results) {
     }
 }
 
-export function identifyEliminatedPlayers(
+function identifyEliminatedPlayers(
     players,
     games,
     resultPlayers,
