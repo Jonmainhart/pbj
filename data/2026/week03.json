@@ -1,0 +1,279 @@
+{
+  "season": 2026,
+  "week": 3,
+  "games": [
+    {
+      "id": "401872948",
+      "scheduled_time": "2026-09-25T00:15:00+00:00",
+      "away": {
+        "id": "1",
+        "abbreviation": "ATL",
+        "name": "Atlanta Falcons"
+      },
+      "home": {
+        "id": "9",
+        "abbreviation": "GB",
+        "name": "Green Bay Packers"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872953",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "24",
+        "abbreviation": "LAC",
+        "name": "Los Angeles Chargers"
+      },
+      "home": {
+        "id": "2",
+        "abbreviation": "BUF",
+        "name": "Buffalo Bills"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872949",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "29",
+        "abbreviation": "CAR",
+        "name": "Carolina Panthers"
+      },
+      "home": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "name": "Cleveland Browns"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872954",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "20",
+        "abbreviation": "NYJ",
+        "name": "New York Jets"
+      },
+      "home": {
+        "id": "8",
+        "abbreviation": "DET",
+        "name": "Detroit Lions"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872951",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "name": "Houston Texans"
+      },
+      "home": {
+        "id": "11",
+        "abbreviation": "IND",
+        "name": "Indianapolis Colts"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872952",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "12",
+        "abbreviation": "KC",
+        "name": "Kansas City Chiefs"
+      },
+      "home": {
+        "id": "15",
+        "abbreviation": "MIA",
+        "name": "Miami Dolphins"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872956",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "10",
+        "abbreviation": "TEN",
+        "name": "Tennessee Titans"
+      },
+      "home": {
+        "id": "19",
+        "abbreviation": "NYG",
+        "name": "New York Giants"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872950",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "name": "Cincinnati Bengals"
+      },
+      "home": {
+        "id": "23",
+        "abbreviation": "PIT",
+        "name": "Pittsburgh Steelers"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872955",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "26",
+        "abbreviation": "SEA",
+        "name": "Seattle Seahawks"
+      },
+      "home": {
+        "id": "28",
+        "abbreviation": "WSH",
+        "name": "Washington Commanders"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872957",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "17",
+        "abbreviation": "NE",
+        "name": "New England Patriots"
+      },
+      "home": {
+        "id": "30",
+        "abbreviation": "JAX",
+        "name": "Jacksonville Jaguars"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872958",
+      "scheduled_time": "2026-09-27T20:05:00+00:00",
+      "away": {
+        "id": "22",
+        "abbreviation": "ARI",
+        "name": "Arizona Cardinals"
+      },
+      "home": {
+        "id": "25",
+        "abbreviation": "SF",
+        "name": "San Francisco 49ers"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872959",
+      "scheduled_time": "2026-09-27T20:05:00+00:00",
+      "away": {
+        "id": "16",
+        "abbreviation": "MIN",
+        "name": "Minnesota Vikings"
+      },
+      "home": {
+        "id": "27",
+        "abbreviation": "TB",
+        "name": "Tampa Bay Buccaneers"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872960",
+      "scheduled_time": "2026-09-27T20:25:00+00:00",
+      "away": {
+        "id": "33",
+        "abbreviation": "BAL",
+        "name": "Baltimore Ravens"
+      },
+      "home": {
+        "id": "6",
+        "abbreviation": "DAL",
+        "name": "Dallas Cowboys"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872961",
+      "scheduled_time": "2026-09-27T20:25:00+00:00",
+      "away": {
+        "id": "13",
+        "abbreviation": "LV",
+        "name": "Las Vegas Raiders"
+      },
+      "home": {
+        "id": "18",
+        "abbreviation": "NO",
+        "name": "New Orleans Saints"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872962",
+      "scheduled_time": "2026-09-28T00:20:00+00:00",
+      "away": {
+        "id": "14",
+        "abbreviation": "LAR",
+        "name": "Los Angeles Rams"
+      },
+      "home": {
+        "id": "7",
+        "abbreviation": "DEN",
+        "name": "Denver Broncos"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    },
+    {
+      "id": "401872963",
+      "scheduled_time": "2026-09-29T00:15:00+00:00",
+      "away": {
+        "id": "21",
+        "abbreviation": "PHI",
+        "name": "Philadelphia Eagles"
+      },
+      "home": {
+        "id": "3",
+        "abbreviation": "CHI",
+        "name": "Chicago Bears"
+      },
+      "status": "scheduled",
+      "away_score": 0,
+      "home_score": 0
+    }
+  ],
+  "lock_time": "2026-09-24T23:15:00+00:00"
+}
