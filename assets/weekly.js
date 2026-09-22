@@ -133,15 +133,36 @@ function renderPlayers(players, games, results) {
             ? Math.max(...completedRanks)
             : null;
 
-    const sortedResults = [...resultPlayers].sort(
-        compareWeeklyResults,
+    const eliminatedPlayerIds = identifyEliminatedPlayers(
+        players,
+        games,
+        resultPlayers,
     );
+
+    const sortedResults = [...resultPlayers].sort(
+        (left, right) =>
+            compareWeeklyResults(
+                left,
+                right,
+                eliminatedPlayerIds,
+            ),
+    );
+
+    let eliminatedDividerAdded = false;
 
     for (const result of sortedResults) {
         const player = playersById.get(result.player_id);
 
         if (!player) {
             continue;
+        }
+
+        if (
+            !eliminatedDividerAdded
+            && eliminatedPlayerIds.has(result.player_id)
+        ) {
+            container.append(createEliminatedDivider());
+            eliminatedDividerAdded = true;
         }
 
         container.append(
@@ -156,12 +177,117 @@ function renderPlayers(players, games, results) {
     }
 }
 
-function compareWeeklyResults(left, right) {
+function identifyEliminatedPlayers(
+    players,
+    games,
+    resultPlayers,
+) {
+    const unfinishedGames = games.filter(
+        (game) => game.status !== "final",
+    );
+
+    if (unfinishedGames.length === 0) {
+        return new Set();
+    }
+
+    const scenarios = generateScenarios(unfinishedGames);
+
+    const playersById = new Map(
+        players.map((player) => [
+            player.id,
+            player,
+        ]),
+    );
+
+    const alivePlayerIds = new Set();
+
+    for (const scenario of scenarios) {
+        const scenarioResults = resultPlayers.map((result) => {
+            const player = playersById.get(result.player_id);
+
+            let wins = result.wins;
+
+            for (const outcome of scenario) {
+                if (
+                    player?.picks?.[outcome.gameId]
+                    === outcome.winner
+                ) {
+                    wins += 1;
+                }
+            }
+
+            return {
+                playerId: result.player_id,
+                wins,
+            };
+        });
+
+        const highestWins = Math.max(
+            ...scenarioResults.map((result) => result.wins),
+        );
+
+        for (const result of scenarioResults) {
+            if (result.wins === highestWins) {
+                alivePlayerIds.add(result.playerId);
+            }
+        }
+    }
+
+    return new Set(
+        resultPlayers
+            .map((result) => result.player_id)
+            .filter(
+                (playerId) => !alivePlayerIds.has(playerId),
+            ),
+    );
+}
+
+
+function generateScenarios(games) {
+    if (games.length === 0) {
+        return [[]];
+    }
+
+    const [game, ...remainingGames] = games;
+    const remainingScenarios =
+        generateScenarios(remainingGames);
+
+    const winners = [
+        game.away.abbreviation,
+        game.home.abbreviation,
+    ];
+
+    return winners.flatMap((winner) =>
+        remainingScenarios.map((scenario) => [
+            {
+                gameId: game.id,
+                winner,
+            },
+            ...scenario,
+        ]),
+    );
+}
+
+function compareWeeklyResults(
+    left,
+    right,
+    eliminatedPlayerIds,
+) {
     if (
         left.weekly_rank !== null
         && right.weekly_rank !== null
     ) {
         return left.weekly_rank - right.weekly_rank;
+    }
+
+    const leftEliminated =
+        eliminatedPlayerIds.has(left.player_id);
+
+    const rightEliminated =
+        eliminatedPlayerIds.has(right.player_id);
+
+    if (leftEliminated !== rightEliminated) {
+        return leftEliminated ? 1 : -1;
     }
 
     return right.wins - left.wins;
@@ -290,6 +416,14 @@ function createDetailBox(value, label) {
     box.append(valueElement, labelElement);
 
     return box;
+}
+
+function createEliminatedDivider() {
+    const divider = document.createElement("div");
+    divider.className = "eliminated-divider";
+    divider.textContent = "Eliminated";
+
+    return divider;
 }
 
 

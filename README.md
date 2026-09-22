@@ -97,6 +97,11 @@ statistics and picks.
 Scheduled games show their local kickoff time. Live and final games show their
 current or final score.
 
+During an incomplete week, players still mathematically able to finish tied for
+the most wins are shown ahead of eliminated players. Contention is derived from
+the remaining games and player picks. Eliminated players are separated by an
+`ELIMINATED` divider.
+
 Pick indicators include:
 
 - `✅` Correct
