@@ -518,8 +518,8 @@
       "tiebreaker": 41.0
     },
     {
-      "id": "dawn-c",
-      "name": "Dawn C.",
+      "id": "dawn",
+      "name": "Dawn",
       "nickname": null,
       "picks": {
         "401872932": "BUF",
@@ -1904,7 +1904,7 @@
         "weekly_winner": false
       },
       {
-        "player_id": "dawn-c",
+        "player_id": "dawn",
         "wins": 9,
         "losses": 7,
         "ties": 0,
