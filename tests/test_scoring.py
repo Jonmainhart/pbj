@@ -125,7 +125,7 @@ def test_incorrect_pick_counts_as_loss():
 
 @pytest.mark.unit
 def test_final_nfl_tie_counts_as_tie():
-    """A final NFL tie counts as neither a win nor a loss."""
+    """A final NFL tie counts as a tie and contributes half to Win %."""
     games = [
         _game(
             "game-1",
@@ -151,7 +151,7 @@ def test_final_nfl_tie_counts_as_tie():
     assert player.losses == 0
     assert player.ties == 1
     assert player.missed_picks == 0
-    assert player.accuracy is None
+    assert player.accuracy == 0.5
 
 
 @pytest.mark.unit
@@ -213,8 +213,8 @@ def test_missing_pick_on_nfl_tie_counts_as_loss():
 
 
 @pytest.mark.unit
-def test_missing_pick_is_included_in_accuracy():
-    """Missing picks are losses and therefore reduce accuracy."""
+def test_missing_pick_is_included_in_win_percentage():
+    """Missing picks are losses and therefore reduce Win %."""
     games = [
         _game(
             "game-1",
