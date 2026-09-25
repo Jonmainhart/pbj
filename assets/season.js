@@ -24,11 +24,26 @@ export function renderSeason(data, getPlayerName) {
         compareSeasonPlayers,
     );
 
+    let previousWins = null;
+    let previousAccuracy = null;
+    let previousRank = 0;
+
     players.forEach((player, index) => {
+        const position = index + 1;
+
+        if (
+            player.wins !== previousWins
+            || player.accuracy !== previousAccuracy
+        ) {
+            previousRank = position;
+            previousWins = player.wins;
+            previousAccuracy = player.accuracy;
+        }
+
         container.append(
             createSeasonCard(
                 player,
-                index + 1,
+                previousRank,
                 getPlayerName,
             ),
         );
@@ -53,17 +68,21 @@ function createSeasonCard(player, position, getPlayerName) {
     name.textContent =
         `${crown}${position}. ${getPlayerName(player.player_id)}`;
 
+    const record = document.createElement("div");
+    record.className = "season-record";
+    record.textContent =
+        `${player.wins}-${player.losses}-${player.ties}`;
+
     const meta = document.createElement("div");
     meta.className = "season-meta";
 
     const missedPicks = player.missed_picks ?? 0;
 
     meta.textContent =
-        `${player.wins}-${player.losses}-${player.ties}`
-        + ` • Weeks played: ${player.weeks_played}`
+        `Weeks played: ${player.weeks_played}`
         + ` • Missed picks: ${missedPicks}`;
 
-    left.append(name, meta);
+    left.append(name, record, meta);
 
     const right = document.createElement("div");
     right.className = "season-right";
@@ -71,7 +90,7 @@ function createSeasonCard(player, position, getPlayerName) {
     const accuracy = document.createElement("div");
     accuracy.className = "season-accuracy";
     accuracy.textContent =
-        formatAccuracy(player.accuracy);
+        `Win % ${formatAccuracy(player.accuracy)}`;
 
     const finishIndicators = document.createElement("div");
     finishIndicators.className = "weekly-wins";
@@ -102,21 +121,14 @@ function createSeasonCard(player, position, getPlayerName) {
 
 
 function compareSeasonPlayers(left, right) {
-    if (left.weekly_wins !== right.weekly_wins) {
-        return right.weekly_wins - left.weekly_wins;
+    if (left.wins !== right.wins) {
+        return right.wins - left.wins;
     }
 
-    const leftAccuracy =
-        left.accuracy ?? -1;
+    const leftAccuracy = left.accuracy ?? -1;
+    const rightAccuracy = right.accuracy ?? -1;
 
-    const rightAccuracy =
-        right.accuracy ?? -1;
-
-    if (leftAccuracy !== rightAccuracy) {
-        return rightAccuracy - leftAccuracy;
-    }
-
-    return right.wins - left.wins;
+    return rightAccuracy - leftAccuracy;
 }
 
 
