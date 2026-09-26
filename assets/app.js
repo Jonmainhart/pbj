@@ -181,7 +181,6 @@ async function loadWeek(week) {
 
     try {
         currentWeekData = await fetchWeek(SEASON, week);
-        updateLastUpdated();
 
         rememberPlayerNames(currentWeekData.players ?? []);
 
@@ -282,19 +281,4 @@ function setText(selector, text) {
     const element = document.querySelector(selector);
 
     element.textContent = text;
-}
-
-
-function updateLastUpdated() {
-    const element = document.querySelector("#last-updated");
-
-    element.textContent = `Updated ${new Intl.DateTimeFormat(
-        undefined,
-        {
-            hour: "numeric",
-            minute: "2-digit",
-        },
-    ).format(new Date())}`;
-
-    element.hidden = false;
 }
