@@ -9,5 +9,5 @@ export function formatAccuracy(value) {
         return "—";
     }
 
-    return `${Math.round(value * 1000) / 10}%`;
+    return `${Math.round(value * 1000) / 10}`;
 }

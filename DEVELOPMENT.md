@@ -117,14 +117,16 @@ Scheduled and live games do not affect statistics.
 
 `missed_picks` is a subset of losses, not an additional scoring outcome.
 
-### Accuracy
+### Win %
 
-Accuracy is:
+Win % is:
 
-    wins / (wins + losses)
+    (wins + (0.5 * ties)) / (wins + losses + ties)
 
-NFL ties are excluded. N/P losses are included. Accuracy is null when a player
-has no wins or losses.
+NFL ties contribute half a win for Win % purposes. N/P losses are included.
+Win % is null when a player has no wins, losses, or ties.
+
+The generated JSON retains the `accuracy` field name for compatibility.
 
 ## Weekly Completion and Ranking
 
@@ -165,12 +167,20 @@ Completed weeks contribute:
 - Losses
 - Ties
 - Missed picks
-- Accuracy
+- Win %
 - Weekly wins
 - Last-place finishes
 
 `season.json` is a deterministic derived cache. It is rebuilt from completed
 weekly results rather than incrementally patched.
+
+Season standings are presentation-ranked by:
+
+1. Total wins, descending.
+2. Win %, descending.
+
+Players with equal wins and Win % share a rank. Competition ranking is used,
+such as `1, 2, 2, 4`. No additional statistic breaks a season ranking tie.
 
 Corrections to an earlier week therefore require rescoring that week and
 rebuilding the season.
@@ -263,8 +273,8 @@ win counts, and `💩` for nonzero last-place-finish counts.
 
 Python scoring remains authoritative. JavaScript presents the underlying state.
 
-The season view is presentation-sorted by weekly wins, accuracy, then wins.
-This is not an official season-champion rule.
+The season view is presentation-sorted by total wins, then Win %. Equal wins
+and Win % share a competition rank.
 
 ## Announcements
 

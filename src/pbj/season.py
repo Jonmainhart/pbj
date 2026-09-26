@@ -119,9 +119,13 @@ def _build_player_result(
     totals: _SeasonTotals,
 ) -> SeasonPlayerResult:
     """Build immutable season statistics from accumulated totals."""
-    denominator = totals.wins + totals.losses
+    denominator = totals.wins + totals.losses + totals.ties
 
-    accuracy = totals.wins / denominator if denominator else None
+    accuracy = (
+        (totals.wins + (0.5 * totals.ties)) / denominator
+        if denominator
+        else None
+    )
 
     return SeasonPlayerResult(
         player_id=player_id,

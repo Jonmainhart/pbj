@@ -335,7 +335,8 @@ function createPlayerCard(
 
     const accuracy = document.createElement("span");
     accuracy.className = "player-accuracy";
-    accuracy.textContent = formatAccuracy(result.accuracy);
+    accuracy.textContent =
+    `Win %: ${formatAccuracy(result.accuracy)}`;
 
     right.append(accuracy);
 
@@ -389,7 +390,7 @@ function createPlayerDetailGrid(player, result) {
         ),
         createDetailBox(
             formatAccuracy(result.accuracy),
-            "Accuracy",
+            "Win %",
         ),
         createDetailBox(
             result.missed_picks ?? 0,

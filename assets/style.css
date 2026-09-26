@@ -431,9 +431,10 @@ h1 {
 .player-record {
   margin-top: 0.15rem;
 
-  color: var(--text-muted);
+  color: var(--header);
 
-  font-size: 0.86rem;
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 .player-summary-right {
@@ -444,9 +445,10 @@ h1 {
 }
 
 .player-accuracy {
-  color: var(--header);
+  color: var(--text-muted);
 
-  font-weight: 800;
+  font-size: 0.86rem;
+  font-weight: 600;
 
   white-space: nowrap;
 }
@@ -699,6 +701,15 @@ h1 {
   font-weight: 800;
 }
 
+.season-record {
+  margin-top: 0.15rem;
+
+  color: var(--header);
+
+  font-size: 1rem;
+  font-weight: 800;
+}
+
 .season-meta {
   margin-top: 0.2rem;
 
@@ -712,9 +723,12 @@ h1 {
 }
 
 .season-accuracy {
-  color: var(--header);
+  color: var(--text-muted);
 
-  font-weight: 800;
+  font-size: 0.86rem;
+  font-weight: 600;
+
+  white-space: nowrap;
 }
 
 .weekly-wins {

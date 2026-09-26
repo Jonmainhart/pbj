@@ -19,7 +19,7 @@ PBJ Dashboard:
 - Creates the weekly NFL schedule.
 - Imports player picks from CSV.
 - Updates game scores and statuses.
-- Calculates weekly records and accuracy.
+- Calculates weekly records and Win %.
 - Determines weekly rankings and winners.
 - Applies the Monday night tiebreaker when necessary.
 - Tracks season statistics.
@@ -39,8 +39,9 @@ Only final games affect player statistics.
 
 Missed picks are included in losses and are also tracked separately.
 
-Accuracy is based on wins and losses. NFL ties are excluded from the
-calculation.
+Win % is calculated as `(wins + 0.5 × ties) / (wins + losses + ties)`.
+A tie therefore contributes half a win for Win % purposes. Missing-pick losses
+are included normally.
 
 ### Weekly Ranking and Winner
 
@@ -72,12 +73,16 @@ PBJ Dashboard tracks:
 - Losses
 - Ties
 - Missed picks
-- Accuracy
+- Win %
 - Weekly wins
 - Last-place finishes
 
 A last-place finish is recorded for each player sharing the lowest final
 weekly rank.
+
+Season standings are ranked by total wins, then Win %. Players with identical
+wins and Win % share a competition rank. No additional statistic breaks a tie
+after wins and Win %.
 
 Season statistics are rebuilt from completed weekly results, allowing
 corrections to earlier weeks to propagate cleanly.
