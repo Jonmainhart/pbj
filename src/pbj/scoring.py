@@ -109,9 +109,9 @@ def _score_player(
         else:
             losses += 1
 
-    denominator = wins + losses
+    denominator = wins + losses + ties
 
-    accuracy = wins / denominator if denominator else None
+    accuracy = (wins + (0.5 * ties)) / denominator if denominator else None
 
     tiebreaker_distance = (
         abs(player.tiebreaker - monday_total) if monday_total is not None else None

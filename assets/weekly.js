@@ -177,6 +177,7 @@ function renderPlayers(players, games, results) {
     }
 }
 
+
 function identifyEliminatedPlayers(
     players,
     games,
@@ -190,83 +191,96 @@ function identifyEliminatedPlayers(
         return new Set();
     }
 
-    const scenarios = generateScenarios(unfinishedGames);
-
-    const playersById = new Map(
-        players.map((player) => [
-            player.id,
-            player,
+    const playerIndexes = new Map(
+        resultPlayers.map((result, index) => [
+            result.player_id,
+            index,
         ]),
     );
 
-    const alivePlayerIds = new Set();
+    const wins = resultPlayers.map(
+        (result) => result.wins,
+    );
 
-    for (const scenario of scenarios) {
-        const scenarioResults = resultPlayers.map((result) => {
-            const player = playersById.get(result.player_id);
+    const remainingPicks = unfinishedGames.map((game) => {
+        const awayPickers = [];
+        const homePickers = [];
 
-            let wins = result.wins;
+        for (const player of players) {
+            const playerIndex = playerIndexes.get(player.id);
 
-            for (const outcome of scenario) {
-                if (
-                    player?.picks?.[outcome.gameId]
-                    === outcome.winner
-                ) {
-                    wins += 1;
-                }
+            if (playerIndex === undefined) {
+                continue;
             }
 
-            return {
-                playerId: result.player_id,
-                wins,
-            };
-        });
+            const pick = player.picks?.[game.id];
 
-        const highestWins = Math.max(
-            ...scenarioResults.map((result) => result.wins),
-        );
-
-        for (const result of scenarioResults) {
-            if (result.wins === highestWins) {
-                alivePlayerIds.add(result.playerId);
+            if (pick === game.away.abbreviation) {
+                awayPickers.push(playerIndex);
+            } else if (pick === game.home.abbreviation) {
+                homePickers.push(playerIndex);
             }
         }
-    }
+
+        return {
+            awayPickers,
+            homePickers,
+        };
+    });
+
+    const alivePlayerIndexes = new Set();
+
+    function explore(gameIndex) {
+        if (alivePlayerIndexes.size === resultPlayers.length) {
+            return;
+        }
+
+        if (gameIndex === remainingPicks.length) {
+            const highestWins = Math.max(...wins);
+
+            wins.forEach((playerWins, playerIndex) => {
+                if (playerWins === highestWins) {
+                    alivePlayerIndexes.add(playerIndex);
+                }
+            });
+
+            return;
+        }
+
+            const game = remainingPicks[gameIndex];
+
+            for (const playerIndex of game.awayPickers) {
+                wins[playerIndex] += 1;
+            }
+
+            explore(gameIndex + 1);
+
+            for (const playerIndex of game.awayPickers) {
+                wins[playerIndex] -= 1;
+            }
+
+            for (const playerIndex of game.homePickers) {
+                wins[playerIndex] += 1;
+            }
+
+            explore(gameIndex + 1);
+
+            for (const playerIndex of game.homePickers) {
+                wins[playerIndex] -= 1;
+            }
+        }
+
+    explore(0);
 
     return new Set(
         resultPlayers
-            .map((result) => result.player_id)
             .filter(
-                (playerId) => !alivePlayerIds.has(playerId),
-            ),
+                (_, index) => !alivePlayerIndexes.has(index),
+            )
+            .map((result) => result.player_id),
     );
 }
 
-
-function generateScenarios(games) {
-    if (games.length === 0) {
-        return [[]];
-    }
-
-    const [game, ...remainingGames] = games;
-    const remainingScenarios =
-        generateScenarios(remainingGames);
-
-    const winners = [
-        game.away.abbreviation,
-        game.home.abbreviation,
-    ];
-
-    return winners.flatMap((winner) =>
-        remainingScenarios.map((scenario) => [
-            {
-                gameId: game.id,
-                winner,
-            },
-            ...scenario,
-        ]),
-    );
-}
 
 function compareWeeklyResults(
     left,
@@ -323,21 +337,31 @@ function createPlayerCard(
         name.textContent = `💩 ${name.textContent}`;
     }
 
-    const record = document.createElement("div");
-    record.className = "player-record";
-    record.textContent =
-        `${result.wins}-${result.losses}-${result.ties}`;
+    const rank =
+        result.weekly_rank !== null
+        && !result.weekly_winner
+        && !isLastPlace
+            ? `${formatRank(result.weekly_rank)} · `
+            : "";
 
-    nameBlock.append(name, record);
+    name.textContent = `${rank}${name.textContent}`;
+
+    const accuracy = document.createElement("div");
+    accuracy.className = "player-accuracy";
+    accuracy.textContent =
+        `Win %: ${formatAccuracy(result.accuracy)}`;
+
+    nameBlock.append(name, accuracy);
 
     const right = document.createElement("div");
     right.className = "player-summary-right";
 
-    const accuracy = document.createElement("span");
-    accuracy.className = "player-accuracy";
-    accuracy.textContent = formatAccuracy(result.accuracy);
+    const record = document.createElement("span");
+    record.className = "player-record";
+    record.textContent =
+        `${result.wins}-${result.losses}-${result.ties}`;
 
-    right.append(accuracy);
+    right.append(record);
 
     summary.append(nameBlock, right);
 
@@ -389,7 +413,7 @@ function createPlayerDetailGrid(player, result) {
         ),
         createDetailBox(
             formatAccuracy(result.accuracy),
-            "Accuracy",
+            "Win %",
         ),
         createDetailBox(
             result.missed_picks ?? 0,
@@ -590,4 +614,24 @@ function setText(selector, text) {
     const element = document.querySelector(selector);
 
     element.textContent = text;
+}
+
+
+function formatRank(rank) {
+    const remainder = rank % 100;
+
+    if (remainder >= 11 && remainder <= 13) {
+        return `${rank}th`;
+    }
+
+    switch (rank % 10) {
+        case 1:
+            return `${rank}st`;
+        case 2:
+            return `${rank}nd`;
+        case 3:
+            return `${rank}rd`;
+        default:
+            return `${rank}th`;
+    }
 }

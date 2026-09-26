@@ -16,9 +16,9 @@ def _player_result(
     weekly_winner: bool = False,
 ) -> PlayerResult:
     """Build a weekly player result for aggregation tests."""
-    denominator = wins + losses
+    denominator = wins + losses + ties
 
-    accuracy = wins / denominator if denominator else None
+    accuracy = (wins + (0.5 * ties)) / denominator if denominator else None
 
     return PlayerResult(
         player_id=player_id,
@@ -204,8 +204,8 @@ def test_missed_picks_are_accumulated():
 
 
 @pytest.mark.unit
-def test_accuracy_uses_cumulative_totals():
-    """Season accuracy is not an average of weekly percentages."""
+def test_win_percentage_uses_cumulative_totals():
+    """Season Win % is calculated from cumulative W-L-T totals."""
     week_one = _week_result(
         players=(
             _player_result(
@@ -247,8 +247,8 @@ def test_accuracy_uses_cumulative_totals():
 
 
 @pytest.mark.unit
-def test_missed_pick_losses_reduce_season_accuracy():
-    """Losses caused by missed picks enter the season accuracy denominator."""
+def test_missed_pick_losses_reduce_season_win_percentage():
+    """Losses caused by missed picks reduce season Win %."""
     week = _week_result(
         players=(
             _player_result(
@@ -279,7 +279,7 @@ def test_missed_pick_losses_reduce_season_accuracy():
 
 @pytest.mark.unit
 def test_ties_are_accumulated():
-    """NFL ties accumulate without entering the accuracy denominator."""
+    """NFL ties accumulate and contribute half to season Win %."""
     week_one = _week_result(
         players=(
             _player_result(
@@ -319,7 +319,7 @@ def test_ties_are_accumulated():
     assert player.losses == 12
     assert player.ties == 2
     assert player.missed_picks == 0
-    assert player.accuracy == pytest.approx(0.6)
+    assert player.accuracy == pytest.approx(0.59375)
 
 
 @pytest.mark.unit
@@ -532,8 +532,8 @@ def test_incomplete_week_does_not_affect_existing_totals():
 
 
 @pytest.mark.unit
-def test_zero_decisions_produces_null_accuracy():
-    """A season with only tied games has no accuracy percentage."""
+def test_only_ties_produces_half_win_percentage():
+    """A season containing only ties has a .500 Win %."""
     week = _week_result(
         players=(
             _player_result(
@@ -558,7 +558,7 @@ def test_zero_decisions_produces_null_accuracy():
     assert player.losses == 0
     assert player.ties == 1
     assert player.missed_picks == 0
-    assert player.accuracy is None
+    assert player.accuracy == 0.5
 
 
 @pytest.mark.unit
