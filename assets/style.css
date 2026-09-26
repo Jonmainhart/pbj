@@ -114,13 +114,23 @@ select:focus-visible {
  */
 
 .site-header {
-  background: var(--header);
+  position: relative;
+  overflow: hidden;
+
+  background-color: var(--header);
+  background-image: url("./img/pbj-hero.png");
+  background-repeat: no-repeat;
+  background-position: calc(100% + 5rem) calc(100% + 0.75rem);
+  background-size: 24rem auto;
+
   color: #f8f4ec;
 
   border-bottom: 4px solid var(--accent);
 }
 
 .header-content {
+  position: relative;
+  z-index: 1;
   width: min(100% - 2rem, 960px);
   margin: 0 auto;
   padding: 1.5rem 0;
@@ -801,6 +811,10 @@ h1 {
 
     gap: 2rem;
   }
+
+  .site-header {
+  background-size: 22rem auto;
+}
 
   .week-status {
     margin-top: 0;
