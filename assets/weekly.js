@@ -323,22 +323,31 @@ function createPlayerCard(
         name.textContent = `💩 ${name.textContent}`;
     }
 
-    const record = document.createElement("div");
-    record.className = "player-record";
-    record.textContent =
-        `${result.wins}-${result.losses}-${result.ties}`;
+    const rank =
+        result.weekly_rank !== null
+        && !result.weekly_winner
+        && !isLastPlace
+            ? `${formatRank(result.weekly_rank)} · `
+            : "";
 
-    nameBlock.append(name, record);
+    name.textContent = `${rank}${name.textContent}`;
+
+    const accuracy = document.createElement("div");
+    accuracy.className = "player-accuracy";
+    accuracy.textContent =
+        `Win %: ${formatAccuracy(result.accuracy)}`;
+
+    nameBlock.append(name, accuracy);
 
     const right = document.createElement("div");
     right.className = "player-summary-right";
 
-    const accuracy = document.createElement("span");
-    accuracy.className = "player-accuracy";
-    accuracy.textContent =
-    `Win %: ${formatAccuracy(result.accuracy)}`;
+    const record = document.createElement("span");
+    record.className = "player-record";
+    record.textContent =
+        `${result.wins}-${result.losses}-${result.ties}`;
 
-    right.append(accuracy);
+    right.append(record);
 
     summary.append(nameBlock, right);
 
@@ -591,4 +600,24 @@ function setText(selector, text) {
     const element = document.querySelector(selector);
 
     element.textContent = text;
+}
+
+
+function formatRank(rank) {
+    const remainder = rank % 100;
+
+    if (remainder >= 11 && remainder <= 13) {
+        return `${rank}th`;
+    }
+
+    switch (rank % 10) {
+        case 1:
+            return `${rank}st`;
+        case 2:
+            return `${rank}nd`;
+        case 3:
+            return `${rank}rd`;
+        default:
+            return `${rank}th`;
+    }
 }
