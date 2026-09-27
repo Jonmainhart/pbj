@@ -34,7 +34,7 @@
       },
       "status": "live",
       "away_score": 13,
-      "home_score": 10
+      "home_score": 17
     },
     {
       "id": "401872949",
@@ -67,7 +67,7 @@
         "name": "Detroit Lions"
       },
       "status": "live",
-      "away_score": 22,
+      "away_score": 24,
       "home_score": 24
     },
     {
@@ -101,7 +101,7 @@
         "name": "Miami Dolphins"
       },
       "status": "live",
-      "away_score": 17,
+      "away_score": 24,
       "home_score": 10
     },
     {
@@ -136,7 +136,7 @@
       },
       "status": "live",
       "away_score": 27,
-      "home_score": 24
+      "home_score": 27
     },
     {
       "id": "401872955",
@@ -170,7 +170,7 @@
       },
       "status": "live",
       "away_score": 6,
-      "home_score": 28
+      "home_score": 34
     },
     {
       "id": "401872958",
