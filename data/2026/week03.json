@@ -34,7 +34,7 @@
       },
       "status": "live",
       "away_score": 13,
-      "home_score": 23
+      "home_score": 24
     },
     {
       "id": "401872949",
@@ -66,7 +66,7 @@
         "abbreviation": "DET",
         "name": "Detroit Lions"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 24,
       "home_score": 31
     },
