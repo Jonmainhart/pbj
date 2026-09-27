@@ -33,7 +33,7 @@
         "name": "Buffalo Bills"
       },
       "status": "live",
-      "away_score": 13,
+      "away_score": 16,
       "home_score": 24
     },
     {
@@ -66,7 +66,7 @@
         "abbreviation": "IND",
         "name": "Indianapolis Colts"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 17,
       "home_score": 19
     },
@@ -185,7 +185,7 @@
         "abbreviation": "SF",
         "name": "San Francisco 49ers"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
@@ -202,7 +202,7 @@
         "abbreviation": "TB",
         "name": "Tampa Bay Buccaneers"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
