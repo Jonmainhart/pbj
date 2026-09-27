@@ -32,7 +32,7 @@
         "abbreviation": "BUF",
         "name": "Buffalo Bills"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 16,
       "home_score": 24
     },
@@ -51,7 +51,7 @@
       },
       "status": "live",
       "away_score": 18,
-      "home_score": 13
+      "home_score": 21
     },
     {
       "id": "401872951",
@@ -83,7 +83,7 @@
         "abbreviation": "PIT",
         "name": "Pittsburgh Steelers"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 27,
       "home_score": 30
     },
@@ -101,8 +101,8 @@
         "name": "Washington Commanders"
       },
       "status": "live",
-      "away_score": 24,
-      "home_score": 27
+      "away_score": 30,
+      "home_score": 33
     },
     {
       "id": "401872954",
@@ -203,7 +203,7 @@
         "name": "Tampa Bay Buccaneers"
       },
       "status": "live",
-      "away_score": 0,
+      "away_score": 3,
       "home_score": 0
     },
     {
