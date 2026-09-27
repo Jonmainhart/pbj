@@ -173,23 +173,6 @@
       "home_score": 35
     },
     {
-      "id": "401872959",
-      "scheduled_time": "2026-09-27T20:05:00+00:00",
-      "away": {
-        "id": "16",
-        "abbreviation": "MIN",
-        "name": "Minnesota Vikings"
-      },
-      "home": {
-        "id": "27",
-        "abbreviation": "TB",
-        "name": "Tampa Bay Buccaneers"
-      },
-      "status": "final",
-      "away_score": 23,
-      "home_score": 16
-    },
-    {
       "id": "401872958",
       "scheduled_time": "2026-09-27T20:05:00+00:00",
       "away": {
@@ -205,6 +188,23 @@
       "status": "final",
       "away_score": 30,
       "home_score": 36
+    },
+    {
+      "id": "401872959",
+      "scheduled_time": "2026-09-27T20:05:00+00:00",
+      "away": {
+        "id": "16",
+        "abbreviation": "MIN",
+        "name": "Minnesota Vikings"
+      },
+      "home": {
+        "id": "27",
+        "abbreviation": "TB",
+        "name": "Tampa Bay Buccaneers"
+      },
+      "status": "final",
+      "away_score": 23,
+      "home_score": 16
     },
     {
       "id": "401872960",
