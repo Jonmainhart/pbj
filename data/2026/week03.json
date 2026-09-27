@@ -220,8 +220,8 @@
         "name": "Dallas Cowboys"
       },
       "status": "live",
-      "away_score": 31,
-      "home_score": 28
+      "away_score": 34,
+      "home_score": 31
     },
     {
       "id": "401872961",
@@ -236,7 +236,7 @@
         "abbreviation": "NO",
         "name": "New Orleans Saints"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 35,
       "home_score": 27
     },
