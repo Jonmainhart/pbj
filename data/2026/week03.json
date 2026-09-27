@@ -50,7 +50,7 @@
         "name": "Cleveland Browns"
       },
       "status": "live",
-      "away_score": 0,
+      "away_score": 3,
       "home_score": 10
     },
     {
@@ -135,7 +135,7 @@
         "name": "Pittsburgh Steelers"
       },
       "status": "live",
-      "away_score": 10,
+      "away_score": 17,
       "home_score": 17
     },
     {
