@@ -67,7 +67,7 @@
         "name": "Detroit Lions"
       },
       "status": "live",
-      "away_score": 0,
+      "away_score": 7,
       "home_score": 3
     },
     {
@@ -85,7 +85,7 @@
       },
       "status": "live",
       "away_score": 0,
-      "home_score": 3
+      "home_score": 10
     },
     {
       "id": "401872952",
@@ -152,7 +152,7 @@
         "name": "Washington Commanders"
       },
       "status": "live",
-      "away_score": 0,
+      "away_score": 7,
       "home_score": 7
     },
     {
