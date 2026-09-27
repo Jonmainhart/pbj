@@ -32,7 +32,7 @@
         "abbreviation": "CLE",
         "name": "Cleveland Browns"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 18,
       "home_score": 21
     },
@@ -49,7 +49,7 @@
         "abbreviation": "WSH",
         "name": "Washington Commanders"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 31,
       "home_score": 33
     },
@@ -204,7 +204,7 @@
       },
       "status": "live",
       "away_score": 10,
-      "home_score": 0
+      "home_score": 7
     },
     {
       "id": "401872960",
@@ -219,7 +219,7 @@
         "abbreviation": "DAL",
         "name": "Dallas Cowboys"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
@@ -236,7 +236,7 @@
         "abbreviation": "NO",
         "name": "New Orleans Saints"
       },
-      "status": "scheduled",
+      "status": "live",
       "away_score": 0,
       "home_score": 0
     },
