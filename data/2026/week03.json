@@ -50,7 +50,7 @@
         "name": "Cleveland Browns"
       },
       "status": "live",
-      "away_score": 6,
+      "away_score": 9,
       "home_score": 10
     },
     {
@@ -85,7 +85,7 @@
       },
       "status": "live",
       "away_score": 7,
-      "home_score": 13
+      "home_score": 16
     },
     {
       "id": "401872952",
@@ -101,7 +101,7 @@
         "name": "Miami Dolphins"
       },
       "status": "live",
-      "away_score": 14,
+      "away_score": 17,
       "home_score": 10
     },
     {
@@ -152,7 +152,7 @@
         "name": "Washington Commanders"
       },
       "status": "live",
-      "away_score": 10,
+      "away_score": 17,
       "home_score": 24
     },
     {
@@ -170,7 +170,7 @@
       },
       "status": "live",
       "away_score": 3,
-      "home_score": 21
+      "home_score": 28
     },
     {
       "id": "401872958",
