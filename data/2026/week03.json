@@ -54,6 +54,57 @@
       "home_score": 13
     },
     {
+      "id": "401872951",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "34",
+        "abbreviation": "HOU",
+        "name": "Houston Texans"
+      },
+      "home": {
+        "id": "11",
+        "abbreviation": "IND",
+        "name": "Indianapolis Colts"
+      },
+      "status": "live",
+      "away_score": 17,
+      "home_score": 19
+    },
+    {
+      "id": "401872950",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "4",
+        "abbreviation": "CIN",
+        "name": "Cincinnati Bengals"
+      },
+      "home": {
+        "id": "23",
+        "abbreviation": "PIT",
+        "name": "Pittsburgh Steelers"
+      },
+      "status": "live",
+      "away_score": 27,
+      "home_score": 30
+    },
+    {
+      "id": "401872955",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "26",
+        "abbreviation": "SEA",
+        "name": "Seattle Seahawks"
+      },
+      "home": {
+        "id": "28",
+        "abbreviation": "WSH",
+        "name": "Washington Commanders"
+      },
+      "status": "live",
+      "away_score": 24,
+      "home_score": 27
+    },
+    {
       "id": "401872954",
       "scheduled_time": "2026-09-27T17:00:00+00:00",
       "away": {
@@ -71,23 +122,6 @@
       "home_score": 31
     },
     {
-      "id": "401872951",
-      "scheduled_time": "2026-09-27T17:00:00+00:00",
-      "away": {
-        "id": "34",
-        "abbreviation": "HOU",
-        "name": "Houston Texans"
-      },
-      "home": {
-        "id": "11",
-        "abbreviation": "IND",
-        "name": "Indianapolis Colts"
-      },
-      "status": "live",
-      "away_score": 17,
-      "home_score": 16
-    },
-    {
       "id": "401872952",
       "scheduled_time": "2026-09-27T17:00:00+00:00",
       "away": {
@@ -100,7 +134,7 @@
         "abbreviation": "MIA",
         "name": "Miami Dolphins"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 24,
       "home_score": 10
     },
@@ -117,43 +151,9 @@
         "abbreviation": "NYG",
         "name": "New York Giants"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 7,
       "home_score": 12
-    },
-    {
-      "id": "401872950",
-      "scheduled_time": "2026-09-27T17:00:00+00:00",
-      "away": {
-        "id": "4",
-        "abbreviation": "CIN",
-        "name": "Cincinnati Bengals"
-      },
-      "home": {
-        "id": "23",
-        "abbreviation": "PIT",
-        "name": "Pittsburgh Steelers"
-      },
-      "status": "live",
-      "away_score": 27,
-      "home_score": 27
-    },
-    {
-      "id": "401872955",
-      "scheduled_time": "2026-09-27T17:00:00+00:00",
-      "away": {
-        "id": "26",
-        "abbreviation": "SEA",
-        "name": "Seattle Seahawks"
-      },
-      "home": {
-        "id": "28",
-        "abbreviation": "WSH",
-        "name": "Washington Commanders"
-      },
-      "status": "live",
-      "away_score": 24,
-      "home_score": 24
     },
     {
       "id": "401872957",
@@ -168,7 +168,7 @@
         "abbreviation": "JAX",
         "name": "Jacksonville Jaguars"
       },
-      "status": "live",
+      "status": "final",
       "away_score": 6,
       "home_score": 35
     },
