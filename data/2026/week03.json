@@ -51,7 +51,7 @@
       },
       "status": "live",
       "away_score": 12,
-      "home_score": 10
+      "home_score": 13
     },
     {
       "id": "401872954",
@@ -68,7 +68,7 @@
       },
       "status": "live",
       "away_score": 24,
-      "home_score": 24
+      "home_score": 31
     },
     {
       "id": "401872951",
@@ -152,7 +152,7 @@
         "name": "Washington Commanders"
       },
       "status": "live",
-      "away_score": 17,
+      "away_score": 23,
       "home_score": 24
     },
     {
@@ -170,7 +170,7 @@
       },
       "status": "live",
       "away_score": 6,
-      "home_score": 34
+      "home_score": 35
     },
     {
       "id": "401872958",
