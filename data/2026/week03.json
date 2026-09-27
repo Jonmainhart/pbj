@@ -20,40 +20,6 @@
       "home_score": 14
     },
     {
-      "id": "401872949",
-      "scheduled_time": "2026-09-27T17:00:00+00:00",
-      "away": {
-        "id": "29",
-        "abbreviation": "CAR",
-        "name": "Carolina Panthers"
-      },
-      "home": {
-        "id": "5",
-        "abbreviation": "CLE",
-        "name": "Cleveland Browns"
-      },
-      "status": "final",
-      "away_score": 18,
-      "home_score": 21
-    },
-    {
-      "id": "401872955",
-      "scheduled_time": "2026-09-27T17:00:00+00:00",
-      "away": {
-        "id": "26",
-        "abbreviation": "SEA",
-        "name": "Seattle Seahawks"
-      },
-      "home": {
-        "id": "28",
-        "abbreviation": "WSH",
-        "name": "Washington Commanders"
-      },
-      "status": "final",
-      "away_score": 31,
-      "home_score": 33
-    },
-    {
       "id": "401872953",
       "scheduled_time": "2026-09-27T17:00:00+00:00",
       "away": {
@@ -69,6 +35,23 @@
       "status": "final",
       "away_score": 16,
       "home_score": 24
+    },
+    {
+      "id": "401872949",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "29",
+        "abbreviation": "CAR",
+        "name": "Carolina Panthers"
+      },
+      "home": {
+        "id": "5",
+        "abbreviation": "CLE",
+        "name": "Cleveland Browns"
+      },
+      "status": "final",
+      "away_score": 18,
+      "home_score": 21
     },
     {
       "id": "401872954",
@@ -154,6 +137,23 @@
       "status": "final",
       "away_score": 27,
       "home_score": 30
+    },
+    {
+      "id": "401872955",
+      "scheduled_time": "2026-09-27T17:00:00+00:00",
+      "away": {
+        "id": "26",
+        "abbreviation": "SEA",
+        "name": "Seattle Seahawks"
+      },
+      "home": {
+        "id": "28",
+        "abbreviation": "WSH",
+        "name": "Washington Commanders"
+      },
+      "status": "final",
+      "away_score": 31,
+      "home_score": 33
     },
     {
       "id": "401872957",
