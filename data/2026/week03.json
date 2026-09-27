@@ -34,7 +34,7 @@
       },
       "status": "live",
       "away_score": 13,
-      "home_score": 17
+      "home_score": 23
     },
     {
       "id": "401872949",
@@ -50,7 +50,7 @@
         "name": "Cleveland Browns"
       },
       "status": "live",
-      "away_score": 12,
+      "away_score": 18,
       "home_score": 13
     },
     {
@@ -84,7 +84,7 @@
         "name": "Indianapolis Colts"
       },
       "status": "live",
-      "away_score": 10,
+      "away_score": 17,
       "home_score": 16
     },
     {
@@ -152,7 +152,7 @@
         "name": "Washington Commanders"
       },
       "status": "live",
-      "away_score": 23,
+      "away_score": 24,
       "home_score": 24
     },
     {
