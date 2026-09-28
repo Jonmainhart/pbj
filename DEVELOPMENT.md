@@ -242,13 +242,16 @@ Phone usability is the primary design requirement.
 Player cards show compact weekly information and expand to show detailed picks.
 Presentation state is derived in JavaScript:
 
-- Scheduled pick → `⏳`
-- Live pick → `🟢`
-- Final correct pick → `✅`
-- Final incorrect pick → `❌`
-- NFL tie → `➖`
-- Scheduled/live N/P → `⏳ N/P`
-- Final N/P → `❌ N/P`
+Scheduled pick → ⏳
+Live pick, selected team ahead or tied → 🟢
+Live pick, selected team behind → 🟡
+Final correct pick → ✅
+Final incorrect pick → ❌
+NFL tie → ➖
+Scheduled/live N/P → ⏳ N/P
+Final N/P → ❌ N/P
+
+If scores are unavailable for a live game, the pick retains the generic 🟢 live state.
 
 Scheduled games show localized kickoff times. Live and final games show scores.
 
