@@ -676,6 +676,10 @@ h1 {
   color: var(--success);
 }
 
+.pick-live-losing {
+  color: var(--warning);
+}
+
 /*
  * Season cards
  */
