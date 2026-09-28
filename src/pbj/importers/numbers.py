@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 NON_PICK = "N/P"
 
-# Commissioner-friendly aliases mapped to PBJ's canonical ESPN abbreviations.
+# Commissioner-friendly aliases mapped to PBJ's canonical abbreviations.
 TEAM_ALIASES = {
     "JAC": "JAX",
     "WAS": "WSH",
@@ -25,7 +25,7 @@ def import_players(
     csv_file: TextIO,
     games: Sequence[Game],
 ) -> list[Player]:
-    """Import player picks from a Numbers CSV export."""
+    """Import player picks from a CSV export."""
     rows = list(csv.reader(csv_file))
 
     header_index = _find_header_row(rows)
@@ -103,7 +103,7 @@ def import_players(
 
 
 def _find_header_row(rows: list[list[str]]) -> int:
-    """Find the real Numbers table header."""
+    """Find the real table header."""
     for index, row in enumerate(rows):
         if row and row[0].strip().upper() == "NAME":
             return index
@@ -183,7 +183,7 @@ def _resolve_game_columns(
 
 
 def _normalize_team_abbreviation(abbreviation: str) -> str:
-    """Normalize commissioner team abbreviations to ESPN abbreviations."""
+    """Normalize commissioner team abbreviations to canonical abbreviations."""
     normalized = abbreviation.strip().upper()
     return TEAM_ALIASES.get(normalized, normalized)
 

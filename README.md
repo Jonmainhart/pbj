@@ -181,8 +181,10 @@ scoring rules, automation, and development details.
 
 ## Data Source
 
-NFL schedules, statuses, and scores are obtained from ESPN through an isolated
+NFL schedules, statuses, and scores are obtained through an isolated
 provider layer.
+
+BALLDONTLIE.io is the preferred data provider with ESPN as a fallback option if necessary.
 
 ## License
 

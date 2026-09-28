@@ -218,7 +218,7 @@ def test_update_week_preserves_players(
     tmp_path,
     mocker,
 ):
-    """Updating ESPN game data does not modify commissioner picks."""
+    """Updating provider game data does not modify commissioner picks."""
     path = tmp_path / "week01.json"
 
     players = [
@@ -307,7 +307,7 @@ def test_update_week_replaces_only_game_data(
     tmp_path,
     mocker,
 ):
-    """A later ESPN update replaces existing normalized game data."""
+    """A later provider update replaces existing normalized game data."""
     path = tmp_path / "week01.json"
 
     path.write_text(
@@ -499,7 +499,7 @@ def test_create_provider_rejects_unknown_provider():
 
 @pytest.mark.unit
 def test_parse_args_defaults_to_espn(mocker):
-    """ESPN remains the default provider during migration."""
+    """ESPN remains the default provider when none is specified."""
     mocker.patch(
         "sys.argv",
         ["update_games.py", "2026", "3"],

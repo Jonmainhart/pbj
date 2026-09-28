@@ -243,7 +243,7 @@ def test_import_players_supports_variable_week_size():
 
 @pytest.mark.unit
 def test_import_players_resolves_washington_alias_in_matchup():
-    """Commissioner WAS columns resolve to ESPN's WSH abbreviation."""
+    """Commissioner WAS columns resolve to the canonical WSH abbreviation."""
     games = [
         _game("game-1", "WSH", "PHI"),
     ]
@@ -262,7 +262,7 @@ def test_import_players_resolves_washington_alias_in_matchup():
 
 @pytest.mark.unit
 def test_import_players_normalizes_washington_alias_in_pick():
-    """A WAS pick is stored using canonical ESPN abbreviation WSH."""
+    """A WAS pick is stored using canonical abbreviation WSH."""
     games = [
         _game("game-1", "WSH", "PHI"),
     ]
@@ -281,7 +281,7 @@ def test_import_players_normalizes_washington_alias_in_pick():
 
 @pytest.mark.unit
 def test_import_players_resolves_jacksonville_alias_in_matchup():
-    """Commissioner JAC columns resolve to ESPN's JAX abbreviation."""
+    """Commissioner JAC columns resolve to the canonical JAX abbreviation."""
     games = [
         _game("game-1", "CLE", "JAX"),
     ]

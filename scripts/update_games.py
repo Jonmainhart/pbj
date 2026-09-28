@@ -1,4 +1,4 @@
-"""Fetch and update ESPN game data for one PBJ week."""
+"""Fetch and update NFL game data for one PBJ week."""
 
 import argparse
 import json
@@ -68,7 +68,7 @@ def update_week(
     week_data["games"] = [_game_to_dict(game) for game in games]
 
     # The lock time is established from the original schedule and then
-    # preserved. Later ESPN schedule changes must not silently move it.
+    # preserved. Later provider schedule changes must not silently move it.
     if "lock_time" not in week_data:
         week_data["lock_time"] = (games[0].scheduled_time - timedelta(hours=1)).isoformat()
 

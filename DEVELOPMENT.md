@@ -3,7 +3,7 @@
 PBJ Dashboard is a static dashboard for a weekly football pool.
 
 The commissioner's spreadsheet remains the source for player picks. PBJ
-Dashboard consumes CSV exports, obtains NFL data from ESPN, derives weekly and
+Dashboard consumes CSV exports, obtains NFL data from a Game Date Provider, derives weekly and
 season results, and publishes the generated data through a static frontend.
 
 ## Design Principles
@@ -21,7 +21,7 @@ season results, and publishes the generated data through a static frontend.
 The primary data flow is:
 
     Spreadsheet → CSV → player data
-    ESPN → game data
+    Game Data Provider → game data
     Games + players → weekly results → season results
 
 GitHub Actions performs routine production processing. The browser reads
@@ -42,7 +42,7 @@ Season statistics are stored in `data/<season>/season.json`.
 
 ### Games
 
-Games use the ESPN event ID as their stable identifier and retain only the
+Games use the provider-specific event ID as their stable identifier and retain only the
 schedule, team, status, and score information PBJ Dashboard needs.
 
 Normalized statuses are `scheduled`, `live`, and `final`.
@@ -185,13 +185,24 @@ such as `1, 2, 2, 4`. No additional statistic breaks a season ranking tie.
 Corrections to an earlier week therefore require rescoring that week and
 rebuilding the season.
 
-## ESPN Provider
+## Game Data Provider
 
-ESPN access is isolated behind the provider layer.
+Game data access is isolated behind the provider layer.
 
-The provider converts ESPN-specific responses into PBJ domain objects. Scoring,
-season aggregation, and presentation should not depend directly on ESPN
+The provider converts provider-specific responses into PBJ domain objects. Scoring,
+season aggregation, and presentation should not depend directly on provider
 response structures.
+
+Provider-specific responses terminate at the provider layer; scoring/season/presentation
+remain provider-independent.
+
+### Providers
+
+BALLDONTLIE.io is the preferred game data provider as of week 4. This provider required an API
+key.
+
+ESPN.com is the rollback provider. It does not require an API key, but is not guaranteed to remain
+available or stay consistent.
 
 ## Automation
 
