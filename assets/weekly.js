@@ -549,6 +549,30 @@ function getPickStatus(pick, game) {
     }
 
     if (game.status === "live") {
+        const pickedAway =
+            pick === game.away.abbreviation;
+
+        const pickedScore =
+            pickedAway
+                ? game.away_score
+                : game.home_score;
+
+        const opponentScore =
+            pickedAway
+                ? game.home_score
+                : game.away_score;
+
+        if (
+            pickedScore !== null
+            && opponentScore !== null
+            && pickedScore < opponentScore
+        ) {
+            return {
+                icon: "🟡",
+                className: "pick-live-losing",
+            };
+        }
+
         return {
             icon: "🟢",
             className: "pick-live",

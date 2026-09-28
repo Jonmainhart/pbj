@@ -112,7 +112,8 @@ Pick indicators include:
 - `✅` Correct
 - `❌` Incorrect
 - `➖` NFL tie
-- `🟢` Live
+- `🟢` Live — pick is currently winning or tied
+- `🟡` Live — pick is currently losing
 - `⏳` Pending
 - `⏳ N/P` Pending non-pick
 - `❌ N/P` Final non-pick
