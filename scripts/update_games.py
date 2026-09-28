@@ -3,11 +3,13 @@
 import argparse
 import json
 import logging
+import os
 from datetime import timedelta
 from pathlib import Path
 from typing import Any
 
 from pbj.domain.game import Game
+from pbj.providers.balldontlie import BALLDONTLIEProvider
 from pbj.providers.base import GameProvider
 from pbj.providers.espn import ESPNProvider
 
@@ -20,11 +22,18 @@ def main() -> None:
 
     week_path = Path(f"data/{args.season}/week{args.week:02d}.json")
 
+    api_key = _resolve_api_key(args.api_key)
+
+    provider = _create_provider(
+        args.provider,
+        api_key=api_key,
+    )
+
     update_week(
         path=week_path,
         season=args.season,
         week=args.week,
-        provider=ESPNProvider(),
+        provider=provider,
     )
 
 
@@ -80,7 +89,7 @@ def update_week(
 
 def _parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
-    parser = argparse.ArgumentParser(description="Update ESPN game data for one PBJ week.")
+    parser = argparse.ArgumentParser(description="Update NFL game data for one PBJ week.")
 
     parser.add_argument(
         "season",
@@ -94,7 +103,47 @@ def _parse_args() -> argparse.Namespace:
         help="NFL regular-season week",
     )
 
+    parser.add_argument(
+        "--provider",
+        choices=("espn", "balldontlie"),
+        default="espn",
+        help="NFL game-data provider",
+    )
+
+    parser.add_argument(
+        "--api-key",
+        default=None,
+        help="API key for providers that require authentication",
+    )
+
     return parser.parse_args()
+
+
+def _create_provider(
+    name: str,
+    api_key: str | None = None,
+) -> GameProvider:
+    """Create the requested game-data provider."""
+    if name == "espn":
+        return ESPNProvider()
+
+    if name == "balldontlie":
+        if api_key is None:
+            raise ValueError("BALLDONTLIE provider requires an API key")
+
+        return BALLDONTLIEProvider(api_key=api_key)
+
+    raise ValueError(f"Unknown game provider: {name}")
+
+
+def _resolve_api_key(
+    api_key: str | None,
+) -> str | None:
+    """Resolve an API key from the CLI or environment."""
+    if api_key is not None:
+        return api_key
+
+    return os.environ.get("BALLDONTLIE_API_KEY")
 
 
 def _load_or_create_week(
