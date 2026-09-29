@@ -12,7 +12,7 @@ def should_poll(
     games: list[Game],
     now: datetime,
 ) -> bool:
-    """Return whether the current week needs an ESPN update."""
+    """Return whether the current week needs a game-data update."""
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
 

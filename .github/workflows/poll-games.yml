@@ -70,10 +70,13 @@ jobs:
       - name: Update games
         if: steps.poll.outputs.poll == 'true'
         shell: bash
+        env:
+          BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
         run: |
           python scripts/update_games.py \
             "${{ steps.week.outputs.season }}" \
-            "${{ steps.week.outputs.week }}"
+            "${{ steps.week.outputs.week }}" \
+            --provider balldontlie
 
       - name: Commit game updates
         if: steps.poll.outputs.poll == 'true'

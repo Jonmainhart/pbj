@@ -64,10 +64,13 @@ jobs:
 
       - name: Fetch weekly schedule
         if: steps.week.outputs.create == 'true'
+        env:
+          BALLDONTLIE_API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }}
         run: |
           python scripts/update_games.py \
             "${{ steps.week.outputs.season }}" \
-            "${{ steps.week.outputs.week }}"
+            "${{ steps.week.outputs.week }}" \
+            --provider balldontlie
 
       - name: Generate available-week manifest
         if: steps.week.outputs.create == 'true'

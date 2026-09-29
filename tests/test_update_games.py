@@ -2,11 +2,14 @@
 
 import json
 from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
 
 from pbj.domain.game import Game, GameStatus, Team
-from scripts.update_games import update_week
+from pbj.providers.balldontlie import BALLDONTLIEProvider
+from pbj.providers.espn import ESPNProvider
+from scripts.update_games import _create_provider, _parse_args, _resolve_api_key, update_week
 
 
 def _game(
@@ -215,7 +218,7 @@ def test_update_week_preserves_players(
     tmp_path,
     mocker,
 ):
-    """Updating ESPN game data does not modify commissioner picks."""
+    """Updating provider game data does not modify commissioner picks."""
     path = tmp_path / "week01.json"
 
     players = [
@@ -304,7 +307,7 @@ def test_update_week_replaces_only_game_data(
     tmp_path,
     mocker,
 ):
-    """A later ESPN update replaces existing normalized game data."""
+    """A later provider update replaces existing normalized game data."""
     path = tmp_path / "week01.json"
 
     path.write_text(
@@ -453,3 +456,149 @@ def test_update_week_rejects_wrong_existing_week(
             week=1,
             provider=provider,
         )
+
+
+@pytest.mark.unit
+def test_create_provider_returns_espn_provider():
+    """ESPN can be selected as the game-data provider."""
+    provider = _create_provider("espn")
+
+    assert isinstance(provider, ESPNProvider)
+
+
+@pytest.mark.unit
+def test_create_provider_returns_balldontlie_provider():
+    """BALLDONTLIE can be selected as the game-data provider."""
+    provider = _create_provider(
+        "balldontlie",
+        api_key="test-api-key",
+    )
+
+    assert isinstance(provider, BALLDONTLIEProvider)
+
+
+@pytest.mark.unit
+def test_create_provider_rejects_balldontlie_without_api_key():
+    """BALLDONTLIE cannot be selected without an API key."""
+    with pytest.raises(
+        ValueError,
+        match="requires an API key",
+    ):
+        _create_provider("balldontlie")
+
+
+@pytest.mark.unit
+def test_create_provider_rejects_unknown_provider():
+    """An unknown game-data provider is rejected."""
+    with pytest.raises(
+        ValueError,
+        match="Unknown game provider",
+    ):
+        _create_provider("something-else")
+
+
+@pytest.mark.unit
+def test_parse_args_defaults_to_espn(mocker):
+    """ESPN remains the default provider when none is specified."""
+    mocker.patch(
+        "sys.argv",
+        ["update_games.py", "2026", "3"],
+    )
+
+    args = _parse_args()
+
+    assert args.season == 2026
+    assert args.week == 3
+    assert args.provider == "espn"
+    assert args.api_key is None
+
+
+@pytest.mark.unit
+def test_parse_args_accepts_balldontlie_provider(mocker):
+    """BALLDONTLIE can be explicitly selected from the command line."""
+    mocker.patch(
+        "sys.argv",
+        [
+            "update_games.py",
+            "2026",
+            "3",
+            "--provider",
+            "balldontlie",
+            "--api-key",
+            "test-api-key",
+        ],
+    )
+
+    args = _parse_args()
+
+    assert args.provider == "balldontlie"
+    assert args.api_key == "test-api-key"
+
+
+@pytest.mark.unit
+def test_resolve_api_key_uses_environment(mocker):
+    """The BALLDONTLIE API key can be supplied through the environment."""
+    mocker.patch.dict(
+        "os.environ",
+        {"BALLDONTLIE_API_KEY": "environment-api-key"},
+    )
+
+    api_key = _resolve_api_key(None)
+
+    assert api_key == "environment-api-key"
+
+
+@pytest.mark.unit
+def test_resolve_api_key_prefers_explicit_key(mocker):
+    """An explicit API key takes precedence over the environment."""
+    mocker.patch.dict(
+        "os.environ",
+        {"BALLDONTLIE_API_KEY": "environment-api-key"},
+    )
+
+    api_key = _resolve_api_key("explicit-api-key")
+
+    assert api_key == "explicit-api-key"
+
+
+@pytest.mark.unit
+def test_main_uses_selected_provider(mocker):
+    """The update command uses the provider selected at runtime."""
+    args = mocker.Mock(
+        season=2026,
+        week=3,
+        provider="balldontlie",
+        api_key="test-api-key",
+    )
+
+    mocker.patch(
+        "scripts.update_games._parse_args",
+        return_value=args,
+    )
+
+    provider = mocker.Mock()
+
+    create_provider = mocker.patch(
+        "scripts.update_games._create_provider",
+        return_value=provider,
+    )
+
+    update_week_mock = mocker.patch(
+        "scripts.update_games.update_week",
+    )
+
+    from scripts.update_games import main
+
+    main()
+
+    create_provider.assert_called_once_with(
+        "balldontlie",
+        api_key="test-api-key",
+    )
+
+    update_week_mock.assert_called_once_with(
+        path=Path("data/2026/week03.json"),
+        season=2026,
+        week=3,
+        provider=provider,
+    )
