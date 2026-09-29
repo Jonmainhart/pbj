@@ -3,7 +3,7 @@
 PBJ Dashboard is a static dashboard for a weekly football pool.
 
 The commissioner's spreadsheet remains the source for player picks. PBJ
-Dashboard consumes CSV exports, obtains NFL data from a Game Date Provider, derives weekly and
+Dashboard consumes CSV exports, obtains NFL data from a Game Data Provider, derives weekly and
 season results, and publishes the generated data through a static frontend.
 
 ## Design Principles
