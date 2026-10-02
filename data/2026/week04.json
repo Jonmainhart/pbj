@@ -15,9 +15,9 @@
         "abbreviation": "CLE",
         "name": "Cleveland Browns"
       },
-      "status": "scheduled",
-      "away_score": null,
-      "home_score": null
+      "status": "live",
+      "away_score": 7,
+      "home_score": 14
     },
     {
       "id": "1392265",
