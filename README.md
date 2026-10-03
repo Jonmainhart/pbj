@@ -188,4 +188,12 @@ BALLDONTLIE.io is the preferred data provider with ESPN as a fallback option if 
 
 ## License
 
-Licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+PBJ Dashboard source code and project documentation are licensed under the
+Apache License 2.0.
+
+Pool participant data under `data/` and PBJ artwork and branding under
+`assets/img/` are expressly excluded from the Apache license. Third-party
+sports data, team identifiers, trademarks, and other third-party material are
+not licensed by this project.
+
+See [LICENSE](LICENSE) and [LICENSE-SCOPE.md](LICENSE-SCOPE.md) for details.

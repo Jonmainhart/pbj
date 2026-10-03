@@ -341,4 +341,12 @@ behavior, run the checks, and refactor while keeping the suite green.
 
 ## License
 
-PBJ Dashboard is licensed under the Apache License 2.0.
+PBJ Dashboard source code and project documentation are licensed under the
+Apache License 2.0.
+
+Pool participant data under `data/` and PBJ artwork and branding under
+`assets/img/` are expressly excluded from the Apache license. Third-party
+sports data, team identifiers, trademarks, and other third-party material are
+not licensed by this project.
+
+See [LICENSE](LICENSE) and [LICENSE-SCOPE.md](LICENSE-SCOPE.md) for details.
